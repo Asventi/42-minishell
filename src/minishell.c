@@ -14,5 +14,5 @@
 
 int	main(int c, char **args)
 {
-	printf("uhfqwiufhqwiuf\n");
+	printf("%d, %s\n", c, args[0]);
 }
