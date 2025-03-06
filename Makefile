@@ -28,14 +28,12 @@ DEPS			=	$(patsubst %.c, $(BUILD_DIR)%.d, $(SRC))
 
 SRC 		=	minishell.c \
 
-## ================UTILS================ #
-#
-#SRC += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
-#
-#UTILS_DIR =		utils/
-#UTILS_SRC =		colors.c \
-#				mem_utils.c \
-#				strings.c \
+# ===============SHELL================ #
+
+SRC += $(addprefix $(SHELL_DIR), $(SHELL_SRC))
+
+SHELL_DIR =		shell/
+SHELL_SRC =		prompt.c \
 
 # ==========LIBS / INCLUDES============ #
 
