@@ -2,6 +2,9 @@
 # Prerequisites
 *.d
 
+minishell
+tests/
+
 # Object files
 *.o
 *.ko
