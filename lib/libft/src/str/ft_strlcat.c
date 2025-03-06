@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/04 18:47:15 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/20 11:08:29 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	t_context	ctx;
+	size_t	i;
+	size_t	j;
+	size_t	dest_size;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (size == 0)
+		return (ft_strlen(src));
+	i = 0;
+	while (dst[i])
+	{
+		if (i == size)
+			return (size + ft_strlen(src));
+		i++;
+	}
+	dest_size = i;
+	j = i;
+	while (src[i - j] && i < size - 1)
+	{
+		dst[i] = src[i - j];
+		i++;
+	}
+	dst[i] = 0;
+	return (ft_strlen(src) + dest_size);
 }

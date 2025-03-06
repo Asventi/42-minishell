@@ -1,25 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/12 10:55:56 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/25 12:41:36 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
+#include <stdarg.h>
+#include "./formats/formats.h"
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+int	ft_printf(const char *s, ...)
 {
-	t_context	ctx;
+	va_list	args;
+	char	*str;
+	int		total;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (!s)
+		return (-1);
+	total = 0;
+	str = (char *)s;
+	va_start(args, s);
+	while (*str)
+	{
+		if (*str == '%')
+		{
+			str++;
+			process_format(&str, &args, &total);
+		}
+		else
+		{
+			ft_putchar_fd(*str, 1);
+			total++;
+			str++;
+		}
+	}
+	va_end(args);
+	return (total);
 }

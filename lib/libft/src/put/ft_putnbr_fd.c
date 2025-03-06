@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/07 16:26:22 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/22 21:05:27 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
+#include <unistd.h>
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+void	ft_putnbr_fd(int n, int fd)
 {
-	t_context	ctx;
-
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (n == -2147483648)
+	{
+		ft_putstr_fd("-2147483648", fd);
+		return ;
+	}
+	if (n < 0)
+	{
+		n *= -1;
+		ft_putchar_fd('-', fd);
+	}
+	if (n / 10 > 0)
+		ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd("0123456789"[n % 10], fd);
 }

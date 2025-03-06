@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/07 14:55:59 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/13 13:40:30 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
+#include <stddef.h>
 
-int	main(int c, char **args)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_context	ctx;
+	char	*res;
+	size_t	ss;
+	size_t	i;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (!s || !f)
+		return (NULL);
+	ss = ft_strlen(s);
+	res = (char *)ft_calloc(ss + 1, sizeof (char));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < ss)
+	{
+		res[i] = f((unsigned int)i, s[i]);
+		i++;
+	}
+	return (res);
 }

@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/07 15:44:07 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/22 21:17:02 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
+#include <unistd.h>
 
-int	main(int c, char **args)
+void	ft_putstr_fd(char *s, int fd)
 {
-	t_context	ctx;
+	size_t	count;
+	ssize_t	res;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	count = ft_strlen(s);
+	while (count > 0)
+	{
+		res = write(fd, s, count);
+		if (res < 0)
+			return ;
+		s += res;
+		count -= res;
+	}
 }

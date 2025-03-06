@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   str_formats.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/18 16:15:07 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/25 12:42:59 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+void	from_char(unsigned char c, int *t)
 {
-	t_context	ctx;
+	ft_putchar_fd(c, 1);
+	*t += 1;
+}
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+void	from_str(const char *str, int *t)
+{
+	if (!str)
+	{
+		ft_putstr_fd("(null)", 1);
+		*t += 6;
+		return ;
+	}
+	ft_putstr_fd((char *)str, 1);
+	*t += ft_strlen(str);
+}
+
+void	from_percent(int *t)
+{
+	ft_putchar_fd('%', 1);
+	*t += 1;
 }

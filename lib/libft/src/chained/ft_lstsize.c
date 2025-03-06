@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/08 10:16:21 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/12 16:00:26 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+int	ft_lstsize(t_list *lst)
 {
-	t_context	ctx;
-
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (!lst)
+		return (0);
+	return (1 + ft_lstsize(lst->next));
 }

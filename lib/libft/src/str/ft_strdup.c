@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/05 15:54:57 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/12 16:24:04 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
 
-int	main(int c, char **args)
+char	*ft_strdup(const char *s)
 {
-	t_context	ctx;
+	char	*dup;
+	int		slen;
+	int		i;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	slen = ft_strlen(s);
+	dup = ft_calloc(slen + 1, sizeof (char));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < slen)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	return (dup);
 }

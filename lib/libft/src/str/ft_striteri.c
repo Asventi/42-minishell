@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/07 15:22:09 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/13 13:40:58 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
+#include <stddef.h>
 
-int	main(int c, char **args)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	t_context	ctx;
+	size_t	ss;
+	size_t	i;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (!f || !s)
+		return ;
+	ss = ft_strlen(s);
+	i = 0;
+	while (i < ss)
+	{
+		f((unsigned int)i, s + i);
+		i++;
+	}
 }

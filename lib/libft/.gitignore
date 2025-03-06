@@ -2,10 +2,6 @@
 # Prerequisites
 *.d
 
-minishell
-tests/
-.idea/
-
 # Object files
 *.o
 *.ko

@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/08 10:41:12 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/12 15:53:51 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-#include "context.h"
 #include "libft.h"
-#include "shell/prompt.h"
+#include <stdlib.h>
 
-int	main(int c, char **args)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	t_context	ctx;
-
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	if (!lst || !del)
+		return ;
+	del(lst->content);
+	free(lst);
 }

@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/04 19:16:14 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/12 16:34:48 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <stddef.h>
 
-#include "context.h"
-#include "libft.h"
-#include "shell/prompt.h"
-
-int	main(int c, char **args)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	t_context	ctx;
+	size_t			i;
+	unsigned char	*us1;
+	unsigned char	*us2;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	us1 = (unsigned char *)s1;
+	us2 = (unsigned char *)s2;
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((us1[i] && us2[i]) && i < n - 1)
+	{
+		if (us1[i] != us2[i])
+			return (us1[i] - us2[i]);
+		i++;
+	}
+	return (us1[i] - us2[i]);
 }

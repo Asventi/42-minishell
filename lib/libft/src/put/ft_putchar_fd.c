@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2024/11/07 15:32:57 by pjarnac           #+#    #+#             */
+/*   Updated: 2024/11/22 20:55:58 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <unistd.h>
 
-#include "context.h"
-#include "libft.h"
-#include "shell/prompt.h"
-
-int	main(int c, char **args)
+void	ft_putchar_fd(char c, int fd)
 {
-	t_context	ctx;
+	size_t	total;
+	ssize_t	res;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
+	total = 0;
+	while (total == 0)
+	{
+		res = write(fd, &c, 1);
+		if (res == -1)
+			return ;
+		total += res;
+	}
 }

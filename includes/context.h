@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   context.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 11:16:02 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/03/06 14:41:58 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/03/06 14:41:58 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef CONTEXT_H
+# define CONTEXT_H
 
-#include "context.h"
-#include "libft.h"
-#include "shell/prompt.h"
+# include <limits.h>
+# include <stdint.h>
 
-int	main(int c, char **args)
+typedef struct s_context
 {
-	t_context	ctx;
+	char	path[PATH_MAX];
+	int32_t	last_code;
+}	t_context;
 
-	ft_bzero(&ctx, sizeof (t_context));
-	prompt(&ctx);
-}
+#endif
