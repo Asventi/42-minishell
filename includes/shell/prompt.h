@@ -13,4 +13,13 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
+# define RED "\x1b[31m"
+# define GREEN "\x1b[32m"
+# define CYAN "\x1b[36m"
+# define RESET "\x1b[0m"
+
+# include "context.h"
+
+int	prompt(t_context *ctx);
+
 #endif
