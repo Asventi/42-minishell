@@ -15,14 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: configure
-      run: ./configure
+    - name: Make with Debug
+      run: make debug
 
-    - name: Install dependencies
+    - name: Make with -Werror -Wextra -Wall
       run: make
 
-    - name: Run check
-      run: make check
-
-    - name: Run distcheck
-      run: make distcheck
+    - name: Make with Optimize
+      run: make full-optimize
