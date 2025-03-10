@@ -31,8 +31,7 @@ static char	*get_prompt(char str[PATH_MAX + 16], t_context *ctx)
 		i += ft_strlcpy(str + i, RESET RED "\n❯ " RESET, PATH_MAX + 16);
 	else
 		i += ft_strlcpy(str + i, RESET GREEN "\n❯ " RESET, PATH_MAX + 16);
-	str[i + 1] = 0x27;
-	str[i + 2] = 0;
+	str[i + 1] = 0;
 	return (str);
 }
 
