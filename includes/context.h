@@ -19,6 +19,7 @@
 typedef struct s_context
 {
 	char	path[PATH_MAX];
+	char	**env;
 	int32_t	last_code;
 }	t_context;
 
