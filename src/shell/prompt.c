@@ -48,10 +48,6 @@ int	prompt(t_context *ctx)
 		if (line && *line)
 			add_history(line);
 		printf("%s", line);
-		if (ctx->last_code == 0)
-			ctx->last_code = 1;
-		else
-			ctx->last_code = 0;
 	}
 	return (0);
 }
