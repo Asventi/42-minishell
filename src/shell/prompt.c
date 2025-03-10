@@ -19,7 +19,7 @@
 #include "libft.h"
 #include "shell/prompt.h"
 
-static void	get_prompt(char str[PATH_MAX + 16], t_context *ctx)
+static char	*get_prompt(char str[PATH_MAX + 16], t_context *ctx)
 {
 	size_t	i;
 
@@ -32,18 +32,20 @@ static void	get_prompt(char str[PATH_MAX + 16], t_context *ctx)
 		i += ft_strlcpy(str + i, RESET GREEN "\n❯ " RESET, PATH_MAX + 16);
 	str[i + 1] = 0x27;
 	str[i + 2] = 0;
+	return (str);
 }
 
 int	prompt(t_context *ctx)
 {
 	char	ptext[PATH_MAX + 16];
+	char	*line;
 
 	getcwd(ctx->path, PATH_MAX);
 	while (1)
 	{
 		errno = 0;
-		get_prompt(ptext, ctx);
-		printf("%s", readline(ptext));
+		line = readline(get_prompt(ptext, ctx));
+		printf("%s", line);
 		if (ctx->last_code == 0)
 			ctx->last_code = 1;
 		else
