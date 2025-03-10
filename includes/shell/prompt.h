@@ -13,10 +13,10 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
-# define RED "\x1b[31m"
-# define GREEN "\x1b[32m"
-# define CYAN "\x1b[36m"
-# define RESET "\x1b[0m"
+# define RED "\001\x1b[31m\002"
+# define GREEN "\001\x1b[32m\002"
+# define CYAN "\001\x1b[36m\002"
+# define RESET "\001\x1b[0m\002"
 
 # include "context.h"
 
