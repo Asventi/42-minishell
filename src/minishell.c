@@ -16,10 +16,11 @@
 #include "libft.h"
 #include "shell/prompt.h"
 
-int	main(int c, char **args)
+int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
 
 	ft_bzero(&ctx, sizeof (t_context));
+	ctx.env = env;
 	prompt(&ctx);
 }
