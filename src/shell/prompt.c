@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
@@ -45,6 +46,7 @@ int	prompt(t_context *ctx)
 	{
 		errno = 0;
 		line = readline(get_prompt(ptext, ctx));
+		add_history(line);
 		printf("%s", line);
 		if (ctx->last_code == 0)
 			ctx->last_code = 1;
