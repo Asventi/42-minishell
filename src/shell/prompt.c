@@ -32,6 +32,7 @@ static char	*get_prompt(char str[PATH_MAX + 16], t_context *ctx)
 	else
 		i += ft_strlcpy(str + i, RESET GREEN "\n-> " RESET, PATH_MAX + 16);
 	str[i + 1] = 0;
+	return (str);
 }
 
 int	prompt(t_context *ctx)
