@@ -20,11 +20,8 @@
 int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
-	char cmd_path[PATH_MAX];
 
 	ft_bzero(&ctx, sizeof (t_context));
-	search_path(args[1], cmd_path);
-	ft_printf("%s\n", cmd_path);
 	ctx.env = env;
 	prompt(&ctx);
 }

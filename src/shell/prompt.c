@@ -19,6 +19,7 @@
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
+#include "parsing.h"
 
 static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
 {
@@ -36,6 +37,7 @@ int	prompt(t_context *ctx)
 {
 	char	ptext[PROMPT_MAX];
 	char	*line;
+	t_cmd	cmd;
 
 	getcwd(ctx->path, PATH_MAX);
 	while (1)
@@ -44,7 +46,7 @@ int	prompt(t_context *ctx)
 		line = readline(get_prompt(ptext, ctx));
 		if (line && *line)
 			add_history(line);
-		printf("%s", line);
+		parse(line, &cmd, ctx);
 	}
 	return (0);
 }

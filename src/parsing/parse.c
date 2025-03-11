@@ -10,10 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "context.h"
 #include "command.h"
+#include "libft.h"
 
-int	parse(char *str, t_context *ctx)
+int	parse(char *str, t_cmd *cmd, t_context *ctx)
 {
-	
+	char	**args;
+
+	args = ft_split(str, ' ');
+	cmd->args = args;
+	cmd->env = ctx->env;
+	if (ft_strncmp(str, "./", 2) == 0)
+	{
+		printf("blc\n");
+	}
+	else
+	{
+		search_path(args[0], cmd->path);
+		printf("%s\n", cmd->path);
+	}
+	return (0);
 }
