@@ -30,7 +30,7 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 	else
 	{
 		search_path(args[0], cmd->path);
-		printf("%s\n", cmd->path);
+		exec_cmd(cmd);
 	}
 	return (0);
 }
