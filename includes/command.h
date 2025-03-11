@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:49:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/11 11:17:21 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/11 13:38:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_cmd
 {
-	char	*path;
+	char	path[PATH_MAX];
 	char	**args;
 	int32_t	args_n;
 	char	**env;
@@ -26,5 +26,6 @@ typedef struct s_cmd
 }	t_cmd;
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX]);
+int	exec_cmd(t_cmd *cmd);
 
 #endif
