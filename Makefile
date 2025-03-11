@@ -42,6 +42,13 @@ SRC += $(addprefix $(PARSE_DIR), $(PARSE_SRC))
 PARSE_DIR =		parsing/
 PARSE_SRC =		parse.c \
 
+# =============COMMANDS=============== #
+
+SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))
+
+CMD_DIR =		commands/
+CMD_SRC =		exec.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/

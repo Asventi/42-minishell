@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:49:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 13:49:47 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/03/11 11:17:21 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define COMMAND_H
 
 # include <stdint.h>
+# include <limits.h>
 
 typedef enum e_operand
 {
@@ -37,5 +38,7 @@ typedef struct s_cmd
 	t_redir
 	struct s_cmd	*next;
 }	t_cmd;
+
+int	search_path(char *cmd, char cmd_path[PATH_MAX]);
 
 #endif
