@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/11 11:27:44 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/11 13:48:51 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdint.h>
+#include <sys/types.h>
+#include <command.h>
+#include <sys/wait.h>
 
 int	verif_rights(char *pathname)
 {
@@ -57,4 +60,24 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	ft_bzero(cmd_path, PATH_MAX);
 	errno = ENOENT;
 	return (errno);
+}
+
+int	exec_cmd(t_cmd *cmd)
+{
+	pid_t	id;
+
+	id = fork();
+	if (id == -1)
+		return (errno);
+	if (!id)
+	{
+		if (execve(cmd->path, cmd->args, cmd->env) == -1)
+			return (errno);
+	}
+	if (id)
+	{
+		if (wait(0) == -1)
+			return (errno);
+	}
+	return (0);
 }
