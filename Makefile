@@ -35,6 +35,13 @@ SRC += $(addprefix $(SHELL_DIR), $(SHELL_SRC))
 SHELL_DIR =		shell/
 SHELL_SRC =		prompt.c \
 
+# ===============SHELL================ #
+
+SRC += $(addprefix $(PARSE_DIR), $(PARSE_SRC))
+
+PARSE_DIR =		parsing/
+PARSE_SRC =		parse.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/

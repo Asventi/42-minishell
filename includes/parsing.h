@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 13:41:36 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/06 13:41:36 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/03/10 14:33:37 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/03/10 14:33:37 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
-
-# define RED "\001\x1b[31m\002"
-# define GREEN "\001\x1b[32m\002"
-# define CYAN "\001\x1b[36m\002"
-# define RESET "\001\x1b[0m\002"
-
-# define RED_PROMPT RESET RED "\n-> " RESET
-# define GREEN_PROMPT RESET GREEN "\n-> " RESET
+#ifndef PARSING_H
+# define PARSING_H
 
 # include "context.h"
+# include "command.h"
 
-# define PROMPT_MAX PATH_MAX + 16
-
-int	prompt(t_context *ctx);
+int	parse(char *str, t_cmd *cmd, t_context *ctx);
 
 #endif

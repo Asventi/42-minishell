@@ -11,33 +11,30 @@
 /* ************************************************************************** */
 
 #include <errno.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "command.h"
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
 
-static char	*get_prompt(char str[PATH_MAX + 16], t_context *ctx)
+static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
 {
-	size_t	i;
-
-	i = 0;
-	i += ft_strlcpy(str + i, "\n\n" CYAN, PATH_MAX + 16);
-	i += ft_strlcpy(str + i, ctx->path, PATH_MAX + 16);
+	str[0] = 0;
+	ft_strlcat(str, "\n\n" CYAN, PROMPT_MAX);
+	ft_strlcat(str, ctx->path, PROMPT_MAX);
 	if (ctx->last_code != 0)
-		i += ft_strlcpy(str + i, RESET RED "\n-> " RESET, PATH_MAX + 16);
+		ft_strlcat(str, RED_PROMPT, PROMPT_MAX);
 	else
-		i += ft_strlcpy(str + i, RESET GREEN "\n-> " RESET, PATH_MAX + 16);
-	str[i + 1] = 0;
+		ft_strlcat(str, GREEN_PROMPT, PROMPT_MAX);
 	return (str);
 }
 
 int	prompt(t_context *ctx)
 {
-	char	ptext[PATH_MAX + 16];
+	char	ptext[PROMPT_MAX];
 	char	*line;
 
 	getcwd(ctx->path, PATH_MAX);
