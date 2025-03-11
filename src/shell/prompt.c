@@ -44,7 +44,9 @@ int	prompt(t_context *ctx)
 	{
 		errno = 0;
 		line = readline(get_prompt(ptext, ctx));
-		if (line && *line)
+		if (!line)
+			return (printf("exit\n"), 0);
+		if (*line)
 			add_history(line);
 		parse(line, &cmd, ctx);
 	}

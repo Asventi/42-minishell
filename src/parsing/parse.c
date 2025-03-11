@@ -29,8 +29,8 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 	}
 	else
 	{
-		search_path(args[0], cmd->path);
-		exec_cmd(cmd);
+		if (search_path(args[0], cmd->path) == 0)
+			exec_cmd(cmd);
 	}
 	return (0);
 }
