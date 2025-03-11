@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/11 13:54:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/11 14:25:14 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,23 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	char	**paths;
 	int32_t	i;
 
-	i = 0;
+	i = -1;
 	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
 	{
 		errno = ENOMEM;
 		return (errno);
 	}
-	while (paths[i])
+	while (paths[++i])
 	{
 		ft_strlcpy(cmd_path, paths[i], PATH_MAX);
 		ft_strlcat(cmd_path, "/", PATH_MAX);
 		ft_strlcat(cmd_path, cmd, PATH_MAX);
 		if (!access(cmd_path, F_OK))
-			return (free_split(paths), 0);
-		i++;
+		{
+			free_split(paths);
+			return (0);
+		}
 	}
 	free_split(paths);
 	ft_bzero(cmd_path, PATH_MAX);
