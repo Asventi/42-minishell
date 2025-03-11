@@ -16,6 +16,11 @@
 # include <stdint.h>
 # include <limits.h>
 
+// ROUT = > fichier
+// RIN = < fichier
+// ROUTAPP = >> fichier
+// HEREDOC = << delimiter
+
 typedef enum e_operand
 {
 	ROUT,
@@ -32,9 +37,11 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char			path[PATH_MAX];
-	char			**args;
-	char			**env;
+	char	path[PATH_MAX];
+	t_redir	output;
+	t_redir	input;
+	char	*args;
+	char	**env;
 }	t_cmd;
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX]);
