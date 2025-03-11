@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/11 13:48:51 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/11 13:54:48 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 		ft_strlcat(cmd_path, "/", PATH_MAX);
 		ft_strlcat(cmd_path, cmd, PATH_MAX);
 		if (!access(cmd_path, F_OK))
-			return (0);
+			return (free_split(paths), 0);
 		i++;
 	}
+	free_split(paths);
 	ft_bzero(cmd_path, PATH_MAX);
 	errno = ENOENT;
 	return (errno);
