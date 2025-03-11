@@ -6,14 +6,15 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/10 16:25:45 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/10 16:35:06 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <libft.h>
+#include <stdlib.h>
 
-int	verif_cmd(char *pathname)
+int	verif_rights(char *pathname)
 {
 	int rights;
 
@@ -29,3 +30,9 @@ int	verif_cmd(char *pathname)
 	return (rights);
 }
 
+int search_path(char *cmd)
+{
+	char	*path;
+	path = getenv("PATH");
+	ft_printf("%s\n", path);
+}
