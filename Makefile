@@ -50,6 +50,13 @@ CMD_DIR =		commands/
 CMD_SRC =		exec.c \
 				operands.c \
 
+# ==============ERRORS================ #
+
+SRC += $(addprefix $(ERRORS_DIR), $(ERRORS_SRC))
+
+ERRORS_DIR =		errors/
+ERRORS_SRC =		errors.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/

@@ -14,14 +14,12 @@
 #include <libft.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <limits.h>
 #include <stdint.h>
-#include <sys/types.h>
-#include <command.h>
-#include <stdio.h>
-#include <string.h>
 #include <sys/wait.h>
+
+#include "command.h"
 #include "redirect.h"
+#include "errors.h"
 
 int	verif_rights(char *pathname)
 {
@@ -68,8 +66,6 @@ int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
-	cmd->output.op = RIN;
-	cmd->output.path = "./test";
 	id = fork();
 	if (id == -1)
 		return (errno);
@@ -77,10 +73,7 @@ int	exec_cmd(t_cmd *cmd)
 	{
 		check_op(cmd);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
-		{
-			write(2, strerror(errno), ft_strlen(strerror(errno)));
-			exit(EXIT_FAILURE);
-		}
+			p_errorexit(cmd->path);
 	}
 	if (id)
 	{
