@@ -26,7 +26,7 @@ int	p_error(const char *src)
 	write(2, src, ft_strlen(src));
 	write(2, ": ", 2);
 	write(2, err, ft_strlen(err));
-	return (0);
+	return (-1);
 }
 
 void	p_errorexit(const char *src)

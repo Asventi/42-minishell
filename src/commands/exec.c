@@ -66,22 +66,18 @@ int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
-	cmd->input.op = RIN;
-	cmd->input.path = "./test";
 	id = fork();
 	if (id == -1)
-		return (errno);
+		return (p_error("fork"));
 	if (!id)
 	{
 		if (check_op(cmd))
-			return (errno);
+			p_errorexit(cmd->path);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
 			p_errorexit(cmd->path);
 	}
 	if (id)
-	{
 		if (wait(0) == -1)
-			return (errno);
-	}
+			return (p_error("wait"));
 	return (0);
 }
