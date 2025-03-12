@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 10:28:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 10:29:25 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 15:01:30 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "command.h"
 
-void check_op(t_cmd *cmd);
+int	check_op(t_cmd *cmd);
 
 #endif

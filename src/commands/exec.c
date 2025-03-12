@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 13:54:02 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 15:01:15 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
-	cmd->output.op = RIN;
-	cmd->output.path = "./test";
+	cmd->input.op = RIN;
+	cmd->input.path = "./test";
 	id = fork();
 	if (id == -1)
 		return (errno);
 	if (!id)
 	{
-		check_op(cmd);
+		if (check_op(cmd))
+			return (errno);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
 		{
 			write(2, strerror(errno), ft_strlen(strerror(errno)));
