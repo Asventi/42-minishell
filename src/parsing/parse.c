@@ -32,5 +32,6 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 		if (search_path(args[0], cmd->path) == 0)
 			exec_cmd(cmd);
 	}
+	free_split(args);
 	return (0);
 }
