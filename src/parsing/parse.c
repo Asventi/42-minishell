@@ -29,7 +29,7 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 	if (ft_strchr(args[0], '/') == 0)
 	{
 		if (search_path(args[0], cmd->path) != 0)
-			return (errno);
+			return (free_split(args), errno);
 	}
 	else
 		ft_strlcpy(cmd->path, args[0], PATH_MAX);
