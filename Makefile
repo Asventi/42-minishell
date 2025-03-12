@@ -50,6 +50,13 @@ CMD_DIR =		commands/
 CMD_SRC =		exec.c \
 				operands.c \
 
+# ==============ERRORS================ #
+
+SRC += $(addprefix $(ERRORS_DIR), $(ERRORS_SRC))
+
+ERRORS_DIR =		errors/
+ERRORS_SRC =		errors.c \
+
 # ==========LIBS / INCLUDES============ #
 
 LIBS_DIR	=	lib/
@@ -157,6 +164,10 @@ force:
 .PHONY: norminette
 norminette:
 	@norminette $(addprefix $(SRC_DIR), $(SRC)) $(INCS_DIR)
+
+.PHONY: valgrind
+valgrind: debug
+	@valgrind --suppressions=.valgrindignore.txt -s --leak-check=full ./minishell
 
 -include $(DEPS)
 

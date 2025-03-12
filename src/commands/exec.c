@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 15:01:15 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 15:06:50 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 #include <libft.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <limits.h>
 #include <stdint.h>
-#include <sys/types.h>
-#include <command.h>
-#include <stdio.h>
-#include <string.h>
 #include <sys/wait.h>
+
+#include "command.h"
 #include "redirect.h"
+#include "errors.h"
 
 int	verif_rights(char *pathname)
 {
@@ -78,10 +76,7 @@ int	exec_cmd(t_cmd *cmd)
 		if (check_op(cmd))
 			return (errno);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
-		{
-			write(2, strerror(errno), ft_strlen(strerror(errno)));
-			exit(EXIT_FAILURE);
-		}
+			p_errorexit(cmd->path);
 	}
 	if (id)
 	{
