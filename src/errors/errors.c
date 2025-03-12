@@ -23,9 +23,11 @@ int	p_error(const char *src)
 	char	*err;
 
 	err = strerror(errno);
+	write(2, MINISHELL ": ", ft_strlen(MINISHELL ": "));
 	write(2, src, ft_strlen(src));
 	write(2, ": ", 2);
 	write(2, err, ft_strlen(err));
+	write(2, "\n", 1);
 	return (-1);
 }
 
