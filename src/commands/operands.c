@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 08:40:45 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 13:29:05 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 14:16:09 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void check_op(t_cmd *cmd)
 	}
 	if (cmd->input.op == RIN)
 	{
-		fd = open(cmd->output.path, O_RDONLY);
+		fd = open(cmd->input.path, O_RDONLY);
 		dup2(fd, 0);
 	}
 }
