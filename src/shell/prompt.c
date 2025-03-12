@@ -24,7 +24,7 @@
 static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
 {
 	str[0] = 0;
-	ft_strlcat(str, "\n\n" CYAN, PROMPT_MAX);
+	ft_strlcat(str, "\n" CYAN, PROMPT_MAX);
 	ft_strlcat(str, ctx->path, PROMPT_MAX);
 	if (ctx->last_code != 0)
 		ft_strlcat(str, RED_PROMPT, PROMPT_MAX);
