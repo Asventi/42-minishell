@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/11 13:54:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:54:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "redirect.h"
 
 int	verif_rights(char *pathname)
 {
@@ -43,37 +44,38 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	char	**paths;
 	int32_t	i;
 
-	i = 0;
+	i = -1;
 	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
-	{
-		errno = ENOMEM;
 		return (errno);
-	}
-	while (paths[i])
+	while (paths[++i])
 	{
 		ft_strlcpy(cmd_path, paths[i], PATH_MAX);
 		ft_strlcat(cmd_path, "/", PATH_MAX);
 		ft_strlcat(cmd_path, cmd, PATH_MAX);
 		if (!access(cmd_path, F_OK))
-			return (free_split(paths), 0);
-		i++;
+		{
+			free_split(paths);
+			return (0);
+		}
 	}
 	free_split(paths);
 	ft_bzero(cmd_path, PATH_MAX);
-	errno = ENOENT;
-	return (errno);
+	return (ENOENT);
 }
 
 int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
+	cmd->output.op = RIN;
+	cmd->output.path = "./test";
 	id = fork();
 	if (id == -1)
 		return (errno);
 	if (!id)
 	{
+		check_op(cmd);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
 		{
 			write(2, strerror(errno), ft_strlen(strerror(errno)));
