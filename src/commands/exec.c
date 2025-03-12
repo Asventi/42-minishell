@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/11 14:25:14 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 10:59:42 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <command.h>
 #include <sys/wait.h>
+#include "redirect.h"
 
 int	verif_rights(char *pathname)
 {
@@ -69,12 +70,15 @@ int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
+	cmd->output.op = ROUTAPP;
+	cmd->output.path = "./test";
 	id = fork();
 	if (id == -1)
 		return (errno);
 	if (!id)
 	{
-		if (execve(cmd->path, cmd->args, cmd->env) == -1)
+		check_op(cmd);
+		if (execve(cmd->path, (char *const*)cmd->args, cmd->env) == -1)
 			return (errno);
 	}
 	if (id)

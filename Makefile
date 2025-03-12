@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2024/12/20 20:08:38 by pjarnac          ###   ########.fr        #
+#    Updated: 2025/03/12 09:53:20 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))
 
 CMD_DIR =		commands/
 CMD_SRC =		exec.c \
+				operands.c \
 
 # ==========LIBS / INCLUDES============ #
 
