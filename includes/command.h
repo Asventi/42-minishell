@@ -40,7 +40,7 @@ typedef struct s_cmd
 	char	path[PATH_MAX];
 	t_redir	output;
 	t_redir	input;
-	char	*args;
+	char	**args;
 	char	**env;
 }	t_cmd;
 
