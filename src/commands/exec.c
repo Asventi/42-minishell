@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 10:59:42 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 11:41:33 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	i = -1;
 	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
-	{
-		errno = ENOMEM;
 		return (errno);
-	}
 	while (paths[++i])
 	{
 		ft_strlcpy(cmd_path, paths[i], PATH_MAX);
@@ -62,15 +59,14 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	}
 	free_split(paths);
 	ft_bzero(cmd_path, PATH_MAX);
-	errno = ENOENT;
-	return (errno);
+	return (ENOENT);
 }
 
 int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 
-	cmd->output.op = ROUTAPP;
+	cmd->output.op = ROUT;
 	cmd->output.path = "./test";
 	id = fork();
 	if (id == -1)
