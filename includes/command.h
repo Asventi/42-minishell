@@ -23,6 +23,7 @@
 
 typedef enum e_operand
 {
+	NONE,
 	ROUT,
 	RIN,
 	ROUTAPP,
