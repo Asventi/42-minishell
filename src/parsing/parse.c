@@ -26,7 +26,7 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 		return (free_split(args), 0);
 	cmd->args = args;
 	cmd->env = ctx->env;
-	if (ft_strncmp(str, "./", 2) != 0)
+	if (ft_strchr(args[0], '/') == 0)
 	{
 		if (search_path(args[0], cmd->path) != 0)
 			return (errno);

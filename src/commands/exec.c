@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 13:46:33 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 13:54:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <command.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/wait.h>
 #include "redirect.h"
 
@@ -74,8 +76,11 @@ int	exec_cmd(t_cmd *cmd)
 	if (!id)
 	{
 		check_op(cmd);
-		if (execve(cmd->path, (char *const*)cmd->args, cmd->env) == -1)
-			return (errno);
+		if (execve(cmd->path, cmd->args, cmd->env) == -1)
+		{
+			write(2, strerror(errno), ft_strlen(strerror(errno)));
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (id)
 	{
