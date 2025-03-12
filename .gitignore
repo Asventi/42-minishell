@@ -5,6 +5,7 @@
 minishell
 tests/
 .idea/
+test
 
 # Object files
 *.o

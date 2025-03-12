@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 08:40:45 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 15:00:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/12 17:38:09 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	rout(t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	fd = open(cmd->output.path, O_WRONLY | O_TRUNC);
 	if (fd == -1)
@@ -29,7 +29,7 @@ int	rout(t_cmd *cmd)
 
 int	routapp(t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	fd = open(cmd->output.path, O_WRONLY | O_APPEND);
 	if (fd == -1)
@@ -40,7 +40,7 @@ int	routapp(t_cmd *cmd)
 
 int	rin(t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	fd = open(cmd->input.path, O_RDONLY);
 	if (fd == -1)
@@ -49,24 +49,29 @@ int	rin(t_cmd *cmd)
 	return (0);
 }
 
+int	heredoc(t_cmd *cmd)
+{
+	int		pipefd[2];
+	pid_t	id;
+
+	if (pipe(pipefd) == -1)
+		return (errno);
+	id = fork();
+}
+
 int	check_op(t_cmd *cmd)
 {
-	int fd;
-
 	if (cmd->output.op == ROUT)
-	{
 		if (rout(cmd))
 			return (errno);
-	}
 	if (cmd->output.op == ROUTAPP)
-	{
 		if (routapp(cmd))
 			return (errno);
-	}
 	if (cmd->input.op == RIN)
-	{
 		if (rin(cmd))
 			return (errno);
-	}
+	if (cmd->input.op == HEREDOC)
+		if (heredoc(cmd))
+			return (errno);
 	return (0);
 }
