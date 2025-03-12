@@ -157,6 +157,10 @@ force:
 norminette:
 	@norminette $(addprefix $(SRC_DIR), $(SRC)) $(INCS_DIR)
 
+.PHONY: valgrind
+valgrind:
+	@valgrind --suppressions=.valgrindignore.txt -s --leak-check=full ./minishell
+
 -include $(DEPS)
 
 .DEFAULT_GOAL := all
