@@ -16,12 +16,15 @@
 #include "context.h"
 #include "command.h"
 #include "libft.h"
+#include "errors.h"
 
 int	parse(char *str, t_cmd *cmd, t_context *ctx)
 {
 	char	**args;
 
 	args = ft_split(str, ' ');
+	if (!args)
+		return (p_error("malloc error"));
 	if (!args[0])
 		return (free_split(args), 0);
 	cmd->args = args;

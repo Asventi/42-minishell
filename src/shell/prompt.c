@@ -39,6 +39,7 @@ int	prompt(t_context *ctx)
 	char	*line;
 	t_cmd	cmd;
 
+	ft_bzero(&cmd, sizeof (t_cmd));
 	getcwd(ctx->path, PATH_MAX);
 	while (1)
 	{
