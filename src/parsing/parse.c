@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <errno.h>
 
 #include "context.h"
 #include "command.h"
@@ -21,17 +22,18 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 	char	**args;
 
 	args = ft_split(str, ' ');
+	if (!args[0])
+		return (free_split(args), 0);
 	cmd->args = args;
 	cmd->env = ctx->env;
-	if (ft_strncmp(str, "./", 2) == 0)
+	if (ft_strncmp(str, "./", 2) != 0)
 	{
-		printf("blc\n");
+		if (search_path(args[0], cmd->path) != 0)
+			return (errno);
 	}
 	else
-	{
-		if (search_path(args[0], cmd->path) == 0)
-			exec_cmd(cmd);
-	}
+		ft_strlcpy(cmd->path, args[0], PATH_MAX);
+	exec_cmd(cmd);
 	free_split(args);
 	return (0);
 }
