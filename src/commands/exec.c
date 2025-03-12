@@ -18,6 +18,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <command.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/wait.h>
 
 int	verif_rights(char *pathname)
@@ -73,7 +75,10 @@ int	exec_cmd(t_cmd *cmd)
 	if (!id)
 	{
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
-			return (errno);
+		{
+			write(2, strerror(errno), ft_strlen(strerror(errno)));
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (id)
 	{
