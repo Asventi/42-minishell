@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 15:06:50 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/13 13:29:07 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
+	int		status;
 
 	cmd->input.op = RIN;
 	cmd->input.path = "./test";
@@ -80,8 +81,9 @@ int	exec_cmd(t_cmd *cmd)
 	}
 	if (id)
 	{
-		if (wait(0) == -1)
+		if (wait(&status) == -1)
 			return (errno);
+		return (WEXITSTATUS(status));
 	}
 	return (0);
 }
