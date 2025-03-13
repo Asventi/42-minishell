@@ -14,7 +14,10 @@
 # define ERRORS_H
 
 # define MINISHELL "minishell"
+# define CMD_NOT_FOUND "command not found\n"
+# define SEP ": "
 
+int		p_cmd_not_found(const char *src);
 int		p_error(const char *src);
 void	p_errorexit(const char *src);
 
