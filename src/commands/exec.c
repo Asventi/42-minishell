@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/13 13:29:07 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/13 17:19:13 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,16 @@ int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
 	int		status;
+	int		pipefd[2];
 
-	cmd->input.op = RIN;
-	cmd->input.path = "./test";
+	cmd->input.op = HEREDOC;
+	cmd->input.path = "end";
 	id = fork();
 	if (id == -1)
 		return (errno);
 	if (!id)
 	{
-		if (check_op(cmd))
+		if (check_op(cmd, pipefd))
 			return (errno);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
 			p_errorexit(cmd->path);

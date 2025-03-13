@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 08:40:45 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 17:38:09 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/13 19:42:36 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <limits.h>
+#include "redirect.h"
+#include "libft.h"
 
 int	rout(t_cmd *cmd)
 {
@@ -49,17 +52,34 @@ int	rin(t_cmd *cmd)
 	return (0);
 }
 
-int	heredoc(t_cmd *cmd)
+int	heredoc(t_cmd *cmd, int pipefd[2])
 {
-	int		pipefd[2];
-	pid_t	id;
+	char	buf[BUF_SIZE];
+	char	input[BUF_SIZE];
+	int		nb_read;
 
+	nb_read = 1;
+	ft_bzero(input, BUF_SIZE);
+	while (nb_read)
+	{
+		nb_read = read(0, buf, BUF_SIZE);
+		if (nb_read == -1)
+			return (errno);
+		if (!ft_strncmp(buf, cmd->input.path, ft_strlen(cmd->input.path)))
+			break ;
+		if (nb_read == 1)
+			buf[1] = '\0';
+		if (nb_read)
+			ft_strlcat(input, buf, BUF_SIZE);
+	}
 	if (pipe(pipefd) == -1)
 		return (errno);
-	id = fork();
+	write(pipefd[1], input, ft_strlen(input));
+	dup2(pipefd[0], 0);
+	return (0);
 }
 
-int	check_op(t_cmd *cmd)
+int	check_op(t_cmd *cmd, int pipefd[2])
 {
 	if (cmd->output.op == ROUT)
 		if (rout(cmd))
@@ -71,7 +91,7 @@ int	check_op(t_cmd *cmd)
 		if (rin(cmd))
 			return (errno);
 	if (cmd->input.op == HEREDOC)
-		if (heredoc(cmd))
+		if (heredoc(cmd, pipefd))
 			return (errno);
 	return (0);
 }
