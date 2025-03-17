@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/12 15:06:50 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/13 17:19:13 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,24 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 int	exec_cmd(t_cmd *cmd)
 {
 	pid_t	id;
+	int		status;
+	int		pipefd[2];
 
 	id = fork();
 	if (id == -1)
 		return (p_error("fork"));
 	if (!id)
 	{
-		if (check_op(cmd))
-			p_errorexit(cmd->path);
+		if (check_op(cmd, pipefd))
+			return (errno);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
 			p_errorexit(cmd->path);
 	}
 	if (id)
-		if (wait(0) == -1)
-			return (p_error("wait"));
+	{
+		if (wait(&status) == -1)
+			return (errno);
+		return (WEXITSTATUS(status));
+	}
 	return (0);
 }

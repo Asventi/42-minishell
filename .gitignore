@@ -5,6 +5,8 @@
 minishell
 tests/
 .idea/
+test
+.vscode/
 
 # Object files
 *.o
