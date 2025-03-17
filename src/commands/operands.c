@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 08:40:45 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/13 19:42:36 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/17 13:44:10 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <limits.h>
 #include "redirect.h"
 #include "libft.h"
+#include "shell/prompt.h"
 
 int	rout(t_cmd *cmd)
 {
@@ -62,19 +63,21 @@ int	heredoc(t_cmd *cmd, int pipefd[2])
 	ft_bzero(input, BUF_SIZE);
 	while (nb_read)
 	{
+		write (1, BROWN "> " RESET, ft_strlen(BROWN "> " RESET));
+		ft_bzero(buf, BUF_SIZE);
 		nb_read = read(0, buf, BUF_SIZE);
 		if (nb_read == -1)
 			return (errno);
-		if (!ft_strncmp(buf, cmd->input.path, ft_strlen(cmd->input.path)))
+		if (nb_read - 1 == ft_strlen(cmd->input.path)
+			&& !ft_strncmp(buf, cmd->input.path, nb_read - 1))
 			break ;
-		if (nb_read == 1)
-			buf[1] = '\0';
 		if (nb_read)
 			ft_strlcat(input, buf, BUF_SIZE);
 	}
 	if (pipe(pipefd) == -1)
 		return (errno);
 	write(pipefd[1], input, ft_strlen(input));
+	close(pipefd[1]);
 	dup2(pipefd[0], 0);
 	return (0);
 }
