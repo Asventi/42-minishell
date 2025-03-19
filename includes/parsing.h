@@ -13,9 +13,13 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# define OPERATORS "<>|\\&!"
+# define QUOTES "\"\'"
+
 # include "context.h"
 # include "command.h"
 
-int	parse(char *str, t_cmd *cmd, t_context *ctx);
+int		parse(char *str, t_cmd *cmd, t_context *ctx);
+char	**tokenize(char *str);
 
 #endif
