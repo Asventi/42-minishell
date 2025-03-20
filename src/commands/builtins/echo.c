@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 09:20:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/20 16:35:05 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/20 16:40:08 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/20 17:10:41 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "context.h"
-#include <unistd.h>
+#include <command.h>
 #include "libft.h"
-#include <errno.h>
-#include <stdlib.h>
-#include "errors.h"
-#include "command.h"
 
-int	cd_cmd(t_cmd *cmd)
+int	echo_cmd(t_cmd *cmd)
 {
-	if (ft_strlen(cmd->nb_args) > 1)
-		return (p_error("cd", NULL, "too many arguments"));
-	if (!cmd->args)
+	int		i;
+	int		check;
+	char	*str;
+
+	i = 0;
+	check = 0;
+	if (cmd->args[i] == "-n")
+		check = ++i;
+	while (cmd->args[i])
 	{
-		if (chdir(getenv("HOME")) == -1)
-			return (p_error("cd", NULL, NULL));
-		return (0);
+		if (i != check)
+			write(1, " ", 1);
+		write(1, cmd->args[i], ft_strlen(cmd->args[i]));
+		i++;
 	}
-	if (chdir(cmd->args) == -1)
-		return (p_error("cd", cmd->args, NULL));
+	if (!check)
+		write(1, "\n", 1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/20 16:26:07 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/20 16:39:22 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ int	is_builtins(t_cmd *cmd)
 {
 	if (cmd->path == "cd")
 		cd_cmd(cmd);
+	else if (cmd->path == "echo")
+		
+	else
+		return (1);
+	return (0);
 }
 
 int	exec_cmd(t_cmd *cmd)
@@ -74,6 +79,8 @@ int	exec_cmd(t_cmd *cmd)
 	int		status;
 	int		pipefd[2];
 
+	if (!is_builtins(cmd))
+		return (0);
 	id = fork();
 	if (id == -1)
 		return (p_error("fork"));
