@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/18 16:26:38 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/20 16:26:07 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "command.h"
 #include "redirect.h"
 #include "errors.h"
+#include "builtins.h"
 
 int	verif_rights(char *pathname)
 {
@@ -59,6 +60,12 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	free_split(paths);
 	ft_bzero(cmd_path, PATH_MAX);
 	return (ENOENT);
+}
+
+int	is_builtins(t_cmd *cmd)
+{
+	if (cmd->path == "cd")
+		cd_cmd(cmd);
 }
 
 int	exec_cmd(t_cmd *cmd)
