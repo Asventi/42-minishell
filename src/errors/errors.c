@@ -28,23 +28,30 @@ int	p_syntax_error(char c)
 	return (-1);
 }
 
-int	p_cmd_not_found(const char *src)
-{
-	ft_fprintf(ERR_F, CMD_NOT_FOUND, src);
-	return (-1);
-}
-
-int	p_error(const char *src)
+int	p_error(const char *src, const char *reason, const char *msg)
 {
 	char	*err;
 
 	err = strerror(errno);
-	ft_fprintf(ERR_F, MINISHELL BASE_ERROR, src, err);
+	if (!reason)
+	{
+		if (!msg)
+			ft_fprintf(ERR_F, MINISHELL BASE_ERROR "\n", src, err);
+		else
+			ft_fprintf(ERR_F, MINISHELL BASE_ERROR "\n", src, msg);
+	}
+	else
+	{
+		if (!msg)
+			ft_fprintf(ERR_F, MINISHELL BASE_ERR_RES "\n", src, reason, err);
+		else
+			ft_fprintf(ERR_F, MINISHELL BASE_ERR_RES "\n", src, reason, msg);
+	}
 	return (-1);
 }
 
-void	p_errorexit(const char *src)
+void	p_errorexit(const char *src, const char *reason, const char *msg)
 {
-	p_error(src);
+	p_error(src, reason, msg);
 	exit(EXIT_FAILURE);
 }
