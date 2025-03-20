@@ -15,6 +15,7 @@
 
 #include "context.h"
 #include "command.h"
+#include "parsing.h"
 #include "libft.h"
 #include "errors.h"
 
@@ -22,21 +23,6 @@ int	parse(char *str, t_cmd *cmd, t_context *ctx)
 {
 	char	**args;
 
-	args = ft_split(str, ' ');
-	if (!args)
-		return (p_error("malloc error"));
-	if (!args[0])
-		return (free_split(args), 0);
-	cmd->args = args;
-	cmd->env = ctx->env;
-	if (ft_strchr(args[0], '/') == 0)
-	{
-		if (search_path(args[0], cmd->path) != 0)
-			return (free_split(args), errno);
-	}
-	else
-		ft_strlcpy(cmd->path, args[0], PATH_MAX);
-	exec_cmd(cmd);
-	free_split(args);
+	args = tokenize(str);
 	return (0);
 }

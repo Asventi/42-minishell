@@ -41,6 +41,7 @@ SRC += $(addprefix $(PARSE_DIR), $(PARSE_SRC))
 
 PARSE_DIR =		parsing/
 PARSE_SRC =		parse.c \
+				tokenizer.c \
 
 # =============COMMANDS=============== #
 

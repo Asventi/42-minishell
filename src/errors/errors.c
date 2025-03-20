@@ -14,16 +14,23 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "errors.h"
 
+int	p_syntax_error(char c)
+{
+	if (c == 0)
+		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR_NL);
+	else
+		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR, c);
+	return (-1);
+}
+
 int	p_cmd_not_found(const char *src)
 {
-	write(2, MINISHELL SEP, ft_strlen(MINISHELL SEP));
-	write(2, src, ft_strlen(src));
-	write(2, SEP, ft_strlen(SEP));
-	write(2, CMD_NOT_FOUND, ft_strlen(CMD_NOT_FOUND));
+	ft_fprintf(ERR_F, CMD_NOT_FOUND, src);
 	return (-1);
 }
 
@@ -32,11 +39,7 @@ int	p_error(const char *src)
 	char	*err;
 
 	err = strerror(errno);
-	write(2, MINISHELL SEP, ft_strlen(MINISHELL SEP));
-	write(2, src, ft_strlen(src));
-	write(2, SEP, ft_strlen(SEP));
-	write(2, err, ft_strlen(err));
-	write(2, "\n", 1);
+	ft_fprintf(ERR_F, MINISHELL BASE_ERROR, src, err);
 	return (-1);
 }
 

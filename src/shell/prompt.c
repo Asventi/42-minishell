@@ -19,6 +19,9 @@
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
+
+#include <stdlib.h>
+
 #include "parsing.h"
 
 static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
@@ -50,6 +53,7 @@ int	prompt(t_context *ctx)
 		if (*line)
 			add_history(line);
 		parse(line, &cmd, ctx);
+		free(line);
 	}
 	return (0);
 }
