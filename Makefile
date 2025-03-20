@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/12 09:53:20 by nseon            ###   ########.fr        #
+#    Updated: 2025/03/20 11:23:06 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,15 @@ PARSE_SRC =		parse.c \
 
 # =============COMMANDS=============== #
 
-SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))
-
 CMD_DIR =		commands/
 CMD_SRC =		exec.c \
 				operands.c \
+
+BLT_DIR =		builtins/
+BLT_SRC =		cd.c \
+
+CMD_SRC += $(addprefix $(BLT_DIR), $(BLT_SRC))
+SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))
 
 # ==============ERRORS================ #
 

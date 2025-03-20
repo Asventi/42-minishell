@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/13 17:19:13 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/18 16:26:38 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <errno.h>
 #include <stdint.h>
 #include <sys/wait.h>
-
 #include "command.h"
 #include "redirect.h"
 #include "errors.h"

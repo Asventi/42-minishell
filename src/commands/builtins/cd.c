@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/20 11:45:59 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/19 09:20:31 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/20 11:47:03 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "context.h"
+#include <unistd.h>
 #include "libft.h"
-#include "shell/prompt.h"
-#include "command.h"
-#include "builtins.h"
+#include <errno.h>
+#include <stdlib.h>
 
-int	main(int c, char **args, char **env)
+int	cd_cmd(t_context *context, char *dest)
 {
-	t_context	ctx;
-
-	ft_bzero(&ctx, sizeof (t_context));
-	ctx.env = env;
-	if (cd_cmd(&ctx, "lib"))
-		return (1);
-	prompt(&ctx);
+	if (!dest)
+	{
+		if (chdir(getenv("HOME")) == -1)
+			return (errno);
+		return (0);
+	}
+	if (chdir(dest) == -1)
+		return (errno);
+	getcwd(context->path, PATH_MAX);
+	return (0);
 }

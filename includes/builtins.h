@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/20 11:45:59 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/19 13:56:16 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/19 14:06:15 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-#include "context.h"
-#include "libft.h"
-#include "shell/prompt.h"
-#include "command.h"
-#include "builtins.h"
+# include <context.h>
 
-int	main(int c, char **args, char **env)
-{
-	t_context	ctx;
+int	cd_cmd(t_context *context, char *dest);
 
-	ft_bzero(&ctx, sizeof (t_context));
-	ctx.env = env;
-	if (cd_cmd(&ctx, "lib"))
-		return (1);
-	prompt(&ctx);
-}
+#endif
