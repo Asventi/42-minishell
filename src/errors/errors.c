@@ -28,6 +28,12 @@ int	p_syntax_error(char c)
 	return (-1);
 }
 
+int	p_invalid_op_err(char *str)
+{
+	ft_fprintf(ERR_F, MINISHELL INVALID_OP_ERROR, str);
+	return (-1);
+}
+
 int	p_error(const char *src, const char *reason, const char *msg)
 {
 	char	*err;

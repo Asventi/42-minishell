@@ -18,6 +18,15 @@
 #include "libft.h"
 #include "errors.h"
 #include "parsing.h"
+#include "constants/operators.h"
+
+static void	set_char(char **res, char *str, char quote)
+{
+	if (*str == ' ' && !quote)
+		vct_add(res, "\x1D");
+	else
+		vct_add(res, str);
+}
 
 static char	*spacizer(char *str)
 {
@@ -28,33 +37,36 @@ static char	*spacizer(char *str)
 	in_op = false;
 	quote = 0;
 	res = create_vector(sizeof (char));
+	if (!res)
+		return (NULL);
 	while (*str)
 	{
 		if (((!in_op && ft_ischarset(*str, OPERATORS))
-			|| (in_op && !ft_ischarset(*str, OPERATORS))) && !quote)
-			vct_add(&res, " ");
+				|| (in_op && !ft_ischarset(*str, OPERATORS))) && !quote)
+			vct_add(&res, "\x1D");
 		if (ft_ischarset(*str, QUOTES) && !quote)
 			quote = *str;
 		else if (ft_ischarset(*str, QUOTES) && quote == *str)
 			quote = 0;
 		in_op = ft_ischarset(*str, OPERATORS);
-		vct_add(&res, str);
+		set_char(&res, str, quote);
 		str++;
 	}
 	vct_add(&res, str);
 	return (res);
 }
 
-char	**tokenize(char *str)
+int32_t	tokenize(char ***args, char *str)
 {
-	char	**args;
 	int32_t	i;
 
 	i = 0;
 	str = spacizer(str);
-
 	if (!str)
-		return (0);
-	printf("%s\n", str);
-	return (args);
+		return (-1);
+	*args = ft_split(str, '\x1D');
+	free_vct(str);
+	if (!*args)
+		return (-1);
+	return (0);
 }

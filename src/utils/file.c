@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:33:37 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/10 14:33:37 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/03/20 19:09:42 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/03/20 19:09:42 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include <fcntl.h>
+#include <unistd.h>
 
-# define INVALID_OP 1
-# define INVALID_FILE 2
+#include "utils.h"
+#include "errors.h"
 
-# include "context.h"
-# include "command.h"
-
-typedef struct s_token
+int32_t	check_file_create(char *str)
 {
-	char	*txt;
-	t_type	type;
-}	t_token;
+	int32_t	res;
 
-int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);
-int32_t tokenize(char ***args, char *str);
-int32_t	lexer(t_token **tokens, char **args);
-
-#endif
+	res = open(str, O_CREAT, 0644);
+	if (res == -1)
+		return (p_error(str, 0, 0));
+	close(res);
+	return (0);
+}

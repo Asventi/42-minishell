@@ -40,26 +40,28 @@ int	verif_rights(char *pathname)
 int	search_path(char *cmd, char cmd_path[PATH_MAX])
 {
 	char	**paths;
+	char	cmd_test[PATH_MAX];
 	int32_t	i;
 
 	i = -1;
 	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
-		return (errno);
+		return (-1);
 	while (paths[++i])
 	{
-		ft_strlcpy(cmd_path, paths[i], PATH_MAX);
-		ft_strlcat(cmd_path, "/", PATH_MAX);
-		ft_strlcat(cmd_path, cmd, PATH_MAX);
-		if (!access(cmd_path, F_OK))
+		ft_strlcpy(cmd_test, paths[i], PATH_MAX);
+		ft_strlcat(cmd_test, "/", PATH_MAX);
+		ft_strlcat(cmd_test, cmd, PATH_MAX);
+		if (!access(cmd_test, F_OK))
 		{
+			ft_strlcpy(cmd_path, cmd_test, PATH_MAX);
 			free_split(paths);
 			return (0);
 		}
 	}
 	free_split(paths);
-	ft_bzero(cmd_path, PATH_MAX);
-	return (ENOENT);
+	ft_strlcpy(cmd_path, cmd, PATH_MAX);
+	return (0);
 }
 
 int	exec_cmd(t_cmd *cmd)
@@ -70,13 +72,13 @@ int	exec_cmd(t_cmd *cmd)
 
 	id = fork();
 	if (id == -1)
-		return (p_error("fork"));
+		return (p_error("fork", 0, 0));
 	if (!id)
 	{
 		if (check_op(cmd, pipefd))
 			return (errno);
 		if (execve(cmd->path, cmd->args, cmd->env) == -1)
-			p_errorexit(cmd->path);
+			p_errorexit(cmd->path, 0, 0);
 	}
 	if (id)
 	{

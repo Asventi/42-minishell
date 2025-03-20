@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:33:37 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/10 14:33:37 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/03/20 15:48:00 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/03/20 15:48:00 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include <libft.h>
 
-# define INVALID_OP 1
-# define INVALID_FILE 2
-
-# include "context.h"
-# include "command.h"
-
-typedef struct s_token
+char	**expander(char **args)
 {
-	char	*txt;
-	t_type	type;
-}	t_token;
+	char	**res;
+	char	*str;
 
-int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);
-int32_t tokenize(char ***args, char *str);
-int32_t	lexer(t_token **tokens, char **args);
+	res = create_vector(sizeof (char *));
+	while (*args)
+	{
 
-#endif
+	}
+}
