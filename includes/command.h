@@ -48,7 +48,6 @@ typedef struct s_cmd
 	t_redir	output;
 	t_redir	input;
 	char	**args;
-	int32_t	nb_args;
 	char	**env;
 }	t_cmd;
 
