@@ -42,6 +42,8 @@ SRC += $(addprefix $(PARSE_DIR), $(PARSE_SRC))
 PARSE_DIR =		parsing/
 PARSE_SRC =		parse.c \
 				tokenizer.c \
+				lexer.c \
+				expander.c \
 
 # =============COMMANDS=============== #
 
@@ -61,6 +63,13 @@ SRC += $(addprefix $(ERRORS_DIR), $(ERRORS_SRC))
 
 ERRORS_DIR =		errors/
 ERRORS_SRC =		errors.c \
+
+# ==============UTILS================ #
+
+SRC += $(addprefix $(UTILS_DIR), $(UTILS_SRC))
+
+UTILS_DIR =		utils/
+UTILS_SRC =		file.c \
 
 # ==========LIBS / INCLUDES============ #
 

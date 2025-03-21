@@ -21,19 +21,24 @@
 // ROUTAPP = >> fichier
 // HEREDOC = << delimiter
 
-typedef enum e_operand
+typedef enum e_type
 {
 	NONE,
 	ROUT,
-	RIN,
 	ROUTAPP,
-	HEREDOC
-}	t_operand;
+	RIN,
+	HEREDOC,
+	PIPE,
+	ARG,
+	ARGFILE,
+	COMMAND,
+	INVAL_OP,
+}	t_type;
 
 typedef struct s_redir
 {
-	t_operand	op;
-	char		*path;
+	t_type	op;
+	char	path[PATH_MAX];
 }	t_redir;
 
 typedef struct s_cmd

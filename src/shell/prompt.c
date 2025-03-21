@@ -40,19 +40,20 @@ int	prompt(t_context *ctx)
 {
 	char	ptext[PROMPT_MAX];
 	char	*line;
-	t_cmd	cmd;
+	t_cmd	*cmd;
 
-	ft_bzero(&cmd, sizeof (t_cmd));
-	getcwd(ctx->path, PATH_MAX);
 	while (1)
 	{
+		getcwd(ctx->path, PATH_MAX);
 		errno = 0;
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)
 			return (printf("exit\n"), 0);
 		if (*line)
 			add_history(line);
-		parse(line, &cmd, ctx);
+		if (parse(line, &cmd, ctx) == -1)
+			return (free(line), -1);
+		exec_cmd(cmd);
 		free(line);
 	}
 	return (0);
