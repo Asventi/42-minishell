@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:20:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 08:43:47 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 13:55:10 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@
 
 int	cd_cmd(t_cmd *cmd)
 {
-	if (cmd->nb_args > 1)
+	if (vct_size(cmd->args) > 3)
 		return (p_error("cd", NULL, "too many arguments"));
-	if (!cmd->args)
+	if (vct_size(cmd->args) == 2)
 	{
 		if (chdir(getenv("HOME")) == -1)
 			return (p_error("cd", NULL, NULL));
 		return (0);
 	}
-	if (chdir(cmd->args[0]) == -1)
+	if (chdir(cmd->args[1]) == -1)
 		return (p_error("cd", cmd->args[0], NULL));
 	return (0);
 }
