@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 09:36:49 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 11:10:35 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "redirect.h"
 #include "errors.h"
 #include "builtins.h"
+#include "context.h"
 
 int	verif_rights(char *pathname)
 {
@@ -72,6 +73,10 @@ int	is_builtins(t_cmd *cmd)
 		echo_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "pwd"))
 		pwd_cmd(cmd);
+	else if (!ft_strcmp(cmd->path, "exit"))
+		exit_cmd();
+	else if (!ft_strcmp(cmd->path, "env"))
+		env_cmd(cmd);
 	else
 		return (1);
 	return (0);

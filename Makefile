@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/21 09:36:31 by nseon            ###   ########.fr        #
+#    Updated: 2025/03/21 10:44:14 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ BLT_DIR =		builtins/
 BLT_SRC =		cd.c \
 				echo.c \
 				pwd.c \
+				exit.c \
+				env.c \
 
 CMD_SRC += $(addprefix $(BLT_DIR), $(BLT_SRC))
 SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))

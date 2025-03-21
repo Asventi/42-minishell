@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:08 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 08:42:34 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 11:08:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	echo_cmd(t_cmd *cmd)
 	{
 		if (i != check)
 			printf(" ");
-		printf("%s", cmd->args[i]);
+		printf("%s\n", cmd->args[i]);
 		i++;
 	}
 	if (!check)

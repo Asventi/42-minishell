@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 13:56:16 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 11:05:18 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/21 09:44:58 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/21 11:07:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include <command.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-int		cd_cmd(t_cmd *cmd);
-int		echo_cmd(t_cmd *cmd);
-int		env_cmd(t_cmd *cmd);
-int		pwd_cmd(t_cmd *cmd);
-void	exit_cmd();
-
-#endif
+void	exit_cmd()
+{
+	printf("exit\n");
+	exit(EXIT_SUCCESS);
+}

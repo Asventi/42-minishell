@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 13:56:16 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 11:05:18 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/21 10:34:23 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/21 11:06:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "command.h"
+#include "libft.h"
+#include <stdio.h>
 
-int		cd_cmd(t_cmd *cmd);
-int		echo_cmd(t_cmd *cmd);
-int		env_cmd(t_cmd *cmd);
-int		pwd_cmd(t_cmd *cmd);
-void	exit_cmd();
+int	env_cmd(t_cmd *cmd)
+{
+	int i;
 
-#endif
+	i = 0;
+	printf("AAAAAAAAAAAAAA\n");
+	while (cmd->env[i])
+	{
+		printf("%s\n", cmd->env[i]);
+		i++;
+	}
+	return (0);
+}
