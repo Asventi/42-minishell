@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:34:23 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 11:06:28 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 11:29:15 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 
 int	env_cmd(t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	printf("AAAAAAAAAAAAAA\n");
 	while (cmd->env[i])
 	{
 		printf("%s\n", cmd->env[i]);

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 11:10:35 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 11:52:10 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ int	verif_rights(char *pathname)
 	return (rights);
 }
 
+int	is_builtins(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd"))
+		return (0);
+	else if (!ft_strcmp(cmd, "echo"))
+		return (0);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (0);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (0);
+	else if (!ft_strcmp(cmd, "env"))
+		return (0);
+	return (1);
+}
+
 int	search_path(char *cmd, char cmd_path[PATH_MAX])
 {
 	char	**paths;
@@ -48,7 +63,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	paths = ft_split(getenv("PATH"), ':');
 	if (!paths)
 		return (-1);
-	while (paths[++i])
+	while (paths[++i] && is_builtins(cmd))
 	{
 		ft_strlcpy(cmd_test, paths[i], PATH_MAX);
 		ft_strlcat(cmd_test, "/", PATH_MAX);
@@ -65,7 +80,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	return (0);
 }
 
-int	is_builtins(t_cmd *cmd)
+int	launch_builtins(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->path, "cd"))
 		cd_cmd(cmd);
@@ -88,7 +103,7 @@ int	exec_cmd(t_cmd *cmd)
 	int		status;
 	int		pipefd[2];
 
-	if (!is_builtins(cmd))
+	if (!launch_builtins(cmd))
 		return (0);
 	id = fork();
 	if (id == -1)

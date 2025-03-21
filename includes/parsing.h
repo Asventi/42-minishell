@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:33:37 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/10 14:33:37 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/03/21 11:28:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_token
 }	t_token;
 
 int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);
-int32_t tokenize(char ***args, char *str);
+int32_t	tokenize(char ***args, char *str);
 int32_t	lexer(t_token **tokens, char **args);
 
 #endif
