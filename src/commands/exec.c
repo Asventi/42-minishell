@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 09:21:05 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 09:36:49 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	is_builtins(t_cmd *cmd)
 		cd_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "echo"))
 		echo_cmd(cmd);
+	else if (!ft_strcmp(cmd->path, "pwd"))
+		pwd_cmd(cmd);
 	else
 		return (1);
 	return (0);
@@ -81,9 +83,6 @@ int	exec_cmd(t_cmd *cmd)
 	int		status;
 	int		pipefd[2];
 
-	cmd->args = malloc(sizeof (t_cmd));
-	cmd->args[0] = ft_strdup("lib/");
-	cmd->nb_args = 2;
 	if (!is_builtins(cmd))
 		return (0);
 	id = fork();
