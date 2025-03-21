@@ -21,12 +21,37 @@
 #include "utils.h"
 #include "errors.h"
 
+static void		print_cmd(t_cmd *cmd)
+{
+	int	i = 0;
+	int j;
+
+	while (i < vct_size(cmd))
+	{
+		printf("{\nPath: %s,\noutput: %d, %s,\ninput: %d, %s,\nArgs: "
+			, cmd[i].path, cmd[i].output.op, cmd[i].output.path, cmd[i].input.op,
+			cmd[i].input.path);
+		j = 0;
+		while (j < vct_size(cmd[i].args))
+		{
+			printf("%s, ", cmd[i].args[j]);
+			j++;
+		}
+		printf("\n},\n");
+		i++;
+	}
+}
+
 static int32_t	process_token(t_token *token, t_cmd *cmd)
 {
+	char	*ptr;
+
 	if (token->type == COMMAND)
 	{
 		if (search_path(token->txt, cmd->path) != 0)
 			return (-1);
+		ptr = ft_strdup(cmd->path);
+		vct_insert(&cmd->args, &ptr, 0);
 	}
 	else if (ROUT <= token->type && token->type <= ROUTAPP)
 	{
@@ -42,6 +67,17 @@ static int32_t	process_token(t_token *token, t_cmd *cmd)
 		cmd->input.op = token->type;
 		ft_strlcpy(cmd->input.path, (token + 1)->txt, PATH_MAX);
 	}
+	else if (token->type == HEREDOC)
+	{
+		cmd->input.op = token->type;
+		ft_strlcpy(cmd->input.path, (token + 1)->txt, PATH_MAX);
+	}
+	else if (token->type == ARG)
+	{
+		ptr = ft_strdup(token->txt);
+		vct_insert(&cmd->args, &ptr, (int32_t)vct_size(cmd->args) - 1);
+		cmd->nb_args++;
+	}
 	return (0);
 }
 
@@ -51,6 +87,7 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 	int32_t			i;
 	int32_t			j;
 	int32_t			res;
+	const char		*ptr = 0;
 
 	*cmd = create_vector(sizeof (t_cmd));
 	if (!*cmd)
@@ -61,13 +98,18 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 	{
 		if (i == 0 || tokens[i].type == PIPE)
 		{
-			vct_allocate(cmd, 1);
+			(void)vct_add_dest(cmd);
 			j++;
+			// TODO: manage leak.
+			(*cmd + j)->args = create_vector(sizeof (char *));
+			vct_add(&(*cmd + j)->args, &ptr);
+			(*cmd + j)->env = ctx->env;
 		}
 		res = process_token(&tokens[i], *cmd + j);
 		if (res != 0)
 			return (res);
 	}
+	print_cmd(*cmd);
 	return (0);
 }
 
