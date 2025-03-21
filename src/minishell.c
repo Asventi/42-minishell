@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/20 11:45:59 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/21 08:31:00 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,5 @@ int	main(int c, char **args, char **env)
 
 	ft_bzero(&ctx, sizeof (t_context));
 	ctx.env = env;
-	if (cd_cmd(&ctx, "lib"))
-		return (1);
 	prompt(&ctx);
 }
