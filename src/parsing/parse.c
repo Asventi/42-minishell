@@ -76,7 +76,6 @@ static int32_t	process_token(t_token *token, t_cmd *cmd)
 	{
 		ptr = ft_strdup(token->txt);
 		vct_insert(&cmd->args, &ptr, (int32_t)vct_size(cmd->args) - 1);
-		cmd->nb_args++;
 	}
 	return (0);
 }
