@@ -20,6 +20,14 @@
 #include "parsing.h"
 #include "constants/operators.h"
 
+static void	set_quote(char c, char *quote)
+{
+	if (ft_ischarset(c, QUOTES) && !*quote)
+		*quote = c;
+	else if (ft_ischarset(c, QUOTES) && *quote == c)
+		*quote = 0;
+}
+
 static void	set_char(char **res, char *str, char quote)
 {
 	if (*str == ' ' && !quote)
@@ -44,10 +52,7 @@ static char	*spacizer(char *str)
 		if (((!in_op && ft_ischarset(*str, OPERATORS))
 				|| (in_op && !ft_ischarset(*str, OPERATORS))) && !quote)
 			vct_add(&res, "\x1D");
-		if (ft_ischarset(*str, QUOTES) && !quote)
-			quote = *str;
-		else if (ft_ischarset(*str, QUOTES) && quote == *str)
-			quote = 0;
+		set_quote(*str, &quote);
 		in_op = ft_ischarset(*str, OPERATORS);
 		set_char(&res, str, quote);
 		str++;
@@ -58,9 +63,6 @@ static char	*spacizer(char *str)
 
 int32_t	tokenize(char ***args, char *str)
 {
-	int32_t	i;
-
-	i = 0;
 	str = spacizer(str);
 	if (!str)
 		return (-1);
