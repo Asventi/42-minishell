@@ -64,7 +64,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 	return (0);
 }
 
-int	exec_cmd(t_cmd *cmd)
+int	exec_cmd(t_cmd *cmd, t_context *ctx)
 {
 	pid_t	id;
 	int		status;
@@ -77,7 +77,7 @@ int	exec_cmd(t_cmd *cmd)
 	{
 		if (check_op(cmd, pipefd))
 			return (errno);
-		if (execve(cmd->path, cmd->args, cmd->env) == -1)
+		if (execve(cmd->path, cmd->args, ctx->env) == -1)
 			p_errorexit(cmd->path, 0, 0);
 	}
 	if (id)

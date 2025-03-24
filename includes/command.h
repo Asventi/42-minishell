@@ -16,6 +16,8 @@
 # include <stdint.h>
 # include <limits.h>
 
+# include "context.h"
+
 // ROUT = > fichier
 // RIN = < fichier
 // ROUTAPP = >> fichier
@@ -47,10 +49,9 @@ typedef struct s_cmd
 	t_redir	output;
 	t_redir	input;
 	char	**args;
-	char	**env;
 }	t_cmd;
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX]);
-int	exec_cmd(t_cmd *cmd);
+int	exec_cmd(t_cmd *cmd, t_context *ctx);
 
 #endif

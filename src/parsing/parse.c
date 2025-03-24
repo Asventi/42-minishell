@@ -99,10 +99,10 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 		{
 			(void)vct_add_dest(cmd);
 			j++;
+			ft_bzero(*cmd + j, sizeof (t_cmd));
 			// TODO: manage leak.
 			(*cmd + j)->args = create_vector(sizeof (char *));
 			vct_add(&(*cmd + j)->args, &ptr);
-			(*cmd + j)->env = ctx->env;
 		}
 		res = process_token(&tokens[i], *cmd + j);
 		if (res != 0)

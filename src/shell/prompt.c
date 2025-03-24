@@ -53,7 +53,7 @@ int	prompt(t_context *ctx)
 			add_history(line);
 		if (parse(line, &cmd, ctx) == -1)
 			return (free(line), -1);
-		exec_cmd(cmd);
+		exec_cmd(cmd, ctx);
 		free(line);
 	}
 	return (0);
