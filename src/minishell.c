@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/21 08:31:00 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/24 10:32:47 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,34 @@
 #include "shell/prompt.h"
 #include "command.h"
 #include "builtins.h"
+#include <errno.h>
+
+int	cpy_env(char ***dest, char **env)
+{
+	int		i;
+	char	*res;
+
+	i = 0;
+	*dest = create_vector(sizeof (char *));
+	if (!*dest)
+		return (errno);
+	while (env[i])
+	{
+		res = ft_strdup(env[i]);
+		if (!res)
+			return (errno);
+		vct_add(dest, &res);
+		i++;
+	}
+	return (0);
+}
 
 int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
 
 	ft_bzero(&ctx, sizeof (t_context));
-	ctx.env = env;
+	if (cpy_env(&ctx.env, env))
+		return (1);
 	prompt(&ctx);
 }
