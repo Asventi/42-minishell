@@ -44,6 +44,7 @@ PARSE_SRC =		parse.c \
 				tokenizer.c \
 				lexer.c \
 				expander.c \
+				frees.c \
 
 # =============COMMANDS=============== #
 

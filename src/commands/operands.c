@@ -68,7 +68,7 @@ int	heredoc(t_cmd *cmd, int pipefd[2])
 		nb_read = read(0, buf, BUF_SIZE);
 		if (nb_read == -1)
 			return (errno);
-		if (nb_read - 1 == ft_strlen(cmd->input.path)
+		if (nb_read - 1 == (int32_t) ft_strlen(cmd->input.path)
 			&& !ft_strncmp(buf, cmd->input.path, nb_read - 1))
 			break ;
 		if (nb_read)

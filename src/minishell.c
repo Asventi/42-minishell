@@ -44,6 +44,8 @@ int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
 
+	(void)c;
+	(void)args;
 	ft_bzero(&ctx, sizeof (t_context));
 	if (cpy_env(&ctx.env, env))
 		return (1);

@@ -28,12 +28,11 @@ static void	set_quote(char c, char *quote)
 		*quote = 0;
 }
 
-static void	set_char(char **res, char *str, char quote)
+static int32_t	set_char(char **res, char *str, char quote)
 {
 	if (*str == ' ' && !quote)
-		vct_add(res, "\x1D");
-	else
-		vct_add(res, str);
+		return (vct_add(res, "\x1D"));
+	return (vct_add(res, str));
 }
 
 static char	*spacizer(char *str)
@@ -44,7 +43,7 @@ static char	*spacizer(char *str)
 
 	in_op = false;
 	quote = 0;
-	res = vct_create(sizeof (char), 0);
+	res = vct_create(sizeof (char), 0, DESTROY_ON_FAIL);
 	if (!res)
 		return (NULL);
 	while (*str)
@@ -55,7 +54,8 @@ static char	*spacizer(char *str)
 				return (NULL);
 		set_quote(*str, &quote);
 		in_op = ft_ischarset(*str, OPERATORS);
-		set_char(&res, str, quote);
+		if (set_char(&res, str, quote) != 0)
+			return (NULL);
 		str++;
 	}
 	vct_add(&res, str);
