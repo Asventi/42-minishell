@@ -16,10 +16,30 @@
 #include "parsing.h"
 #include "constants/operators.h"
 
-static int32_t	set_env(t_token *token, char **str)
+static int32_t	put_env(t_token *token, char *envvar, t_context *ctx)
+{
+	char	*res;
+
+	if (!ft_strcmp(envvar, "?"))
+	{
+		res = ft_itoa(ctx->last_code);
+		if (!res)
+			return (-1);
+		if (vct_strcatnnull(&token->txt, res) != 0)
+			return (free(res), -1);
+		free(res);
+		return (0);
+	}
+	res = getenv(envvar);
+	if (res)
+		if (vct_strcatnnull(&token->txt, res) != 0)
+			return (-1);
+	return (0);
+}
+
+static int32_t	set_env(t_token *token, char **str, t_context *ctx)
 {
 	char	*envvar;
-	char	*res;
 	int32_t	i;
 
 	(*str)++;
@@ -34,18 +54,19 @@ static int32_t	set_env(t_token *token, char **str)
 		if (ft_isdigit((*str)[0]) && ++i)
 			break ;
 	}
+	if (**str == '?' && ++i)
+		if (vct_add(&envvar, *str) != 0)
+			return (-1);
 	(*str) += i;
 	if (vct_add(&envvar, &(char){0}) != 0)
 		return (-1);
-	res = getenv(envvar);
-	if (res)
-		if (vct_strcatnnull(&token->txt, res) != 0)
-			return (vct_destroy(envvar), -1);
+	if (put_env(token, envvar, ctx) != 0)
+		return (vct_destroy(envvar), -1);
 	vct_destroy(envvar);
 	return (0);
 }
 
-static int32_t	process_token(t_token *token, char *str)
+static int32_t	process_token(t_token *token, char *str, t_context *ctx)
 {
 	char	quote;
 
@@ -57,9 +78,10 @@ static int32_t	process_token(t_token *token, char *str)
 			quote = *str;
 		else if (ft_ischarset(*str, QUOTES) && quote == *str)
 			quote = 0;
-		if (*str == '$' && quote != '\'' && ft_isalnum(str[1]))
+		if (*str == '$' && quote != '\''
+			&& (ft_isalnum(str[1]) || str[1] == '?'))
 		{
-			if (set_env(token, &str) == -1)
+			if (set_env(token, &str, ctx) == -1)
 				return (-1);
 		}
 		else
@@ -99,7 +121,7 @@ int32_t	expander(t_token **tokens_exp, t_token *tokens, t_context *ctx)
 		if (dup_token(&tk, &tokens[i]) != 0)
 			return (vct_destroy(*tokens_exp), -1);
 		if (ARG <= tokens[i].type && tokens[i].type <= COMMAND)
-			if (process_token(&tk, tokens[i].txt) != 0)
+			if (process_token(&tk, tokens[i].txt, ctx) != 0)
 				return (vct_destroy(*tokens_exp), -1);
 		if (vct_add(tokens_exp, &tk) != 0)
 			return (-1);
