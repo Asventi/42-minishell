@@ -84,6 +84,7 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 	{
 		if (wait(&status) == -1)
 			return (errno);
+		ctx->last_code = WEXITSTATUS(status);
 		return (WEXITSTATUS(status));
 	}
 	return (0);
