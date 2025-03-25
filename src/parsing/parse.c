@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "context.h"
@@ -21,7 +22,23 @@
 #include "utils.h"
 #include "errors.h"
 
-static void		print_cmd(t_cmd *cmd)
+static void	free_args(void *p)
+{
+	char	*str;
+
+	str = (char *)p;
+	free(str);
+}
+
+static void	free_cmds(void *p)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)p;
+	vct_destroy(cmd->args);
+}
+
+static void	print_cmd(t_cmd *cmd)
 {
 	int	i = 0;
 	int j;
@@ -44,14 +61,12 @@ static void		print_cmd(t_cmd *cmd)
 
 static int32_t	process_token(t_token *token, t_cmd *cmd)
 {
-	char	*ptr;
-
 	if (token->type == COMMAND)
 	{
 		if (search_path(token->txt, cmd->path) != 0)
 			return (-1);
-		ptr = ft_strdup(cmd->path);
-		vct_insert(&cmd->args, &ptr, 0);
+		if (vct_insert(&cmd->args, &(char *){ft_strdup(cmd->path)}, 0) == -1)
+			return (-1);
 	}
 	else if (ROUT <= token->type && token->type <= ROUTAPP)
 	{
@@ -73,40 +88,49 @@ static int32_t	process_token(t_token *token, t_cmd *cmd)
 		ft_strlcpy(cmd->input.path, (token + 1)->txt, PATH_MAX);
 	}
 	else if (token->type == ARG)
-	{
-		ptr = ft_strdup(token->txt);
-		vct_insert(&cmd->args, &ptr, (int32_t)vct_size(cmd->args) - 1);
-	}
+		if (vct_insert(&cmd->args, &(char *){ft_strdup(token->txt)},
+			(int32_t)vct_size(cmd->args) - 1) == -1)
+			return (-1);
+	return (0);
+}
+
+static int32_t	add_cmd(t_cmd **cmd)
+{
+	t_cmd	new_cmd;
+
+	ft_bzero(&new_cmd, sizeof (new_cmd));
+	new_cmd.args = vct_create(sizeof (char *), free_args);
+	if (!new_cmd.args)
+		return (-1);
+	if (vct_add(&new_cmd.args, &(char *){0}))
+		return (-1);
+	if (vct_add(cmd, &new_cmd) != 0)
+		return (-1);
 	return (0);
 }
 
 static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 {
-	const size_t	tk_size = vct_size(tokens);
 	int32_t			i;
 	int32_t			j;
 	int32_t			res;
-	const char		*ptr = 0;
 
-	*cmd = create_vector(sizeof (t_cmd));
+	*cmd = vct_create(sizeof (t_cmd), free_cmds);
 	if (!*cmd)
 		return (-1);
 	j = -1;
 	i = -1;
-	while (++i < tk_size)
+	while (++i < vct_size(tokens))
 	{
 		if (i == 0 || tokens[i].type == PIPE)
 		{
-			(void)vct_add_dest(cmd);
+			if (add_cmd(cmd) != 0)
+				return (vct_destroy(*cmd), -1);
 			j++;
-			ft_bzero(*cmd + j, sizeof (t_cmd));
-			// TODO: manage leak.
-			(*cmd + j)->args = create_vector(sizeof (char *));
-			vct_add(&(*cmd + j)->args, &ptr);
 		}
 		res = process_token(&tokens[i], *cmd + j);
 		if (res != 0)
-			return (res);
+			return (vct_destroy(*cmd), res);
 	}
 	print_cmd(*cmd);
 	return (0);
@@ -126,10 +150,7 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	if (res != 0)
 		return (res);
 	res = build_cmds(tokens, cmd, ctx);
-	/* TODO: Free tokens allocated text, either using dedicated function or making a
-	/ destroy vector function that takes a func ptr to delete.
-	*/
-	free_vct(tokens);
+	vct_destroy(tokens);
 	if (res != 0)
 		return (res);
 	return (0);

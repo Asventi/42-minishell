@@ -44,14 +44,15 @@ static char	*spacizer(char *str)
 
 	in_op = false;
 	quote = 0;
-	res = create_vector(sizeof (char));
+	res = vct_create(sizeof (char), 0);
 	if (!res)
 		return (NULL);
 	while (*str)
 	{
 		if (((!in_op && ft_ischarset(*str, OPERATORS))
 				|| (in_op && !ft_ischarset(*str, OPERATORS))) && !quote)
-			vct_add(&res, "\x1D");
+			if (vct_add(&res, "\x1D") != 0)
+				return (NULL);
 		set_quote(*str, &quote);
 		in_op = ft_ischarset(*str, OPERATORS);
 		set_char(&res, str, quote);
