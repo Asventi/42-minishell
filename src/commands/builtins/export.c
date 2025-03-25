@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/25 16:52:46 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:59:08 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	plus_equal(char *env, t_context *ctx, int i)
 				i = -2;
 			}
 	}
-	vct_delete(env, ft_strchr(env, '+') - env);
+	ft_strlcpy(env, env, size + 1);
+	ft_strlcat(env, content, ft_strlen(env) + ft_strlen(content) + 1);
 	if (i >= 0)
 		vct_insert(&ctx->env, &env, vct_size(ctx->env) - 1);
 	return (0);
