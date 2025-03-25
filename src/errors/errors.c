@@ -22,15 +22,15 @@
 int	p_syntax_error(char c)
 {
 	if (c == 0)
-		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR_NL);
+		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR_NL "\n");
 	else
-		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR, c);
+		ft_fprintf(ERR_F, MINISHELL SYNTAX_ERROR "\n", c);
 	return (-1);
 }
 
 int	p_invalid_op_err(char *str)
 {
-	ft_fprintf(ERR_F, MINISHELL INVALID_OP_ERROR, str);
+	ft_fprintf(ERR_F, MINISHELL INVALID_OP_ERROR "\n", str);
 	return (-1);
 }
 
