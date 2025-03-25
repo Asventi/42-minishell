@@ -26,7 +26,7 @@ static void	free_args(void *p)
 {
 	char	*str;
 
-	str = (char *)p;
+	str = *(char **)p;
 	free(str);
 }
 
@@ -35,7 +35,8 @@ static void	free_cmds(void *p)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)p;
-	vct_destroy(cmd->args);
+	if (cmd->args)
+		vct_destroy(cmd->args);
 }
 
 static void	print_cmd(t_cmd *cmd)
@@ -99,7 +100,7 @@ static int32_t	add_cmd(t_cmd **cmd)
 	t_cmd	new_cmd;
 
 	ft_bzero(&new_cmd, sizeof (new_cmd));
-	new_cmd.args = vct_create(sizeof (char *), free_args);
+	new_cmd.args = vct_create(sizeof (char *), free_args, 0);
 	if (!new_cmd.args)
 		return (-1);
 	if (vct_add(&new_cmd.args, &(char *){0}))
@@ -115,7 +116,7 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 	int32_t			j;
 	int32_t			res;
 
-	*cmd = vct_create(sizeof (t_cmd), free_cmds);
+	*cmd = vct_create(sizeof (t_cmd), free_cmds, 0);
 	if (!*cmd)
 		return (-1);
 	j = -1;

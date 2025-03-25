@@ -51,9 +51,12 @@ int	prompt(t_context *ctx)
 			return (printf("exit\n"), 0);
 		if (*line)
 			add_history(line);
+		else
+			continue ;
 		if (parse(line, &cmd, ctx) == -1)
 			return (free(line), -1);
 		exec_cmd(cmd, ctx);
+		vct_destroy(cmd);
 		free(line);
 	}
 	return (0);

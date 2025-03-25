@@ -52,7 +52,7 @@ int32_t	lexer(t_token **tokens, char **args)
 {
 	t_token	tk;
 
-	*tokens = vct_create(sizeof (t_token), free_token);
+	*tokens = vct_create(sizeof (t_token), free_token, DESTROY_ON_FAIL);
 	if (!*tokens)
 		return (-1);
 	tk.type = NONE;
@@ -60,10 +60,10 @@ int32_t	lexer(t_token **tokens, char **args)
 	{
 		tk.txt = ft_strdup(*args);
 		set_type(&tk, tk.type);
+		if (vct_add(tokens, &tk) != 0)
+			return (-1);
 		if (tk.type == INVAL_OP)
 			return (p_invalid_op_err(tk.txt), vct_destroy(*tokens), INVALID_OP);
-		if (vct_add(tokens, &tk) != 0)
-			return (vct_destroy(*tokens), -1);
 		args++;
 	}
 	if (ROUT <= tk.type && tk.type <= PIPE)
