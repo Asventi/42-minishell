@@ -26,7 +26,7 @@ typedef struct s_token
 }	t_token;
 
 int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);
-int32_t tokenize(char ***args, char *str);
+int32_t	tokenize(char ***args, char *str);
 int32_t	lexer(t_token **tokens, char **args);
 
 #endif

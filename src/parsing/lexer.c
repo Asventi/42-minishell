@@ -11,46 +11,21 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "errors.h"
 #include "libft.h"
 #include "parsing.h"
 #include "constants/operators.h"
 
-static void	print_tokens(t_token *tokens)
+static void	free_token(void *p)
 {
-	size_t	i = 0;
-	size_t size = vct_size(tokens);
+	const t_token	*tk = (t_token *)p;
 
-	while (i < size)
-	{
-		if (tokens[i].type == RIN)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "RIN");
-		else if (tokens[i].type == ROUT)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "ROUT");
-		else if (tokens[i].type == ROUTAPP)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "ROUTAPP");
-		else if (tokens[i].type == HEREDOC)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "HEREDOC");
-		else if (tokens[i].type == PIPE)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "PIPE");
-		else if (tokens[i].type == NONE)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "NONE");
-		else if (tokens[i].type == ARG)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "ARG");
-		else if (tokens[i].type == ARGFILE)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "ARGFILE");
-		else if (tokens[i].type == COMMAND)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "COMMAND");
-		else if (tokens[i].type == INVAL_OP)
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "INVALOP");
-		else
-			ft_printf("{token: %-20.20s, %7s}\n", tokens[i].txt, "WTF");
-		i++;
-	}
+	free(tk->txt);
 }
 
-void	set_type(t_token *tk, t_type prec)
+static void	set_type(t_token *tk, t_type prec)
 {
 	if (!ft_strcmp(tk->txt, RIN_L))
 		tk->type = RIN;
@@ -77,18 +52,21 @@ int32_t	lexer(t_token **tokens, char **args)
 {
 	t_token	tk;
 
-	*tokens = create_vector(sizeof (t_token));
+	*tokens = vct_create(sizeof (t_token), free_token);
+	if (!*tokens)
+		return (-1);
 	tk.type = NONE;
 	while (*args)
 	{
 		tk.txt = ft_strdup(*args);
 		set_type(&tk, tk.type);
 		if (tk.type == INVAL_OP)
-			return (p_invalid_op_err(tk.txt), free_vct(*tokens), INVALID_OP);
-		vct_add(tokens, &tk);
+			return (p_invalid_op_err(tk.txt), vct_destroy(*tokens), INVALID_OP);
+		if (vct_add(tokens, &tk) != 0)
+			return (vct_destroy(*tokens), -1);
 		args++;
 	}
 	if (ROUT <= tk.type && tk.type <= PIPE)
-		return (p_invalid_op_err(tk.txt), free_vct(*tokens), INVALID_OP);
+		return (p_invalid_op_err(tk.txt), vct_destroy(*tokens), INVALID_OP);
 	return (0);
 }

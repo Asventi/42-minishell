@@ -14,12 +14,4 @@
 
 char	**expander(char **args)
 {
-	char	**res;
-	char	*str;
-
-	res = create_vector(sizeof (char *));
-	while (*args)
-	{
-
-	}
 }
