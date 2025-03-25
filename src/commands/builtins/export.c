@@ -6,56 +6,59 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/24 16:36:33 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/25 10:20:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "libft.h"
+#include "errors.h"
 
-int	is_good(char *str)
+int	check_form(char *tab)
 {
-
-	if (!ft_isalpha(*str))
+	if (!tab)
 		return (0);
-	while (*str && *str != '=' && *str != '+')
-	{
-		if (!ft_isalnum(*str))
-			return (0);
-		str++;
-	}
-	if (*str == '=')
-		return (1);
-	if (*str == '+' && *str + 1 == '=')
+	while (*tab && *tab != '=')
+		tab++;
+	if (!*tab)
+		return (0);
+	if (*tab == '=' && *(tab - 1) == '+')
 		return (2);
-	return (0);
+	return (1);
 }
 
-int	add_previous_env(t_context ctx, char **tab)
-{}
-
-int	add_var_env(t_cmd *cmd, t_context *ctx, int i)
+int	is_valid(char *tab)
 {
-	char	*tab;
-
-	if (is_good(cmd->args[i]) == 2)
+	if (!ft_isalpha(*tab))
+		return (0);
+	while (*tab && *tab != '=')
 	{
-
+		if (!ft_isalnum(*tab))
+			if (!(*tab == '+' && *(tab + 1) == '='))
+				return (0);
+		tab++;
 	}
-	vct_add(&ctx->env, &cmd->args[i]);
+	return (1);
 }
 
 int	export_cmd(t_cmd *cmd, t_context *ctx)
 {
 	int	i;
+	int	j;
 
-	i = 1;
+	i = 0;
 	while (cmd->args[i])
 	{
-		while (!is_good(cmd->args[i]))
-			i++;
-		add_var_env(cmd, ctx, i);
-		i++;
+		j = 0;
+		while (cmd->args[++i] && !is_valid(cmd->args[i]))
+			p_error("export", cmd->args[i], "not a valid identifier");
+		if (check_form(cmd->args[i]))
+		{
+			if (check_form(cmd->args[i]) == 1)
+				vct_add(&ctx->env, &cmd->args[i]);
+			if (check_form(cmd->args[i] == 2))
+				
+		}
 	}
 	return (0);
 }

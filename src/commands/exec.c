@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/24 11:17:46 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/25 10:33:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	is_builtins(char *cmd)
 	else if (!ft_strcmp(cmd, "env"))
 		return (0);
 	else if (!ft_strcmp(cmd, "export"))
+		return (0);
+	else if (!ft_strcmp(cmd, "unset"))
 		return (0);
 	return (1);
 }
@@ -80,6 +82,8 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 		env_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "export"))
 		export_cmd(cmd, ctx);
+	else if (!ft_strcmp(cmd->path, "unset"))
+		unset_cmd(cmd, ctx);
 	else
 		return (1);
 	return (0);
