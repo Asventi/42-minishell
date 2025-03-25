@@ -35,6 +35,13 @@ SRC += $(addprefix $(SHELL_DIR), $(SHELL_SRC))
 SHELL_DIR =		shell/
 SHELL_SRC =		prompt.c \
 
+# ===============ENV================ #
+
+SRC += $(addprefix $(ENV_DIR), $(ENV_SRC))
+
+ENV_DIR =		env/
+ENV_SRC =		ft_getenv.c \
+
 # ===============SHELL================ #
 
 SRC += $(addprefix $(PARSE_DIR), $(PARSE_SRC))
