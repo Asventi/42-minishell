@@ -46,3 +46,12 @@ void	free_tokenexp(void *p)
 	if (tk->txt)
 		vct_destroy(tk->txt);
 }
+
+void	free_env(void *p)
+{
+	char	*str;
+
+	str = *(char **)p;
+	if (str)
+		free(str);
+}
