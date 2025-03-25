@@ -18,13 +18,6 @@
 #include "parsing.h"
 #include "constants/operators.h"
 
-static void	free_token(void *p)
-{
-	const t_token	*tk = (t_token *)p;
-
-	free(tk->txt);
-}
-
 static void	set_type(t_token *tk, t_type prec)
 {
 	if (!ft_strcmp(tk->txt, RIN_L))

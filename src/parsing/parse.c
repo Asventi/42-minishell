@@ -22,23 +22,6 @@
 #include "utils.h"
 #include "errors.h"
 
-static void	free_args(void *p)
-{
-	char	*str;
-
-	str = *(char **)p;
-	free(str);
-}
-
-static void	free_cmds(void *p)
-{
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)p;
-	if (cmd->args)
-		vct_destroy(cmd->args);
-}
-
 static void	print_cmd(t_cmd *cmd)
 {
 	int	i = 0;
@@ -141,6 +124,7 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 {
 	char	**args;
 	t_token	*tokens;
+	t_token	*tokens_exp;
 	int32_t	res;
 
 	res = tokenize(&args, str);
@@ -150,8 +134,12 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	free_split(args);
 	if (res != 0)
 		return (res);
-	res = build_cmds(tokens, cmd, ctx);
+	res = expander(&tokens_exp, tokens);
 	vct_destroy(tokens);
+	if (res != 0)
+		return (res);
+	res = build_cmds(tokens_exp, cmd, ctx);
+	vct_destroy(tokens_exp);
 	if (res != 0)
 		return (res);
 	return (0);

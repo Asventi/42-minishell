@@ -36,12 +36,24 @@ static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
 	return (str);
 }
 
+static int32_t	process_command(char *line, t_context *ctx)
+{
+	t_cmd	*cmd;
+	int32_t	res;
+
+	res = parse(line, &cmd, ctx);
+	if (res == 0)
+	{
+		exec_cmd(cmd, ctx);
+		vct_destroy(cmd);
+	}
+	return (res);
+}
+
 int	prompt(t_context *ctx)
 {
 	char	ptext[PROMPT_MAX];
 	char	*line;
-	t_cmd	*cmd;
-	int32_t	res;
 
 	while (1)
 	{
@@ -54,18 +66,8 @@ int	prompt(t_context *ctx)
 			add_history(line);
 		else
 			continue ;
-		res = parse(line, &cmd, ctx);
+		if (process_command(line, ctx) == -1)
+			return (free(line), -1);
 		free(line);
-		if (res != 0)
-		{
-			if (res == -1)
-				return (-1);
-		}
-		else
-		{
-			exec_cmd(cmd, ctx);
-			vct_destroy(cmd);
-		}
 	}
-	return (0);
 }
