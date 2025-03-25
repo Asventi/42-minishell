@@ -84,19 +84,20 @@ static int32_t	dup_token(t_token *token, t_token *src)
 	return (0);
 }
 
-int32_t	expander(t_token **tokens_exp, t_token *tokens)
+int32_t	expander(t_token **tokens_exp, t_token *tokens, t_context *ctx)
 {
 	int32_t	i;
 	t_token	tk;
 
+	(void)ctx;
 	*tokens_exp = vct_create(sizeof (t_token), free_tokenexp, DESTROY_ON_FAIL);
 	if (!*tokens_exp)
 		return (-1);
 	i = -1;
-	while (++i < vct_size(tokens))
+	while (++i < (int32_t)vct_size(tokens))
 	{
 		if (dup_token(&tk, &tokens[i]) != 0)
-			return (-1);
+			return (vct_destroy(*tokens_exp), -1);
 		if (ARG <= tokens[i].type && tokens[i].type <= COMMAND)
 			if (process_token(&tk, tokens[i].txt) != 0)
 				return (vct_destroy(*tokens_exp), -1);

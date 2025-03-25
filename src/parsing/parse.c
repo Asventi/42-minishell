@@ -22,28 +22,7 @@
 #include "utils.h"
 #include "errors.h"
 
-static void	print_cmd(t_cmd *cmd)
-{
-	int	i = 0;
-	int j;
-
-	while (i < vct_size(cmd))
-	{
-		printf("{\nPath: %s,\noutput: %d, %s,\ninput: %d, %s,\nArgs: "
-			, cmd[i].path, cmd[i].output.op, cmd[i].output.path, cmd[i].input.op,
-			cmd[i].input.path);
-		j = 0;
-		while (j < vct_size(cmd[i].args))
-		{
-			printf("%s, ", cmd[i].args[j]);
-			j++;
-		}
-		printf("\n},\n");
-		i++;
-	}
-}
-
-static int32_t	process_token(t_token *token, t_cmd *cmd)
+static int32_t	set_cmd(t_token *token, t_cmd *cmd)
 {
 	if (token->type == COMMAND)
 	{
@@ -59,7 +38,17 @@ static int32_t	process_token(t_token *token, t_cmd *cmd)
 		cmd->output.op = token->type;
 		ft_strlcpy(cmd->output.path, (token + 1)->txt, PATH_MAX);
 	}
-	else if (token->type == RIN)
+	return (0);
+}
+
+static int32_t	process_token(t_token *token, t_cmd *cmd)
+{
+	int32_t	res;
+
+	res = set_cmd(token, cmd);
+	if (res != 0)
+		return (res);
+	if (token->type == RIN)
 	{
 		if (access((token + 1)->txt, R_OK) != 0)
 			return (p_error((token + 1)->txt, 0, 0), INVALID_FILE);
@@ -93,7 +82,7 @@ static int32_t	add_cmd(t_cmd **cmd)
 	return (0);
 }
 
-static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
+static int32_t	build_cmds(t_token *tokens, t_cmd **cmd)
 {
 	int32_t			i;
 	int32_t			j;
@@ -104,7 +93,7 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 		return (-1);
 	j = -1;
 	i = -1;
-	while (++i < vct_size(tokens))
+	while (++i < (int32_t) vct_size(tokens))
 	{
 		if (i == 0 || tokens[i].type == PIPE)
 		{
@@ -116,7 +105,6 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 		if (res != 0)
 			return (vct_destroy(*cmd), res);
 	}
-	print_cmd(*cmd);
 	return (0);
 }
 
@@ -134,11 +122,11 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	free_split(args);
 	if (res != 0)
 		return (res);
-	res = expander(&tokens_exp, tokens);
+	res = expander(&tokens_exp, tokens, ctx);
 	vct_destroy(tokens);
 	if (res != 0)
 		return (res);
-	res = build_cmds(tokens_exp, cmd, ctx);
+	res = build_cmds(tokens_exp, cmd);
 	vct_destroy(tokens_exp);
 	if (res != 0)
 		return (res);

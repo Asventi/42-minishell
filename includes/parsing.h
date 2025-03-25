@@ -28,7 +28,7 @@ typedef struct s_token
 int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);
 int32_t	tokenize(char ***args, char *str);
 int32_t	lexer(t_token **tokens, char **args);
-int32_t	expander(t_token **tokens_exp, t_token *tokens);
+int32_t	expander(t_token **tokens_exp, t_token *tokens, t_context *ctx);
 
 void	free_cmds(void *p);
 void	free_args(void *p);
