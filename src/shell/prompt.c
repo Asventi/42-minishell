@@ -41,6 +41,7 @@ int	prompt(t_context *ctx)
 	char	ptext[PROMPT_MAX];
 	char	*line;
 	t_cmd	*cmd;
+	int32_t	res;
 
 	while (1)
 	{
@@ -53,11 +54,18 @@ int	prompt(t_context *ctx)
 			add_history(line);
 		else
 			continue ;
-		if (parse(line, &cmd, ctx) == -1)
-			return (free(line), -1);
-		exec_cmd(cmd, ctx);
-		vct_destroy(cmd);
+		res = parse(line, &cmd, ctx);
 		free(line);
+		if (res != 0)
+		{
+			if (res == -1)
+				return (-1);
+		}
+		else
+		{
+			exec_cmd(cmd, ctx);
+			vct_destroy(cmd);
+		}
 	}
 	return (0);
 }
