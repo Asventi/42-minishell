@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "context.h"
-#include "libft.h"
 #include <stdio.h>
 
 int	env_cmd(t_context *ctx)

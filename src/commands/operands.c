@@ -13,7 +13,6 @@
 #include <command.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <errno.h>
 #include <limits.h>
 #include "redirect.h"
@@ -65,7 +64,7 @@ int	heredoc(t_cmd *cmd, int pipefd[2])
 	{
 		write (1, BROWN "> " RESET, ft_strlen(BROWN "> " RESET));
 		ft_bzero(buf, BUF_SIZE);
-		nb_read = read(0, buf, BUF_SIZE);
+		nb_read = (int32_t) read(0, buf, BUF_SIZE);
 		if (nb_read == -1)
 			return (errno);
 		if (nb_read - 1 == (int32_t) ft_strlen(cmd->input.path)

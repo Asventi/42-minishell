@@ -12,7 +12,6 @@
 
 #include "command.h"
 #include <unistd.h>
-#include <limits.h>
 #include <stdio.h>
 #include <errno.h>
 
@@ -20,6 +19,7 @@ int	pwd_cmd(t_cmd *cmd)
 {
 	char	path[PATH_MAX];
 
+	(void)cmd;
 	if (!getcwd(path, PATH_MAX))
 		return (errno);
 	printf("%s\n", path);
