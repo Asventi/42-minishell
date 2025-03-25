@@ -6,13 +6,16 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/25 10:20:34 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/25 16:52:46 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
 #include "libft.h"
 #include "errors.h"
+#include "builtins.h"
+#include <stdlib.h>
+#include <errno.h>
 
 int	check_form(char *tab)
 {
@@ -41,6 +44,54 @@ int	is_valid(char *tab)
 	return (1);
 }
 
+int	remove_var_env(char *env, t_context *ctx)
+{
+	int		i;
+	int		size;
+
+	i = 0;
+	while (env[i] && env[i] != '=')
+		i++;
+	size = i;
+	i = 0;
+	while (ctx->env[i])
+	{
+		if (!ft_strncmp(env, ctx->env[i], size))
+			if (ctx->env[i][size] == '=')
+				vct_delete(ctx->env, i);
+		i++;
+	}
+	return (0);
+}
+
+int	plus_equal(char *env, t_context *ctx, int i)
+{
+	char	*content;
+	char	*temp;
+	int		size;
+
+	size = 0;
+	while (env[size] && env[size] != '+')
+		size++;
+	content = ft_strchr(env, '=');
+	while (++i >= 0 && ctx->env[i])
+	{
+		if (!ft_strncmp(env, ctx->env[i], size))
+			if (ctx->env[i][size] == '=')
+			{
+				temp = ft_strjoin(ctx->env[i], content + 1);
+				if (!temp)
+					return (1);
+				ctx->env[i] = temp;
+				i = -2;
+			}
+	}
+	vct_delete(env, ft_strchr(env, '+') - env);
+	if (i >= 0)
+		vct_insert(&ctx->env, &env, vct_size(ctx->env) - 1);
+	return (0);
+}
+
 int	export_cmd(t_cmd *cmd, t_context *ctx)
 {
 	int	i;
@@ -55,9 +106,13 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 		if (check_form(cmd->args[i]))
 		{
 			if (check_form(cmd->args[i]) == 1)
-				vct_add(&ctx->env, &cmd->args[i]);
-			if (check_form(cmd->args[i] == 2))
-				
+			{
+				remove_var_env(cmd->args[i], ctx);
+				vct_insert(&ctx->env, &cmd->args[i], vct_size(ctx->env) - 1);
+			}
+			if (check_form(cmd->args[i]) == 2)
+				if (plus_equal(cmd->args[i], ctx, -1))
+					p_error("ft_strjoin", NULL, NULL);
 		}
 	}
 	return (0);
