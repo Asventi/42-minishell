@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/24 10:32:47 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/25 10:55:49 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	cpy_env(char ***dest, char **env)
 	char	*res;
 
 	i = 0;
-	*dest = create_vector(sizeof (char *));
+	*dest = vct_create(sizeof (char *), 0);
 	if (!*dest)
 		return (errno);
 	while (env[i])
