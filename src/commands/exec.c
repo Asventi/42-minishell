@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/24 10:43:46 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/24 11:17:46 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	else if (!ft_strcmp(cmd->path, "env"))
 		env_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "export"))
-		export_cmd(ctx);
+		export_cmd(cmd, ctx);
 	else
 		return (1);
 	return (0);
