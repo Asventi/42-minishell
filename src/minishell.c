@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h>
 #include <readline/readline.h>
 
 #include "context.h"
@@ -28,6 +29,7 @@ void	sig_handler(int sig)
 	g_sig = sig;
 	if (sig == SIGINT)
 	{
+		printf("\n");
 		rl_replace_line("", 0);
 		rl_forced_update_display();
 	}
@@ -63,6 +65,7 @@ static int32_t	init_signals(void)
 	sigact.sa_flags = SA_RESTART | SA_NOCLDSTOP;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
+	sigact.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
 		return (-1);
 	return (0);
@@ -80,6 +83,7 @@ int	main(int c, char **args, char **env)
 	ft_bzero(&ctx, sizeof (t_context));
 	if (cpy_env(&ctx.env, env))
 		return (1);
+	ctx.tty = ttyname(1);
 	res = prompt(&ctx);
 	vct_destroy(ctx.env);
 	if (res == CHLD_ERR)

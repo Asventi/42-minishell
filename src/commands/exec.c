@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/26 13:56:05 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/26 16:18:16 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include <libft.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include "command.h"
 #include "redirect.h"
@@ -74,8 +76,11 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
+	int		fd;
 	int		pipefd[2];
 
+	if (check_op(cmd, pipefd) == -1)
+		return (-1);
 	res = 0;
 	if (check_op(cmd, pipefd) == -1)
 		return (-1);
@@ -94,6 +99,9 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	else if (!ft_strcmp(cmd->path, "unset"))
 		res = unset_cmd(cmd, ctx);
 	ctx->last_code = res;
+	fd = open(ctx->tty, O_RDWR);
+	dup2(fd, 1);
+	dup2(fd, 0);
 	return (res);
 }
 
