@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/26 11:08:54 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/26 13:56:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,11 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
+	int		pipefd[2];
 
 	res = 0;
+	if (check_op(cmd, pipefd) == -1)
+		return (-1);
 	if (!ft_strcmp(cmd->path, "cd"))
 		res = cd_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "echo"))
