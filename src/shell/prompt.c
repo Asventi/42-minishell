@@ -43,11 +43,10 @@ static int32_t	process_command(char *line, t_context *ctx)
 	int32_t	res;
 
 	res = parse(line, &cmd, ctx);
-	if (res == 0)
-	{
-		exec_cmd(cmd, ctx);
-		vct_destroy(cmd);
-	}
+	if (res != 0)
+		return (res);
+	res = exec_cmd(cmd, ctx);
+	vct_destroy(cmd);
 	return (res);
 }
 
@@ -55,11 +54,11 @@ int	prompt(t_context *ctx)
 {
 	char	ptext[PATH_MAX + 32];
 	char	*line;
+	int32_t	res;
 
 	while (1)
 	{
 		getcwd(ctx->path, PATH_MAX);
-		errno = 0;
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)
 			return (printf("exit\n"), 0);
@@ -67,8 +66,9 @@ int	prompt(t_context *ctx)
 			add_history(line);
 		else
 			continue ;
-		if (process_command(line, ctx) == -1)
-			return (free(line), -1);
+		res = process_command(line, ctx);
 		free(line);
+		if (res == -1 || res == CHLD_ERR)
+			return (res);
 	}
 }

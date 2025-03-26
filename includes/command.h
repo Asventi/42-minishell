@@ -13,6 +13,8 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
+# define CHLD_ERR 255
+
 # include <stdint.h>
 # include <limits.h>
 # include "context.h"

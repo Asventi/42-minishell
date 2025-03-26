@@ -128,7 +128,5 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 		return (res);
 	res = build_cmds(tokens_exp, cmd, ctx);
 	vct_destroy(tokens_exp);
-	if (res != 0)
-		return (res);
-	return (0);
+	return (res);
 }
