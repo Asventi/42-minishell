@@ -45,11 +45,15 @@ int	is_builtins(char *cmd)
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 {
 	char	**paths;
+	char	*pathenv;
 	char	cmd_test[PATH_MAX];
 	int32_t	i;
 
 	i = -1;
-	paths = ft_split(ft_getenv("PATH", ctx), ':');
+	pathenv = ft_getenv("PATH", ctx);
+	if (!pathenv)
+		return (ft_strlcpy(cmd_path, cmd, PATH_MAX), 0);
+	paths = ft_split(pathenv, ':');
 	if (!paths)
 		return (-1);
 	while (paths[++i] && !is_builtins(cmd))
@@ -60,13 +64,11 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 		if (!access(cmd_test, F_OK))
 		{
 			ft_strlcpy(cmd_path, cmd_test, PATH_MAX);
-			free_split(paths);
-			return (0);
+			return (free_split(paths), 0);
 		}
 	}
-	free_split(paths);
 	ft_strlcpy(cmd_path, cmd, PATH_MAX);
-	return (0);
+	return (free_split(paths), 0);
 }
 
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
@@ -105,7 +107,7 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 		return (launch_builtins(cmd, ctx));
 	if (access(cmd->path, F_OK) != 0)
 	{
-		ctx->last_code = 1;
+		ctx->last_code = 127;
 		return (p_error(cmd->path, 0, "command not found"), 1);
 	}
 	id = fork();
