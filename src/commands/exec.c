@@ -70,22 +70,26 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX])
 
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
 {
+	int32_t	res;
+
+	res = 0;
 	if (!ft_strcmp(cmd->path, "cd"))
-		cd_cmd(cmd);
+		res = cd_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "echo"))
-		echo_cmd(cmd);
+		res = echo_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "pwd"))
-		pwd_cmd(cmd);
+		res = pwd_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "exit"))
 		exit_cmd();
 	else if (!ft_strcmp(cmd->path, "env"))
-		env_cmd(ctx);
+		res = env_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "export"))
-		export_cmd(cmd, ctx);
+		res = export_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "unset"))
-		unset_cmd(cmd, ctx);
+		res = unset_cmd(cmd, ctx);
 	else
 		return (1);
+	ctx->last_code = res;
 	return (0);
 }
 

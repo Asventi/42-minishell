@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "parsing.h"
 #include "constants/operators.h"
+#include "env.h"
 
 static int32_t	put_env(t_token *token, char *envvar, t_context *ctx)
 {
@@ -30,7 +31,7 @@ static int32_t	put_env(t_token *token, char *envvar, t_context *ctx)
 		free(res);
 		return (0);
 	}
-	res = getenv(envvar);
+	res = ft_getenv(envvar, ctx);
 	if (res)
 		if (vct_strcatnnull(&token->txt, res) != 0)
 			return (-1);

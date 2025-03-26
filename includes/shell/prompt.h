@@ -19,12 +19,10 @@
 # define CYAN "\001\x1b[36m\002"
 # define RESET "\001\x1b[0m\002"
 
-# define RED_PROMPT RESET RED "\n-> " RESET
-# define GREEN_PROMPT RESET GREEN "\n-> " RESET
+# define RED_PROMPT "\001\x1b[31m\002\n-> \001\x1b[0m\002"
+# define GREEN_PROMPT "\001\x1b[32m\002\n-> \001\x1b[0m\002"
 
 # include "context.h"
-
-# define PROMPT_MAX PATH_MAX + 16
 
 int	prompt(t_context *ctx);
 

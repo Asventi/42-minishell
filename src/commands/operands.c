@@ -13,7 +13,6 @@
 #include <command.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <errno.h>
 #include <limits.h>
 #include "redirect.h"

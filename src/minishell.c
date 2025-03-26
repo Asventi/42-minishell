@@ -15,8 +15,7 @@
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
-#include "command.h"
-#include "builtins.h"
+#include "parsing.h"
 #include <errno.h>
 
 int	cpy_env(char ***dest, char **env)
@@ -25,7 +24,7 @@ int	cpy_env(char ***dest, char **env)
 	char	*res;
 
 	i = 0;
-	*dest = vct_create(sizeof (char *), 0, 0);
+	*dest = vct_create(sizeof (char *), free_env, 0);
 	if (!*dest)
 		return (errno);
 	while (env[i])
@@ -50,4 +49,5 @@ int	main(int c, char **args, char **env)
 	if (cpy_env(&ctx.env, env))
 		return (1);
 	prompt(&ctx);
+	vct_destroy(ctx.env);
 }

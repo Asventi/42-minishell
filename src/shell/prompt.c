@@ -24,15 +24,16 @@
 
 #include "parsing.h"
 
-static char	*get_prompt(char str[PROMPT_MAX], t_context *ctx)
+static char	*get_prompt(char str[PATH_MAX + 32], t_context *ctx)
 {
 	str[0] = 0;
-	ft_strlcat(str, "\n" CYAN, PROMPT_MAX);
-	ft_strlcat(str, ctx->path, PROMPT_MAX);
+	ft_strlcat(str, "\n" CYAN, PATH_MAX + 32);
+	ft_strlcat(str, ctx->path, PATH_MAX + 32);
+	ft_strlcat(str, RESET, PATH_MAX + 32);
 	if (ctx->last_code != 0)
-		ft_strlcat(str, RED_PROMPT, PROMPT_MAX);
+		ft_strlcat(str, RED_PROMPT, PATH_MAX + 32);
 	else
-		ft_strlcat(str, GREEN_PROMPT, PROMPT_MAX);
+		ft_strlcat(str, GREEN_PROMPT, PATH_MAX + 32);
 	return (str);
 }
 
@@ -52,7 +53,7 @@ static int32_t	process_command(char *line, t_context *ctx)
 
 int	prompt(t_context *ctx)
 {
-	char	ptext[PROMPT_MAX];
+	char	ptext[PATH_MAX + 32];
 	char	*line;
 
 	while (1)

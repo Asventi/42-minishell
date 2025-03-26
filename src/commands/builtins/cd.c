@@ -13,7 +13,6 @@
 #include "context.h"
 #include <unistd.h>
 #include "libft.h"
-#include <errno.h>
 #include <stdlib.h>
 #include "errors.h"
 #include "command.h"

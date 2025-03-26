@@ -18,7 +18,6 @@ int	echo_cmd(t_cmd *cmd)
 {
 	int		i;
 	int		check;
-	char	*str;
 	int		nb_words;
 
 	i = 1;

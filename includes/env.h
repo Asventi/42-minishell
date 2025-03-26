@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 09:30:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 12:09:21 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/25 17:49:10 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/03/25 17:49:10 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
+#ifndef ENV_H
+# define ENV_H
 
-int	pwd_cmd(t_cmd *cmd)
-{
-	char	path[PATH_MAX];
+# include "context.h"
 
-	(void)cmd;
-	if (!getcwd(path, PATH_MAX))
-		return (errno);
-	printf("%s\n", path);
-	return (0);
-}
+char	*ft_getenv(char *name, t_context *ctx);
+
+#endif

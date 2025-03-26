@@ -34,5 +34,6 @@ void	free_cmds(void *p);
 void	free_args(void *p);
 void	free_token(void *p);
 void	free_tokenexp(void *p);
+void	free_env(void *p);
 
 #endif
