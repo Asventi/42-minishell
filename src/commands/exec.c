@@ -102,7 +102,7 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 		return (launch_builtins(cmd, ctx));
 	if (access(cmd->path, F_OK) != 0)
 	{
-		ctx->last_code = 1;
+		ctx->last_code = 127;
 		return (p_error(cmd->path, 0, "command not found"), 1);
 	}
 	id = fork();
