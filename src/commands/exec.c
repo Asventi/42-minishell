@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/26 16:18:16 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/26 18:04:10 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,11 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 	return (free_split(paths), 0);
 }
 
-int	launch_builtins(t_cmd *cmd, t_context *ctx)
+int	choose_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
-	int		fd;
 	int		pipefd[2];
 
-	if (check_op(cmd, pipefd) == -1)
-		return (-1);
 	res = 0;
 	if (check_op(cmd, pipefd) == -1)
 		return (-1);
@@ -98,11 +95,18 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 		res = export_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "unset"))
 		res = unset_cmd(cmd, ctx);
-	ctx->last_code = res;
+	return (res);
+}
+
+int	launch_builtins(t_cmd *cmd, t_context *ctx)
+{
+	int	fd;
+
+	ctx->last_code = choose_builtins(cmd, ctx);
 	fd = open(ctx->tty, O_RDWR);
 	dup2(fd, 1);
 	dup2(fd, 0);
-	return (res);
+	return (ctx->last_code);
 }
 
 int	exec_cmd(t_cmd *cmd, t_context *ctx)
