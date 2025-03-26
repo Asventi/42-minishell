@@ -23,7 +23,7 @@ int	echo_cmd(t_cmd *cmd)
 	i = 1;
 	check = 0;
 	nb_words = 0;
-	if (!ft_strcmp(cmd->args[i], "-n"))
+	if (cmd->args[i] && !ft_strcmp(cmd->args[i], "-n"))
 		check = ++i;
 	while (cmd->args[i])
 	{

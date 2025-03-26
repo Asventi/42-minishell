@@ -14,7 +14,9 @@
 #include <libft.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include "command.h"
 #include "redirect.h"
@@ -74,7 +76,11 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
+	int		fd;
+	int		pipefd[2];
 
+	if (check_op(cmd, pipefd) == -1)
+		return (-1);
 	res = 0;
 	if (!ft_strcmp(cmd->path, "cd"))
 		res = cd_cmd(cmd, ctx);
@@ -91,6 +97,9 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	else if (!ft_strcmp(cmd->path, "unset"))
 		res = unset_cmd(cmd, ctx);
 	ctx->last_code = res;
+	fd = open(ctx->tty, O_RDWR);
+	dup2(fd, 1);
+	dup2(fd, 0);
 	return (res);
 }
 
