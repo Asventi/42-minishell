@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/25 10:33:28 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/26 11:08:54 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,38 @@
 #include "errors.h"
 #include "builtins.h"
 #include "context.h"
+#include "env.h"
 
 int	is_builtins(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd"))
-		return (0);
-	else if (!ft_strcmp(cmd, "echo"))
-		return (0);
-	else if (!ft_strcmp(cmd, "pwd"))
-		return (0);
-	else if (!ft_strcmp(cmd, "exit"))
-		return (0);
-	else if (!ft_strcmp(cmd, "env"))
-		return (0);
-	else if (!ft_strcmp(cmd, "export"))
-		return (0);
-	else if (!ft_strcmp(cmd, "unset"))
-		return (0);
-	return (1);
+		return (1);
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	if (!ft_strcmp(cmd, "env"))
+		return (1);
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	return (0);
 }
 
-int	search_path(char *cmd, char cmd_path[PATH_MAX])
+int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 {
 	char	**paths;
 	char	cmd_test[PATH_MAX];
 	int32_t	i;
 
 	i = -1;
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(ft_getenv("PATH", ctx), ':');
 	if (!paths)
 		return (-1);
-	while (paths[++i] && is_builtins(cmd))
+	while (paths[++i] && !is_builtins(cmd))
 	{
 		ft_strlcpy(cmd_test, paths[i], PATH_MAX);
 		ft_strlcat(cmd_test, "/", PATH_MAX);
@@ -74,23 +75,21 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 
 	res = 0;
 	if (!ft_strcmp(cmd->path, "cd"))
-		res = cd_cmd(cmd);
+		res = cd_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "echo"))
 		res = echo_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "pwd"))
 		res = pwd_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "exit"))
-		exit_cmd();
+		res = exit_cmd();
 	else if (!ft_strcmp(cmd->path, "env"))
 		res = env_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "export"))
 		res = export_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "unset"))
 		res = unset_cmd(cmd, ctx);
-	else
-		return (1);
 	ctx->last_code = res;
-	return (0);
+	return (res);
 }
 
 int	exec_cmd(t_cmd *cmd, t_context *ctx)
@@ -99,8 +98,8 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 	int		status;
 	int		pipefd[2];
 
-	if (!launch_builtins(cmd, ctx))
-		return (0);
+	if (is_builtins(cmd->path))
+		return (launch_builtins(cmd, ctx));
 	id = fork();
 	if (id == -1)
 		return (p_error("fork", 0, 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:33:43 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/10 14:33:43 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:02:54 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 #include "utils.h"
 #include "errors.h"
 
-static int32_t	set_cmd(t_token *token, t_cmd *cmd)
+static int32_t	set_cmd(t_token *token, t_cmd *cmd, t_context *ctx)
 {
 	if (token->type == COMMAND)
 	{
-		if (search_path(token->txt, cmd->path) != 0)
+		if (search_path(token->txt, cmd->path, ctx) != 0)
 			return (-1);
 		if (vct_insert(&cmd->args, &(char *){ft_strdup(cmd->path)}, 0) == -1)
 			return (-1);
@@ -41,11 +41,11 @@ static int32_t	set_cmd(t_token *token, t_cmd *cmd)
 	return (0);
 }
 
-static int32_t	process_token(t_token *token, t_cmd *cmd)
+static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
 
-	res = set_cmd(token, cmd);
+	res = set_cmd(token, cmd, ctx);
 	if (res != 0)
 		return (res);
 	if (token->type == RIN)
@@ -82,7 +82,7 @@ static int32_t	add_cmd(t_cmd **cmd)
 	return (0);
 }
 
-static int32_t	build_cmds(t_token *tokens, t_cmd **cmd)
+static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 {
 	int32_t			i;
 	int32_t			j;
@@ -101,7 +101,7 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd)
 				return (vct_destroy(*cmd), -1);
 			j++;
 		}
-		res = process_token(&tokens[i], *cmd + j);
+		res = process_token(&tokens[i], *cmd + j, ctx);
 		if (res != 0)
 			return (vct_destroy(*cmd), res);
 	}
@@ -126,7 +126,7 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	vct_destroy(tokens);
 	if (res != 0)
 		return (res);
-	res = build_cmds(tokens_exp, cmd);
+	res = build_cmds(tokens_exp, cmd, ctx);
 	vct_destroy(tokens_exp);
 	if (res != 0)
 		return (res);

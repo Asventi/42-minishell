@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:20:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 14:20:51 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/26 11:04:00 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@
 #include <stdlib.h>
 #include "errors.h"
 #include "command.h"
+#include "env.h"
 
-int	cd_cmd(t_cmd *cmd)
+int	cd_cmd(t_cmd *cmd, t_context *ctx)
 {
 	if (vct_size(cmd->args) > 3)
-		return (p_error("cd", NULL, "too many arguments"));
+		return (p_error("cd", NULL, "too many arguments"), 1);
 	if (vct_size(cmd->args) == 2 || !ft_strcmp(cmd->args[1], "~"))
 	{
-		if (chdir(getenv("HOME")) == -1)
-			return (p_error("cd", NULL, NULL));
+		if (chdir(ft_getenv("HOME", ctx)) == -1)
+			return (p_error("cd", NULL, NULL), 1);
 		return (0);
 	}
 	if (chdir(cmd->args[1]) == -1)
-		return (p_error("cd", cmd->args[0], NULL));
+		return (p_error("cd", cmd->args[0], NULL), 1);
 	return (0);
 }
