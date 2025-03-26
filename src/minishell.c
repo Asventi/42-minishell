@@ -13,11 +13,25 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <readline/readline.h>
 
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
 #include "parsing.h"
+
+int	g_sig = 0;
+
+void	sig_handler(int sig)
+{
+	g_sig = sig;
+	if (sig == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_forced_update_display();
+	}
+}
 
 int	cpy_env(char ***dest, char **env)
 {
@@ -40,6 +54,20 @@ int	cpy_env(char ***dest, char **env)
 	return (0);
 }
 
+static int32_t	init_signals(void)
+{
+	struct sigaction	sigact;
+
+	sigact = (struct sigaction){0};
+	sigact.sa_handler = sig_handler;
+	sigact.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+	if (sigaction(SIGINT, &sigact, 0) == -1)
+		return (-1);
+	if (sigaction(SIGQUIT, &sigact, 0) == -1)
+		return (-1);
+	return (0);
+}
+
 int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
@@ -47,6 +75,8 @@ int	main(int c, char **args, char **env)
 
 	(void)c;
 	(void)args;
+	if (init_signals() == -1)
+		return (EXIT_FAILURE);
 	ft_bzero(&ctx, sizeof (t_context));
 	if (cpy_env(&ctx.env, env))
 		return (1);
