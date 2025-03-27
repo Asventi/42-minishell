@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.h                                         :+:      :+:    :+:   */
+/*   rout.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 10:28:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 09:42:30 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/27 09:36:45 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/27 10:50:37 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIRECT_H
-# define REDIRECT_H
+#include "command.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
-# define BUF_SIZE 500000
+int	rout(t_cmd *cmd)
+{
+	int	fd;
 
-# include "command.h"
-
-int	check_op(t_cmd *cmd, int *pipefd);
-int	heredoc(t_cmd *cmd, int pipefd[2]);
-int	rin(t_cmd *cmd);
-int	rout(t_cmd *cmd);
-int	routapp(t_cmd *cmd);
-
-#endif
+	fd = open(cmd->output.path, O_WRONLY | O_TRUNC);
+	if (fd == -1)
+		return (errno);
+	if (dup2(fd, 1))
+		return (-1);
+	return (0);
+}
