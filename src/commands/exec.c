@@ -72,11 +72,11 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 	if (!id)
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
-			return (CHLD_ERR);
+			return (CHLD_ERR - (errno == ENOENT));
 	if (wait(&status) == -1)
 		return (-1);
 	ctx->last_code = WEXITSTATUS(status);
 	if (ctx->last_code == CHLD_ERR)
 		return (-1);
-	return (WEXITSTATUS(status));
+	return (0);
 }
