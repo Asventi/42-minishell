@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 09:39:22 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 10:50:24 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 10:55:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	rin(t_cmd *cmd)
 	fd = open(cmd->input.path, O_RDONLY);
 	if (fd == -1)
 		return (errno);
-	if (dup2(fd, 0))
+	if (dup2(fd, 0) == -1)
 		return (-1);
 	return (0);
 }
