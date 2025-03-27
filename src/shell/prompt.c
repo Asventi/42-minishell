@@ -47,10 +47,7 @@ static int32_t	process_command(char *line, t_context *ctx)
 	res = parse(line, &cmd, ctx);
 	if (res != 0)
 		return (res);
-	if (vct_size(cmd) > 1)
-		res = pipex(cmd, ctx);
-	else
-		res = exec_cmd(cmd, ctx);
+	res = exec_line(cmd, ctx);
 	vct_destroy(cmd);
 	return (res);
 }

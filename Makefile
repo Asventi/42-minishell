@@ -81,7 +81,6 @@ OPS_SRC =		check_op.c \
 				rin.c \
 				rout.c \
 				routapp.c \
-				pipe.c \
 
 CMD_SRC += $(addprefix $(OPS_DIR), $(OPS_SRC))
 CMD_SRC += $(addprefix $(BLT_DIR), $(BLT_SRC))

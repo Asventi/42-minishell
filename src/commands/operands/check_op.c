@@ -11,12 +11,7 @@
 /* ************************************************************************** */
 
 #include "command.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
-#include <limits.h>
 #include "redirect.h"
-#include "libft.h"
 
 int	check_op(t_cmd *cmd)
 {

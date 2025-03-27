@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
-
 #include "redirect.h"
 #include "shell/prompt.h"
 #include "libft.h"

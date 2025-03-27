@@ -59,3 +59,17 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 	ft_strlcpy(cmd_path, cmd, PATH_MAX);
 	return (free_split(paths), 0);
 }
+
+int32_t	reset_stds(t_context *ctx)
+{
+	int32_t	fd;
+
+	fd = open(ctx->tty, O_RDWR);
+	if (fd == -1)
+		return (-1);
+	if (dup2(fd, 1) == -1)
+		return (-1);
+	if (dup2(fd, 0) == -1)
+		return (-1);
+	return (0);
+}

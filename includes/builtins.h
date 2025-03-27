@@ -13,6 +13,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include "command.h"
+
 int	is_builtins(char *cmd);
 int	launch_builtins(t_cmd *cmd, t_context *ctx);
 int	cd_cmd(t_cmd *cmd, t_context *ctx);

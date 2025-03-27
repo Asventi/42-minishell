@@ -16,7 +16,6 @@
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
-
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
