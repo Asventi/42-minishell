@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/25 10:59:50 by nseon            ###   ########.fr        #
+#    Updated: 2025/03/27 09:49:20 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,13 @@ BLT_SRC =		cd.c \
 				export.c \
 				unset.c \
 
+OPS_DIR =		operands/
+OPS_SRC =		heredoc.c \
+				rin.c \
+				rout.c \
+				routapp.c \
+
+CMD_SRC += $(addprefix $(OPS_DIR), $(OPS_SRC))
 CMD_SRC += $(addprefix $(BLT_DIR), $(BLT_SRC))
 SRC += $(addprefix $(CMD_DIR), $(CMD_SRC))
 

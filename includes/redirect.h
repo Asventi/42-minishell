@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 10:28:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/13 17:14:39 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 09:42:30 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,9 @@
 # include "command.h"
 
 int	check_op(t_cmd *cmd, int *pipefd);
+int	heredoc(t_cmd *cmd, int pipefd[2]);
+int	rin(t_cmd *cmd);
+int	rout(t_cmd *cmd);
+int	routapp(t_cmd *cmd);
 
 #endif
