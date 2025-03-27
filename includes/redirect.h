@@ -13,14 +13,17 @@
 #ifndef REDIRECT_H
 # define REDIRECT_H
 
-# define BUF_SIZE 500000
+# define TMP_HEREDOC "/tmp/heredoc_minishell"
+# define BROWN "\001\x1b[33m\002"
+# define RESET "\001\x1b[0m\002"
+# define HEREDOC_WARN "bash: warning: here-document delimited by end-of-file (wanted `%s')\n"
 
 # include "command.h"
 
-int	check_op(t_cmd *cmd, int *pipefd);
-int	heredoc(t_cmd *cmd, int pipefd[2]);
-int	rin(t_cmd *cmd);
-int	rout(t_cmd *cmd);
-int	routapp(t_cmd *cmd);
+int		check_op(t_cmd *cmd);
+int32_t	heredoc(t_cmd *cmd);
+int		rin(t_cmd *cmd);
+int		rout(t_cmd *cmd);
+int		routapp(t_cmd *cmd);
 
 #endif
