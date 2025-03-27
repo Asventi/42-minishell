@@ -24,6 +24,8 @@
 
 #include "parsing.h"
 
+extern int32_t	g_sig;
+
 static char	*get_prompt(char str[PATH_MAX + 32], t_context *ctx)
 {
 	str[0] = 0;
@@ -61,6 +63,7 @@ int	prompt(t_context *ctx)
 
 	while (1)
 	{
+		g_sig = 0;
 		getcwd(ctx->path, PATH_MAX);
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)

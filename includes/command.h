@@ -55,7 +55,6 @@ typedef struct s_cmd
 	char	**args;
 }	t_cmd;
 
-int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx);
 int	exec_cmd(t_cmd *cmd, t_context *ctx);
 int	pipex(t_cmd *cmd, t_context *ctx);
 

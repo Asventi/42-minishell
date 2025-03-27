@@ -22,11 +22,12 @@
 #include "shell/prompt.h"
 #include "parsing.h"
 
-int	g_sig = 0;
+int	g_sig;
 
 void	sig_handler(int sig)
 {
 	g_sig = sig;
+	printf("coucou\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -62,7 +63,7 @@ static int32_t	init_signals(void)
 
 	sigact = (struct sigaction){0};
 	sigact.sa_handler = sig_handler;
-	sigact.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+	sigact.sa_flags = SA_NOCLDSTOP;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	sigact.sa_handler = SIG_IGN;
