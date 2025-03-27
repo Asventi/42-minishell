@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 09:38:28 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 10:50:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 10:55:13 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	routapp(t_cmd *cmd)
 	fd = open(cmd->output.path, O_WRONLY | O_APPEND);
 	if (fd == -1)
 		return (errno);
-	if (dup2(fd, 1))
+	if (dup2(fd, 1) == -1)
 		return (-1);
 	return (0);
 }
