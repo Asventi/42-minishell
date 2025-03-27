@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/27 09:49:20 by nseon            ###   ########.fr        #
+#    Updated: 2025/03/27 10:03:42 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ PARSE_SRC =		parse.c \
 
 CMD_DIR =		commands/
 CMD_SRC =		exec.c \
-				operands.c \
 
 BLT_DIR =		builtins/
 BLT_SRC =		cd.c \
@@ -69,7 +68,8 @@ BLT_SRC =		cd.c \
 				unset.c \
 
 OPS_DIR =		operands/
-OPS_SRC =		heredoc.c \
+OPS_SRC =		check_op.c \
+				heredoc.c \
 				rin.c \
 				rout.c \
 				routapp.c \
