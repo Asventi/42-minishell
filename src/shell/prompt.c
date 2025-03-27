@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/21 11:09:48 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:18:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static int32_t	process_command(char *line, t_context *ctx)
 	res = parse(line, &cmd, ctx);
 	if (res != 0)
 		return (res);
-	res = exec_cmd(cmd, ctx);
+	if (vct_size(cmd) > 1)
+		res = pipex(cmd, ctx);
+	else
+		res = exec_cmd(cmd, ctx);
 	vct_destroy(cmd);
 	return (res);
 }

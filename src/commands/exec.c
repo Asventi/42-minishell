@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 10:49:43 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:22:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,6 @@
 #include "builtins.h"
 #include "context.h"
 #include "env.h"
-
-int	is_builtins(char *cmd)
-{
-	if (!ft_strcmp(cmd, "cd"))
-		return (1);
-	if (!ft_strcmp(cmd, "echo"))
-		return (1);
-	if (!ft_strcmp(cmd, "pwd"))
-		return (1);
-	if (!ft_strcmp(cmd, "exit"))
-		return (1);
-	if (!ft_strcmp(cmd, "env"))
-		return (1);
-	if (!ft_strcmp(cmd, "export"))
-		return (1);
-	if (!ft_strcmp(cmd, "unset"))
-		return (1);
-	return (0);
-}
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 {
@@ -71,43 +52,6 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 	}
 	ft_strlcpy(cmd_path, cmd, PATH_MAX);
 	return (free_split(paths), 0);
-}
-
-int	choose_builtins(t_cmd *cmd, t_context *ctx)
-{
-	int32_t	res;
-
-	res = 0;
-	if (check_op(cmd) == -1)
-		return (-1);
-	if (!ft_strcmp(cmd->path, "cd"))
-		res = cd_cmd(cmd, ctx);
-	else if (!ft_strcmp(cmd->path, "echo"))
-		res = echo_cmd(cmd);
-	else if (!ft_strcmp(cmd->path, "pwd"))
-		res = pwd_cmd(cmd);
-	else if (!ft_strcmp(cmd->path, "exit"))
-		res = exit_cmd();
-	else if (!ft_strcmp(cmd->path, "env"))
-		res = env_cmd(ctx);
-	else if (!ft_strcmp(cmd->path, "export"))
-		res = export_cmd(cmd, ctx);
-	else if (!ft_strcmp(cmd->path, "unset"))
-		res = unset_cmd(cmd, ctx);
-	return (res);
-}
-
-int	launch_builtins(t_cmd *cmd, t_context *ctx)
-{
-	int	fd;
-
-	ctx->last_code = choose_builtins(cmd, ctx);
-	fd = open(ctx->tty, O_RDWR);
-	if (dup2(fd, 1) == -1)
-		return (-1);
-	if (dup2(fd, 0) == -1)
-		return (-1);
-	return (ctx->last_code);
 }
 
 int	exec_cmd(t_cmd *cmd, t_context *ctx)

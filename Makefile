@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/27 10:03:42 by nseon            ###   ########.fr        #
+#    Updated: 2025/03/27 11:27:19 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,8 @@ CMD_DIR =		commands/
 CMD_SRC =		exec.c \
 
 BLT_DIR =		builtins/
-BLT_SRC =		cd.c \
+BLT_SRC =		builtins.c \
+				cd.c \
 				echo.c \
 				pwd.c \
 				exit.c \
@@ -80,6 +81,7 @@ OPS_SRC =		check_op.c \
 				rin.c \
 				rout.c \
 				routapp.c \
+				pipe.c \
 
 CMD_SRC += $(addprefix $(OPS_DIR), $(OPS_SRC))
 CMD_SRC += $(addprefix $(BLT_DIR), $(BLT_SRC))

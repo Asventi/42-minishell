@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:49:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/26 11:00:45 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 14:56:03 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define COMMAND_H
 
 # define CHLD_ERR 255
+# define CHLD_END 254
 
 # include <stdint.h>
 # include <limits.h>
@@ -56,5 +57,6 @@ typedef struct s_cmd
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx);
 int	exec_cmd(t_cmd *cmd, t_context *ctx);
+int	pipex(t_cmd *cmd, t_context *ctx);
 
 #endif
