@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rout.c                                             :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 09:36:45 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 10:50:37 by nseon            ###   ########.fr       */
+/*   Created: 2025/03/27 10:05:50 by nseon             #+#    #+#             */
+/*   Updated: 2025/03/27 10:35:45 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
-#include <errno.h>
-#include <fcntl.h>
 #include <unistd.h>
 
-int	rout(t_cmd *cmd)
+int	pipe(t_cmd *cmd)
 {
-	int	fd;
-
-	fd = open(cmd->output.path, O_WRONLY | O_TRUNC);
-	if (fd == -1)
-		return (errno);
-	if (dup2(fd, 1))
-		return (-1);
-	return (0);
+	
 }

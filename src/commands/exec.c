@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/26 18:04:10 by nseon            ###   ########.fr       */
+/*   Updated: 2025/03/27 10:49:43 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 
 	ctx->last_code = choose_builtins(cmd, ctx);
 	fd = open(ctx->tty, O_RDWR);
-	dup2(fd, 1);
-	dup2(fd, 0);
+	if (dup2(fd, 1) == -1)
+		return (-1);
+	if (dup2(fd, 0) == -1)
+		return (-1);
 	return (ctx->last_code);
 }
 
