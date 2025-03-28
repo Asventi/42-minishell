@@ -210,7 +210,7 @@ norminette:
 
 .PHONY: valgrind
 valgrind: debug
-	@valgrind --suppressions=.valgrindignore.txt -s --leak-check=full ./minishell
+	@valgrind --suppressions=.valgrindignore.txt -s --leak-check=full --track-fds=yes ./minishell
 
 -include $(DEPS)
 

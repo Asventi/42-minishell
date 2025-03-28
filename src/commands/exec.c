@@ -49,7 +49,7 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
 	else
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (-1);
-	return (close_pipe(fdin, fdout));
+	return (close_in_out(fdin, fdout));
 }
 
 int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
@@ -70,7 +70,7 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_ERR - (errno == ENOENT));
 	}
-	return (close_pipe(fdin, fdout));
+	return (close_in_out(fdin, fdout));
 }
 
 int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
@@ -79,7 +79,7 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
 		return (exec_builtin(cmd, ctx, fdin, fdout));
 	if (ft_strlen(cmd->path) != 0 && access(cmd->path, F_OK) != 0)
 	{
-		close_pipe(fdin, fdout);
+		close_in_out(fdin, fdout);
 		return (p_error(cmd->path, 0, "command not found"), 1);
 	}
 	return (exec_cmd(cmd, ctx, fdin, fdout));

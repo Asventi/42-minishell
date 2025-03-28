@@ -74,7 +74,16 @@ int32_t	reset_stds(t_context *ctx)
 	return (0);
 }
 
-int32_t	close_pipe(int32_t in, int32_t out)
+int32_t	close_pipe(int32_t pipefd[2])
+{
+	if (pipefd[0] != 0)
+		close(pipefd[0]);
+	if (pipefd[1] != 1)
+		close(pipefd[1]);
+	return (0);
+}
+
+int32_t	close_in_out(int32_t in, int32_t out)
 {
 	if (in != 0)
 		close(in);
