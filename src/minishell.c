@@ -26,7 +26,10 @@ int	g_sig;
 void	sig_handler(int sig)
 {
 	g_sig = sig;
-	printf("coucou\n");
+	if (sig == SIGPIPE)
+	{
+		printf("coucouc 'est sigpipe\n");
+	}
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -65,6 +68,8 @@ static int32_t	init_signals(void)
 	sigact.sa_flags = SA_NOCLDSTOP;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
+	if (sigaction(SIGPIPE, &sigact, 0) == -1)
+		return (-1);
 	sigact.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
 		return (-1);
@@ -75,6 +80,7 @@ int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
 	int32_t		res;
+	int32_t		pipefd[2];
 
 	(void)c;
 	(void)args;
