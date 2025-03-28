@@ -16,67 +16,108 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <sys/wait.h>
 #include "command.h"
 #include "redirect.h"
 #include "errors.h"
 #include "builtins.h"
 #include "context.h"
-#include "env.h"
 
-int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
+int32_t	exec_builtin(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
 {
-	char	**paths;
-	char	*pathenv;
-	char	cmd_test[PATH_MAX];
-	int32_t	i;
+	int	id;
 
-	i = -1;
-	pathenv = ft_getenv("PATH", ctx);
-	if (!pathenv)
-		return (ft_strlcpy(cmd_path, cmd, PATH_MAX), 0);
-	paths = ft_split(pathenv, ':');
-	if (!paths)
-		return (-1);
-	while (paths[++i] && !is_builtins(cmd))
+	if (fdin != 0 || fdout != 1)
 	{
-		ft_strlcpy(cmd_test, paths[i], PATH_MAX);
-		ft_strlcat(cmd_test, "/", PATH_MAX);
-		ft_strlcat(cmd_test, cmd, PATH_MAX);
-		if (!access(cmd_test, F_OK))
+		id = fork();
+		if (id == -1)
+			return (-1);
+		if (!id)
 		{
-			ft_strlcpy(cmd_path, cmd_test, PATH_MAX);
-			return (free_split(paths), 0);
+			if (dup2(fdin, 0) == -1)
+				return (CHLD_ERR);
+			if (dup2(fdout, 1) == -1)
+				return (CHLD_ERR);
+			if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
+				return (CHLD_ERR);
+			return (CHLD_END);
 		}
 	}
-	ft_strlcpy(cmd_path, cmd, PATH_MAX);
-	return (free_split(paths), 0);
+	else
+	{
+		if (check_op(cmd) == - 1)
+			return (-1);
+		return (launch_builtins(cmd, ctx));
+	}
+	if (fdout != 1)
+		close(fdout);
+	if (fdin != 0)
+		close (fdin);
+	return (0);
 }
 
-int	exec_cmd(t_cmd *cmd, t_context *ctx)
+int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
 {
-	pid_t	id;
-	int		status;
+	int	id;
 
-	if (is_builtins(cmd->path))
-		return (launch_builtins(cmd, ctx));
-	if (ft_strlen(cmd->path) > 0 && access(cmd->path, F_OK) != 0)
-	{
-		ctx->last_code = 127;
-		return (p_error(cmd->path, 0, "command not found"), 1);
-	}
 	id = fork();
 	if (id == -1)
-		return (p_error("fork", 0, 0));
+		return (-1);
 	if (!id)
+	{
+		if (dup2(fdin, 0) == -1)
+			return (CHLD_ERR);
+		if (dup2(fdout, 1) == -1)
+			return (CHLD_ERR);
+		// TODO: Deplacer les heredoc dnas le parsing
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_ERR - (errno == ENOENT));
-	if (wait(&status) == -1)
-		return (-1);
-	ctx->last_code = WEXITSTATUS(status);
-	if (ctx->last_code == CHLD_ERR)
-		return (-1);
+	}
+	if (fdout != 1)
+		close(fdout);
+	if (fdin != 0)
+		close (fdin);
+	return (0);
+}
+
+int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t fdout)
+{
+	if (is_builtins(cmd->path))
+		return (exec_builtin(cmd, ctx, fdin, fdout));
+	if (ft_strlen(cmd->path) != 0 && access(cmd->path, F_OK) != 0)
+		return (p_error(cmd->path, 0, "command not found"), 1);
+	return (exec_cmd(cmd, ctx, fdin, fdout));
+}
+
+int32_t	exec_line(t_cmd *cmd, t_context *ctx)
+{
+	int32_t	pipefd[2];
+	int32_t	old_pipe;
+	int32_t	i;
+	int32_t	res;
+
+	i = -1;
+	pipefd[0] = 0;
+	pipefd[1] = 1;
+	while (++i < (int32_t)vct_size(cmd))
+	{
+		old_pipe = pipefd[0];
+		if ((int32_t)vct_size(cmd) > 1 && i < (int32_t)vct_size(cmd) - 1)
+			if  (pipe(pipefd) == -1)
+				return (-1);
+		if (i == (int32_t)vct_size(cmd) - 1)
+			res = choose_exec(&cmd[i], ctx, old_pipe, 1);
+		else
+			res = choose_exec(&cmd[i], ctx, old_pipe, pipefd[1]);
+		if (res == -1 || res == CHLD_ERR || res == CHLD_END)
+			return (res);
+	}
+	while (wait(&ctx->status) != -1)
+	{
+		ctx->last_code = WEXITSTATUS(ctx->status);
+		if (ctx->last_code == CHLD_ERR)
+			return (-1);
+	}
 	return (0);
 }

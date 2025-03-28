@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <command.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 int	exit_cmd(void)

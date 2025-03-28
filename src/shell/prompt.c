@@ -24,6 +24,8 @@
 
 #include "parsing.h"
 
+extern int32_t	g_sig;
+
 static char	*get_prompt(char str[PATH_MAX + 32], t_context *ctx)
 {
 	str[0] = 0;
@@ -45,10 +47,7 @@ static int32_t	process_command(char *line, t_context *ctx)
 	res = parse(line, &cmd, ctx);
 	if (res != 0)
 		return (res);
-	if (vct_size(cmd) > 1)
-		res = pipex(cmd, ctx);
-	else
-		res = exec_cmd(cmd, ctx);
+	res = exec_line(cmd, ctx);
 	vct_destroy(cmd);
 	return (res);
 }
@@ -61,6 +60,7 @@ int	prompt(t_context *ctx)
 
 	while (1)
 	{
+		g_sig = 0;
 		getcwd(ctx->path, PATH_MAX);
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)

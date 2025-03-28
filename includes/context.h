@@ -22,6 +22,7 @@ typedef struct s_context
 	char	**env;
 	char	*tty;
 	int32_t	last_code;
+	int32_t	status;
 }	t_context;
 
 #endif
