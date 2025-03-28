@@ -104,7 +104,8 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 	{
 		old_pipe = pipefd[0];
 		if ((int32_t)vct_size(cmd) > 1 && i < (int32_t)vct_size(cmd) - 1)
-			pipe(pipefd);
+			if  (pipe(pipefd) == -1)
+				return (-1);
 		if (i == (int32_t)vct_size(cmd) - 1)
 			res = choose_exec(&cmd[i], ctx, old_pipe, 1);
 		else
