@@ -18,19 +18,19 @@
 #include "redirect.h"
 #include "libft.h"
 
-int	check_op(t_cmd *cmd, int pipefd[2])
+int	check_op(t_cmd *cmd)
 {
+	if (cmd->input.op == RIN)
+		if (rin(cmd))
+			return (-1);
+	if (cmd->input.op == HEREDOC)
+		if (heredoc(cmd))
+			return (-1);
 	if (cmd->output.op == ROUT)
 		if (rout(cmd))
 			return (-1);
 	if (cmd->output.op == ROUTAPP)
 		if (routapp(cmd))
-			return (-1);
-	if (cmd->input.op == RIN)
-		if (rin(cmd))
-			return (-1);
-	if (cmd->input.op == HEREDOC)
-		if (heredoc(cmd, pipefd))
 			return (-1);
 	return (0);
 }

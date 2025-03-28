@@ -40,10 +40,9 @@ int	is_builtins(char *cmd)
 int	choose_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	res;
-	int		pipefd[2];
 
 	res = 0;
-	if (check_op(cmd, pipefd) == -1)
+	if (check_op(cmd) == -1)
 		return (-1);
 	if (!ft_strcmp(cmd->path, "cd"))
 		res = cd_cmd(cmd, ctx);

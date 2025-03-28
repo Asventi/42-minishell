@@ -58,11 +58,10 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 {
 	pid_t	id;
 	int		status;
-	int		pipefd[2];
 
 	if (is_builtins(cmd->path))
 		return (launch_builtins(cmd, ctx));
-	if (access(cmd->path, F_OK) != 0)
+	if (ft_strlen(cmd->path) > 0 && access(cmd->path, F_OK) != 0)
 	{
 		ctx->last_code = 127;
 		return (p_error(cmd->path, 0, "command not found"), 1);
@@ -71,13 +70,13 @@ int	exec_cmd(t_cmd *cmd, t_context *ctx)
 	if (id == -1)
 		return (p_error("fork", 0, 0));
 	if (!id)
-		if (check_op(cmd, pipefd) == -1
+		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
-			return (CHLD_ERR);
+			return (CHLD_ERR - (errno == ENOENT));
 	if (wait(&status) == -1)
 		return (-1);
 	ctx->last_code = WEXITSTATUS(status);
 	if (ctx->last_code == CHLD_ERR)
 		return (-1);
-	return (WEXITSTATUS(status));
+	return (0);
 }

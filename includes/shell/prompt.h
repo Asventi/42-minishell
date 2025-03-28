@@ -13,7 +13,6 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
-# define BROWN "\001\x1b[33m\002"
 # define RED "\001\x1b[31m\002"
 # define GREEN "\001\x1b[32m\002"
 # define CYAN "\001\x1b[36m\002"

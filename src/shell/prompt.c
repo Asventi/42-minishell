@@ -71,7 +71,7 @@ int	prompt(t_context *ctx)
 			continue ;
 		res = process_command(line, ctx);
 		free(line);
-		if (res == -1 || res == CHLD_ERR)
+		if (res == -1 || res == CHLD_ERR || res == CHLD_END)
 			return (res);
 	}
 }
