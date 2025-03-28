@@ -70,8 +70,9 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	if (fd == -1)
 		return (-1);
 	if (dup2(fd, 1) == -1)
-		return (-1);
+		return (close(fd), -1);
 	if (dup2(fd, 0) == -1)
-		return (-1);
+		return (close(fd), -1);
+	close(fd);
 	return (ctx->last_code);
 }

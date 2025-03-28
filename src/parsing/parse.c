@@ -129,3 +129,7 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	vct_destroy(tokens_exp);
 	return (res);
 }
+
+//TODO: < file cat devrait marcher
+//TODO: last code a 2 quand sytnaxe invalide
+//TODO: Check si possible unclosed gllemet

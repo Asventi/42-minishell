@@ -15,6 +15,8 @@
 
 # include <stdint.h>
 
-int32_t	init_signals(void);
+int32_t	init_signals_main(void);
+int32_t	init_signals_exec(void);
+int32_t	init_signals_child(void);
 
 #endif

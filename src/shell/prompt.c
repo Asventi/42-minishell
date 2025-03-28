@@ -23,6 +23,7 @@
 #include <stdlib.h>
 
 #include "parsing.h"
+#include "signals.h"
 
 extern int32_t	g_sig;
 
@@ -60,6 +61,7 @@ int	prompt(t_context *ctx)
 
 	while (1)
 	{
+		init_signals_main();
 		g_sig = 0;
 		getcwd(ctx->path, PATH_MAX);
 		line = readline(get_prompt(ptext, ctx));

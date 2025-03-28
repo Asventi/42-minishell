@@ -115,3 +115,5 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	return (0);
 }
+
+//TODO: expor sans args

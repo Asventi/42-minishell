@@ -49,11 +49,10 @@ int	main(int c, char **args, char **env)
 {
 	t_context	ctx;
 	int32_t		res;
-	int32_t		pipefd[2];
 
 	(void)c;
 	(void)args;
-	if (init_signals() == -1)
+	if (init_signals_main() == -1)
 		return (EXIT_FAILURE);
 	ft_bzero(&ctx, sizeof (t_context));
 	if (cpy_env(&ctx.env, env))
@@ -61,9 +60,8 @@ int	main(int c, char **args, char **env)
 	ctx.tty = ttyname(1);
 	res = prompt(&ctx);
 	vct_destroy(ctx.env);
-	if (res == CHLD_ERR)
-		return (CHLD_ERR);
-	if (res == -1)
+	if (res == -1 || res == CHLD_ERR)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+ //TODO: Check if its tty

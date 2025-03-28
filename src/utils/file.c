@@ -86,8 +86,10 @@ int32_t	close_pipe(int32_t pipefd[2])
 int32_t	close_in_out(int32_t in, int32_t out)
 {
 	if (in != 0)
-		close(in);
+		if (close(in) == -1)
+			p_error("input", 0, 0);
 	if (out != 1)
-		close(out);
+		if (close(out) == -1)
+			ft_fprintf(2, "Close error on output file: %d\n", out);
 	return (0);
 }
