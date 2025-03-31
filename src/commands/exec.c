@@ -28,7 +28,8 @@
 
 extern int32_t	g_sig;
 
-int32_t	exec_builtin(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
+int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
+	int32_t fdin, int32_t pipefd[2])
 {
 	int	id;
 
@@ -88,6 +89,17 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 	return (exec_cmd(cmd, ctx, fdin, pipefd));
 }
 
+int32_t	wait_processes(t_context *ctx)
+{
+	while (wait(&ctx->status) != -1)
+	{
+		ctx->last_code = WEXITSTATUS(ctx->status);
+		if (ctx->last_code == CHLD_ERR)
+			return (-1);
+	}
+	return (0);
+}
+
 int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 {
 	int32_t	pipefd[2];
@@ -112,11 +124,5 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 		if (res == -1 || res == CHLD_ERR || res == CHLD_END)
 			return (res);
 	}
-	while (wait(&ctx->status) != -1)
-	{
-		ctx->last_code = WEXITSTATUS(ctx->status);
-		if (ctx->last_code == CHLD_ERR)
-			return (-1);
-	}
-	return (0);
+	return (wait_processes(ctx));
 }

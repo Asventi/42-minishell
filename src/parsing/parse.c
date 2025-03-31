@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "context.h"
 #include "command.h"
@@ -20,22 +21,30 @@
 #include "libft.h"
 #include "utils.h"
 #include "errors.h"
+#include "redirect.h"
 
-static int32_t	set_cmd(t_token *token, t_cmd *cmd, t_context *ctx)
+static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 {
-	if (token->type == COMMAND)
+	if (tk->type == COMMAND)
 	{
-		if (search_path(token->txt, cmd->path, ctx) != 0)
+		if (search_path(tk->txt, cmd->path, ctx) != 0)
 			return (-1);
 		if (vct_insert(&cmd->args, &(char *){ft_strdup(cmd->path)}, 0) == -1)
 			return (-1);
 	}
-	else if (ROUT <= token->type && token->type <= ROUTAPP)
+	else if (ROUT <= tk->type && tk->type <= ROUTAPP)
 	{
-		if (check_file_create((token + 1)->txt) != 0)
-			return (INVALID_FILE);
-		cmd->output.op = token->type;
-		ft_strlcpy(cmd->output.path, (token + 1)->txt, PATH_MAX);
+		if (cmd->output.op != NONE)
+			close(cmd->output.fd);
+		if (tk->type == ROUT)
+			cmd->output.fd = open((tk + 1)->txt,
+					O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		else if (tk->type == ROUTAPP)
+			cmd->output.fd = open((tk + 1)->txt,
+					O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (cmd->output.fd == -1)
+			return (-1);
+		cmd->output.op = tk->type;
 	}
 	return (0);
 }
@@ -49,15 +58,21 @@ static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 		return (res);
 	if (token->type == RIN)
 	{
-		if (access((token + 1)->txt, R_OK) != 0)
+		if (cmd->input.op != NONE)
+			close(cmd->input.fd);
+		cmd->input.fd = open((token + 1)->txt, O_RDONLY);
+		if (cmd->input.fd == -1)
 			return (p_error((token + 1)->txt, 0, 0), INVALID_FILE);
 		cmd->input.op = token->type;
-		ft_strlcpy(cmd->input.path, (token + 1)->txt, PATH_MAX);
 	}
 	else if (token->type == HEREDOC)
 	{
+		if (cmd->input.op != NONE)
+			close(cmd->input.fd);
+		cmd->input.fd = heredoc((token + 1)->txt);
+		if (cmd->input.fd == -1)
+			return (-1);
 		cmd->input.op = token->type;
-		ft_strlcpy(cmd->input.path, (token + 1)->txt, PATH_MAX);
 	}
 	else if (token->type == ARG)
 		if (vct_insert(&cmd->args, &(char *){ft_strdup(token->txt)},
@@ -116,20 +131,18 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 
 	res = tokenize(&args, str);
 	if (res != 0)
-		return (res);
+		return (ctx->last_code = 2, res);
 	res = lexer(&tokens, args);
 	free_split(args);
 	if (res != 0)
-		return (res);
+		return (ctx->last_code = 2, res);
 	res = expander(&tokens_exp, tokens, ctx);
 	vct_destroy(tokens);
 	if (res != 0)
-		return (res);
+		return (ctx->last_code = 2, res);
 	res = build_cmds(tokens_exp, cmd, ctx);
 	vct_destroy(tokens_exp);
-	return (res);
+	return (ctx->last_code = 2, res);
 }
 
-//TODO: < file cat devrait marcher
-//TODO: last code a 2 quand sytnaxe invalide
-//TODO: Check si possible unclosed gllemet
+// TODO: heredoc ne pas expand le delimiter

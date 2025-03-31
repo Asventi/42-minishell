@@ -129,3 +129,6 @@ int32_t	expander(t_token **tokens_exp, t_token *tokens, t_context *ctx)
 	}
 	return (0);
 }
+
+// TODO: epxand les var denv devrait trim les espaces et garder que un espace
+// TODO: les expand "echo hi | sleep 3" devrai lancer echo et le reste en un seul arg

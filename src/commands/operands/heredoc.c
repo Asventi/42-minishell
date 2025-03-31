@@ -48,7 +48,7 @@ static void	write_to_doc(char *line, int32_t tmp_file)
 	write(tmp_file, "\n", 1);
 }
 
-int32_t	heredoc(t_cmd *cmd)
+int32_t	heredoc(char *deli)
 {
 	char	*line;
 	int32_t	tmp_file;
@@ -59,12 +59,12 @@ int32_t	heredoc(t_cmd *cmd)
 	while (!g_sig)
 	{
 		line = readline(BROWN "> " RESET);
-		if (line && ft_strcmp(line, cmd->input.path) != 0 && !g_sig)
+		if (line && ft_strcmp(line, deli) != 0 && !g_sig)
 			write_to_doc(line, tmp_file);
 		else
 		{
 			if (!line && !g_sig)
-				printf(HEREDOC_WARN, cmd->input.path);
+				printf(HEREDOC_WARN, deli);
 			free(line);
 			break ;
 		}
@@ -72,7 +72,9 @@ int32_t	heredoc(t_cmd *cmd)
 	}
 	if (open_temp_file(&tmp_file) == -1)
 		return (-1);
-	if (dup2(tmp_file, 0) == -1)
-		return (-1);
-	return (0);
+	return (tmp_file);
 }
+
+//TODO: gestion sinaux heredoc
+//TODO: expend les envar tout le temps
+//TODO: ne pas expend si le dimiter est entre quotes

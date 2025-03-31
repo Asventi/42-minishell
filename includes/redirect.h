@@ -21,7 +21,7 @@
 # include "command.h"
 
 int		check_op(t_cmd *cmd);
-int32_t	heredoc(t_cmd *cmd);
+int32_t	heredoc(char *deli);
 int		rin(t_cmd *cmd);
 int		rout(t_cmd *cmd);
 int		routapp(t_cmd *cmd);

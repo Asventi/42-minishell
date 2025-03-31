@@ -52,6 +52,11 @@ int	main(int c, char **args, char **env)
 
 	(void)c;
 	(void)args;
+	if (!isatty(0) || !isatty(1))
+	{
+		ft_fprintf(2, "Is not a tty\n");
+		return (EXIT_SUCCESS);
+	}
 	if (init_signals_main() == -1)
 		return (EXIT_FAILURE);
 	ft_bzero(&ctx, sizeof (t_context));
@@ -64,4 +69,3 @@ int	main(int c, char **args, char **env)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
- //TODO: Check if its tty

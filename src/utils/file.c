@@ -27,8 +27,7 @@ int32_t	check_file_create(char *str)
 	res = open(str, O_CREAT, 0644);
 	if (res == -1)
 		return (p_error(str, 0, 0));
-	close(res);
-	return (0);
+	return (res);
 }
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
@@ -71,15 +70,6 @@ int32_t	reset_stds(t_context *ctx)
 		return (-1);
 	if (dup2(fd, 0) == -1)
 		return (-1);
-	return (0);
-}
-
-int32_t	close_pipe(int32_t pipefd[2])
-{
-	if (pipefd[0] != 0)
-		close(pipefd[0]);
-	if (pipefd[1] != 1)
-		close(pipefd[1]);
 	return (0);
 }
 

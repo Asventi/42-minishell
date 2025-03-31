@@ -15,11 +15,8 @@
 
 int	check_op(t_cmd *cmd)
 {
-	if (cmd->input.op == RIN)
+	if (cmd->input.op == RIN || cmd->input.op == HEREDOC)
 		if (rin(cmd))
-			return (-1);
-	if (cmd->input.op == HEREDOC)
-		if (heredoc(cmd))
 			return (-1);
 	if (cmd->output.op == ROUT)
 		if (rout(cmd))

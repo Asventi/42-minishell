@@ -77,3 +77,5 @@ int	prompt(t_context *ctx)
 			return (res);
 	}
 }
+
+//TODO: Signaux quand ctrl c mettre last cod ea 130 et ctrl \ code a 131

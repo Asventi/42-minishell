@@ -19,7 +19,6 @@
 # include <limits.h>
 # include "context.h"
 
-
 // ROUT = > fichier
 // RIN = < fichier
 // ROUTAPP = >> fichier
@@ -42,7 +41,7 @@ typedef enum e_type
 typedef struct s_redir
 {
 	t_type	op;
-	char	path[PATH_MAX];
+	int32_t	fd;
 }	t_redir;
 
 typedef struct s_cmd
