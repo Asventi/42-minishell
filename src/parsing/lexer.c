@@ -18,7 +18,26 @@
 #include "parsing.h"
 #include "constants/operators.h"
 
-static void	set_type(t_token *tk, t_type prec)
+static bool	is_command(t_token	*tklist)
+{
+	const int32_t	size = (int32_t)vct_size(tklist);
+	int32_t			i;
+	int32_t			total;
+
+	i = 0;
+	total = 0;
+	while (i < size)
+	{
+		if (tklist[i].type == COMMAND)
+			total++;
+		if (tklist[i].type == PIPE)
+			total--;
+		i++;
+	}
+	return (total == 0);
+}
+
+static void	set_type(t_token *tklist, t_token *tk, t_type prec)
 {
 	if (!ft_strcmp(tk->txt, RIN_L))
 		tk->type = RIN;
@@ -30,10 +49,10 @@ static void	set_type(t_token *tk, t_type prec)
 		tk->type = ROUTAPP;
 	else if (!ft_strcmp(tk->txt, PIPE_L))
 		tk->type = PIPE;
-	else if (prec == NONE || prec == PIPE)
-		tk->type = COMMAND;
 	else if (ROUT <= prec && prec <= HEREDOC)
 		tk->type = ARGFILE;
+	else if (is_command(tklist))
+		tk->type = COMMAND;
 	else if (!ft_isstrcharset(tk->txt, QUOTES)
 		&& ft_isstrcharset(tk->txt, OPERATORS))
 		tk->type = INVAL_OP;
@@ -52,7 +71,7 @@ int32_t	lexer(t_token **tokens, char **args)
 	while (*args)
 	{
 		tk.txt = ft_strdup(*args);
-		set_type(&tk, tk.type);
+		set_type(*tokens, &tk, tk.type);
 		if (vct_add(tokens, &tk) != 0)
 			return (-1);
 		if (tk.type == INVAL_OP)

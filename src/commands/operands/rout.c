@@ -17,12 +17,7 @@
 
 int	rout(t_cmd *cmd)
 {
-	int	fd;
-
-	fd = open(cmd->output.path, O_WRONLY | O_TRUNC);
-	if (fd == -1)
-		return (errno);
-	if (dup2(fd, 1) == -1)
+	if (dup2(cmd->output.fd, 1) == -1)
 		return (-1);
 	return (0);
 }

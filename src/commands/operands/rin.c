@@ -17,12 +17,7 @@
 
 int	rin(t_cmd *cmd)
 {
-	int	fd;
-
-	fd = open(cmd->input.path, O_RDONLY);
-	if (fd == -1)
-		return (errno);
-	if (dup2(fd, 0) == -1)
+	if (dup2(cmd->input.fd, 0) == -1)
 		return (-1);
 	return (0);
 }

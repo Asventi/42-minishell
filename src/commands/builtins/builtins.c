@@ -66,12 +66,17 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	int	fd;
 
 	ctx->last_code = choose_builtins(cmd, ctx);
+	if (cmd->input.op != NONE)
+		close(cmd->input.fd);
+	if (cmd->output.op != NONE)
+		close(cmd->output.fd);
 	fd = open(ctx->tty, O_RDWR);
 	if (fd == -1)
 		return (-1);
 	if (dup2(fd, 1) == -1)
-		return (-1);
+		return (close(fd), -1);
 	if (dup2(fd, 0) == -1)
-		return (-1);
+		return (close(fd), -1);
+	close(fd);
 	return (ctx->last_code);
 }
