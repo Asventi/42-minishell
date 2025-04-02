@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:49:47 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/27 14:56:03 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 11:40:14 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_cmd
 	char	**args;
 }	t_cmd;
 
-int	exec_line(t_cmd *cmd, t_context *ctx);
-int	pipex(t_cmd *cmd, t_context *ctx);
+int		exec_line(t_cmd *cmd, t_context *ctx);
+int32_t	process_command(char *line, t_context *ctx);
 
 #endif
