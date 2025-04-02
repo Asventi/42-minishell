@@ -21,6 +21,7 @@
 # define INVALID_OP_ERROR "invalid operator: %s"
 # define SYNTAX_ERROR_NL "syntax error near unexpected token `newline'"
 # define ERR_F 2
+# define FATAL -1
 
 int		p_error(const char *src, const char *reason, const char *msg);
 void	p_errorexit(const char *src, const char *reason, const char *msg);

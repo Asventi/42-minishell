@@ -16,6 +16,8 @@
 # define INVALID_OP 1
 # define INVALID_FILE 2
 
+# include <stdbool.h>
+
 # include "context.h"
 # include "command.h"
 
@@ -23,6 +25,7 @@ typedef struct s_token
 {
 	char	*txt;
 	t_type	type;
+	bool	quoted;
 }	t_token;
 
 int32_t	parse(char *str, t_cmd **cmd, t_context *ctx);

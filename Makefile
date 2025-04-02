@@ -41,6 +41,7 @@ SRC += $(addprefix $(ENV_DIR), $(ENV_SRC))
 
 ENV_DIR =		env/
 ENV_SRC =		ft_getenv.c \
+				env_expander.c \
 
 # ===============SHELL================ #
 

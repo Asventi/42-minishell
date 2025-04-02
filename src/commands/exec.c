@@ -69,7 +69,6 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 			return (CHLD_ERR);
 		if (pipefd[0] != 0)
 			close(pipefd[0]);
-		// TODO: Deplacer les heredoc dnas le parsing
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_ERR);
