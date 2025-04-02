@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/25 16:59:08 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 11:14:20 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "errors.h"
 #include "builtins.h"
 #include <stdlib.h>
+#include "env.h"
 
 int	check_form(char *tab)
 {
@@ -96,6 +97,8 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	int	i;
 
 	i = 0;
+	if (!cmd->args[1])
+		return (print_and_sort(ctx));
 	while (cmd->args[i])
 	{
 		while (cmd->args[++i] && !is_valid(cmd->args[i]))
@@ -115,5 +118,3 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	return (0);
 }
-
-//TODO: expor sans args

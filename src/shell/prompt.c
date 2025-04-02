@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/27 11:18:34 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 11:39:25 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_prompt(char str[PATH_MAX + 32], t_context *ctx)
 	return (str);
 }
 
-static int32_t	process_command(char *line, t_context *ctx)
+int32_t	process_command(char *line, t_context *ctx)
 {
 	t_cmd	*cmd;
 	int32_t	res;

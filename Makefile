@@ -6,7 +6,7 @@
 #    By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 11:53:22 by pjarnac           #+#    #+#              #
-#    Updated: 2025/03/27 11:27:19 by nseon            ###   ########.fr        #
+#    Updated: 2025/04/02 11:56:43 by nseon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,9 @@ SRC += $(addprefix $(ENV_DIR), $(ENV_SRC))
 ENV_DIR =		env/
 ENV_SRC =		ft_getenv.c \
 				env_expander.c \
+				ft_sort_env.c \
+				print_sort_env.c \
+				update_env_pwd.c \
 
 # ===============SHELL================ #
 
