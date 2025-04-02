@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 09:20:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/02 12:07:53 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:34:42 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	cd_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	else if (chdir(cmd->args[1]) == -1)
 		return (p_error("cd", cmd->args[1], NULL), 1);
-	if (update_pwd(ctx)== -1)
+	if (update_pwd(ctx) == -1)
 		return (-1);
 	if (update_oldpwd(ctx, oldpwd) == -1)
 		return (-1);

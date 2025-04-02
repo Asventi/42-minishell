@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:55:03 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/01 16:01:29 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:33:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	print_and_sort(t_context *ctx)
 		j = -1;
 		check = 0;
 		ft_printf("declare -x ");
-		while(ctx->env[i][++j])
+		while (ctx->env[i][++j])
 		{
 			write(1, &ctx->env[i][j], 1);
 			if (!check && ctx->env[i][j] == '=')

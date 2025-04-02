@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 14:51:08 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/12 14:51:08 by pjarnac          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:14:27 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define INVALID_OP_ERROR "invalid operator: %s"
 # define SYNTAX_ERROR_NL "syntax error near unexpected token `newline'"
 # define ERR_F 2
+# define EXIT 2048
 
 int		p_error(const char *src, const char *reason, const char *msg);
 void	p_errorexit(const char *src, const char *reason, const char *msg);
