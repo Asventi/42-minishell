@@ -67,7 +67,7 @@ int	main(int c, char **args, char **env)
 	res = prompt(&ctx);
 	vct_destroy(ctx.env);
 	if (res == EXIT)
-		return (ctx.last_code);
+		exit(ctx.last_code);
 	if (res == -1 || res == CHLD_ERR)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

@@ -38,21 +38,19 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 		id = fork();
 		if (id == -1)
 			return (-1);
-		if (!id)
-		{
-			if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
-				return (CHLD_ERR);
-			if (pipefd[0] != 0)
-				close(pipefd[0]);
-			if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
-				return (close(pipefd[1]), CHLD_ERR);
-			close(pipefd[1]);
-			return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END * (ft_strcmp(cmd->path, "exit") != 0));
-		}
-	}
-	else
+		if (id != 0)
+			return (close_in_out(fdin, pipefd[1]));
+		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
+			return (CHLD_ERR);
+		if (pipefd[0] != 0)
+			close(pipefd[0]);
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
-			return (-1);
+			return (close(pipefd[1]), CHLD_ERR);
+		close(pipefd[1]);
+		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END * (ft_strcmp(cmd->path, "exit") != 0));
+	}
+	if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
+		return (close_in_out(fdin, pipefd[1]), -1);
 	return (close_in_out(fdin, pipefd[1]), EXIT * (!ft_strcmp(cmd->path, "exit")));
 }
 
@@ -121,7 +119,6 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 			res = choose_exec(&cmd[i], ctx, old_pipe, (int32_t[2]){0, 1});
 		else
 			res = choose_exec(&cmd[i], ctx, old_pipe, pipefd);
-		ft_fprintf(2, "%d\n", res);
 		if (res == -1 || res == EXIT || res == CHLD_END)
 			return (res);
 	}
