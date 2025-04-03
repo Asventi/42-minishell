@@ -22,6 +22,7 @@
 #include "redirect.h"
 #include "shell/prompt.h"
 #include "libft.h"
+#include "signals.h"
 #include "unistd.h"
 #include "utils.h"
 

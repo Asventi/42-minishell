@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "errors.h"
 #include "redirect.h"
+#include "signals.h"
 
 static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 {
@@ -70,8 +71,8 @@ static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 		if (cmd->input.op != NONE)
 			close(cmd->input.fd);
 		cmd->input.fd = heredoc((token + 1)->txt, ctx, (token + 1)->quoted);
-		if (cmd->input.fd == -1)
-			return (-1);
+		if (cmd->input.fd < 0)
+			return (cmd->input.fd);
 		cmd->input.op = token->type;
 	}
 	return (0);
