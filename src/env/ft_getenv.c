@@ -12,6 +12,7 @@
 
 #include "context.h"
 #include "libft.h"
+#include "constants/operators.h"
 
 char	*ft_getenv(char *name, t_context *ctx)
 {
@@ -27,4 +28,18 @@ char	*ft_getenv(char *name, t_context *ctx)
 		}
 	}
 	return (NULL);
+}
+
+char	*ft_getenv_trim(char *name, t_context *ctx)
+{
+	char	*envvar;
+	char	*res;
+
+	envvar = ft_getenv(name, ctx);
+	if (envvar == NULL)
+		return (NULL);
+	res = ft_strtrim(envvar, WHITESPACES);
+	if (!res)
+		return (NULL);
+	return (res);
 }

@@ -36,7 +36,7 @@ void	free_token(void *p)
 {
 	const t_token	*tk = (t_token *)p;
 
-	free(tk->txt);
+	free_vct(tk->txt);
 }
 
 void	free_tokenexp(void *p)

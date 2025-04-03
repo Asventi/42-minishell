@@ -125,23 +125,23 @@ static int32_t	build_cmds(t_token *tokens, t_cmd **cmd, t_context *ctx)
 int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 {
 	char	**args;
+	char	*str_exp;
 	t_token	*tokens;
-	t_token	*tokens_exp;
 	int32_t	res;
 
-	res = tokenize(&args, str);
+	res = expand(&str_exp, str, ctx);
+	if (res != 0)
+		return (ctx->last_code = 2, res);
+	res = tokenize(&args, str_exp);
+	free_vct(str_exp);
 	if (res != 0)
 		return (ctx->last_code = 2, res);
 	res = lexer(&tokens, args);
 	free_split(args);
 	if (res != 0)
 		return (ctx->last_code = 2, res);
-	res = expander(&tokens_exp, tokens, ctx);
+	res = build_cmds(tokens, cmd, ctx);
 	vct_destroy(tokens);
-	if (res != 0)
-		return (ctx->last_code = 2, res);
-	res = build_cmds(tokens_exp, cmd, ctx);
-	vct_destroy(tokens_exp);
 	return (ctx->last_code = 2, res);
 }
 

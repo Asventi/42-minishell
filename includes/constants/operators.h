@@ -20,5 +20,6 @@
 # define HEREDOC_L "<<"
 # define ROUTAPP_L ">>"
 # define PIPE_L "|"
+# define WHITESPACES " \t\n\v\f\r"
 
 #endif
