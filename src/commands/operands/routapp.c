@@ -18,6 +18,6 @@
 int	routapp(t_cmd *cmd)
 {
 	if (dup2(cmd->output.fd, 1) == -1)
-		return (-1);
+		return (close(cmd->output.fd), -1);
 	return (0);
 }

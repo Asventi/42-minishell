@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 15:04:05 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 16:45:56 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_ERR);
 	}
+	close_in_out(cmd->input.fd, cmd->output.fd);
 	return (close_in_out(fdin, pipefd[1]));
 }
 

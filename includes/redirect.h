@@ -18,10 +18,12 @@
 # define RESET "\001\x1b[0m\002"
 # define HEREDOC_WARN "bash: warning: here-document delimited by end-of-file (wanted `%s')\n"
 
+# include <stdbool.h>
+
 # include "command.h"
 
 int		check_op(t_cmd *cmd);
-int32_t	heredoc(char *deli);
+int32_t	heredoc(char *deli, t_context *ctx, bool quoted);
 int		rin(t_cmd *cmd);
 int		rout(t_cmd *cmd);
 int		routapp(t_cmd *cmd);

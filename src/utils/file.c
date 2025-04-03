@@ -19,16 +19,7 @@
 #include "context.h"
 #include "env.h"
 #include "builtins.h"
-
-int32_t	check_file_create(char *str)
-{
-	int32_t	res;
-
-	res = open(str, O_CREAT, 0644);
-	if (res == -1)
-		return (p_error(str, 0, 0));
-	return (res);
-}
+#include "redirect.h"
 
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 {
@@ -59,27 +50,32 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 	return (free_split(paths), 0);
 }
 
-int32_t	reset_stds(t_context *ctx)
-{
-	int32_t	fd;
-
-	fd = open(ctx->tty, O_RDWR);
-	if (fd == -1)
-		return (-1);
-	if (dup2(fd, 1) == -1)
-		return (-1);
-	if (dup2(fd, 0) == -1)
-		return (-1);
-	return (0);
-}
-
 int32_t	close_in_out(int32_t in, int32_t out)
 {
-	if (in != 0)
+	if (in != 0 && in != 1)
 		if (close(in) == -1)
 			p_error("input", 0, 0);
-	if (out != 1)
+	if (out != 1 && out != 0)
 		if (close(out) == -1)
 			ft_fprintf(2, "Close error on output file: %d\n", out);
 	return (0);
+}
+
+int32_t	create_temp_file(void)
+{
+	int32_t	tmp_file;
+
+	unlink(TMP_HEREDOC);
+	tmp_file = open(TMP_HEREDOC, O_RDWR | O_CREAT | O_EXCL, 0644);
+	return (tmp_file);
+}
+
+int32_t	open_temp_file(int32_t *tmp_file)
+{
+	close(*tmp_file);
+	*tmp_file = open(TMP_HEREDOC, O_RDONLY);
+	if (*tmp_file == -1)
+		return (-1);
+	unlink(TMP_HEREDOC);
+	return (*tmp_file);
 }

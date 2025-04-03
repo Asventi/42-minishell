@@ -69,7 +69,7 @@ static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 	{
 		if (cmd->input.op != NONE)
 			close(cmd->input.fd);
-		cmd->input.fd = heredoc((token + 1)->txt);
+		cmd->input.fd = heredoc((token + 1)->txt, ctx, (token + 1)->quoted);
 		if (cmd->input.fd == -1)
 			return (-1);
 		cmd->input.op = token->type;
