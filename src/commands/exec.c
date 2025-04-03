@@ -46,7 +46,7 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			close(pipefd[0]);
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (close(pipefd[1]), CHLD_ERR);
-		close(pipefd[1]);
+		close_in_out(fdin, pipefd[1]);
 		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END * (ft_strcmp(cmd->path, "exit") != 0));
 	}
 	if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
@@ -72,6 +72,7 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_ERR);
 	}
+	close_in_out(cmd->input.fd, cmd->output.fd);
 	return (close_in_out(fdin, pipefd[1]));
 }
 

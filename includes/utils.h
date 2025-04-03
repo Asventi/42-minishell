@@ -17,10 +17,9 @@
 # include <limits.h>
 # include "context.h"
 
-int32_t	check_file_create(char *str);
 int		search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx);
-int32_t	reset_stds(t_context *ctx);
-int32_t	close_pipe(int32_t pipefd[2]);
 int32_t	close_in_out(int32_t in, int32_t out);
+int32_t	create_temp_file(void);
+int32_t	open_temp_file(int32_t *tmp_file);
 
 #endif
