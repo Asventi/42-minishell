@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:16:02 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/04/01 14:22:30 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 13:04:38 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "shell/prompt.h"
 #include "parsing.h"
 #include "signals.h"
+#include "errors.h"
 
 int	g_sig;
 
@@ -65,6 +66,8 @@ int	main(int c, char **args, char **env)
 	ctx.tty = ttyname(1);
 	res = prompt(&ctx);
 	vct_destroy(ctx.env);
+	if (res == EXIT)
+		return (ctx.last_code);
 	if (res == -1 || res == CHLD_ERR)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

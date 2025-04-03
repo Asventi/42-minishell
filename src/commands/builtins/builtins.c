@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:20:21 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 11:55:18 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 12:48:49 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "libft.h"
 #include "redirect.h"
+#include "errors.h"
 
 int	is_builtins(char *cmd)
 {
@@ -51,7 +52,7 @@ int	choose_builtins(t_cmd *cmd, t_context *ctx)
 	else if (!ft_strcmp(cmd->path, "pwd"))
 		res = pwd_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "exit"))
-		res = exit_cmd();
+		res = exit_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "env"))
 		res = env_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "export"))
@@ -64,8 +65,9 @@ int	choose_builtins(t_cmd *cmd, t_context *ctx)
 int	launch_builtins(t_cmd *cmd, t_context *ctx)
 {
 	int	fd;
+	int	res;
 
-	ctx->last_code = choose_builtins(cmd, ctx);
+	res = choose_builtins(cmd, ctx);
 	if (cmd->input.op != NONE)
 		close(cmd->input.fd);
 	if (cmd->output.op != NONE)
@@ -78,5 +80,8 @@ int	launch_builtins(t_cmd *cmd, t_context *ctx)
 	if (dup2(fd, 0) == -1)
 		return (close(fd), -1);
 	close(fd);
+	if (res == EXIT)
+		return (EXIT);
+	ctx->last_code = res;
 	return (ctx->last_code);
 }

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:22:06 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/02 12:12:07 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:33:18 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "command.h"
 #include <unistd.h>
 
-int update_pwd(t_context *ctx)
+int	update_pwd(t_context *ctx)
 {
 	char	cmd_line[PATH_MAX + 12];
 	char	pwd[PATH_MAX];
@@ -32,7 +32,7 @@ int update_pwd(t_context *ctx)
 	return (0);
 }
 
-int update_oldpwd(t_context *ctx, char *oldpwd)
+int	update_oldpwd(t_context *ctx, char *oldpwd)
 {
 	char	cmd_line[PATH_MAX + 15];
 	int		res;
