@@ -50,7 +50,7 @@ int32_t	init_signals_exec(void)
 	struct sigaction	sigact;
 
 	sigact = (struct sigaction){0};
-	sigact.sa_handler = SIG_IGN;
+	sigact.sa_handler = sig_handler;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
