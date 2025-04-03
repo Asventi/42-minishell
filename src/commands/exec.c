@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 16:45:56 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 16:52:07 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			close(pipefd[0]);
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (close(pipefd[1]), CHLD_ERR);
-		close(pipefd[1]);
+		close_in_out(fdin, pipefd[1]);
 		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END
 			* (ft_strcmp(cmd->path, "exit") != 0));
 	}
