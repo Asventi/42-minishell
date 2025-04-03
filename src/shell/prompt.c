@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/04/02 11:39:25 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 12:52:28 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
-
+#include "errors.h"
 #include <stdlib.h>
 
 #include "parsing.h"
@@ -73,7 +73,7 @@ int	prompt(t_context *ctx)
 			continue ;
 		res = process_command(line, ctx);
 		free(line);
-		if (res == -1 || res == CHLD_ERR || res == CHLD_END)
+		if (res == -1 || res == EXIT || res == CHLD_END)
 			return (res);
 	}
 }

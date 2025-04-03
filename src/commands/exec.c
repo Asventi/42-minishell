@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/27 16:13:12 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 13:25:02 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			if (pipefd[0] != 0)
 				close(pipefd[0]);
 			if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
-				return (CHLD_ERR);
-			return (CHLD_END);
+				return (close(pipefd[1]), CHLD_ERR);
+			close(pipefd[1]);
+			return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END * (ft_strcmp(cmd->path, "exit") != 0));
 		}
 	}
 	else
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (-1);
-	return (close_in_out(fdin, pipefd[1]));
+	return (close_in_out(fdin, pipefd[1]), EXIT * (!ft_strcmp(cmd->path, "exit")));
 }
 
 int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
@@ -121,7 +122,8 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 			res = choose_exec(&cmd[i], ctx, old_pipe, (int32_t[2]){0, 1});
 		else
 			res = choose_exec(&cmd[i], ctx, old_pipe, pipefd);
-		if (res == -1 || res == CHLD_ERR || res == CHLD_END)
+		ft_fprintf(2, "%d\n", res);
+		if (res == -1 || res == EXIT || res == CHLD_END)
 			return (res);
 	}
 	return (wait_processes(ctx));

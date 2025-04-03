@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:44:58 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/02 16:17:53 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 13:04:59 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 #include "context.h"
 #include "libft.h"
 #include "errors.h"
+#include <stdlib.h>
 
 static bool	isnum(char *str)
 {
-	while (str)
+	while (*str)
 	{
 		if (!ft_isdigit(*str))
 			return (0);
@@ -30,7 +31,7 @@ static bool	isnum(char *str)
 int	exit_cmd(t_cmd *cmd, t_context *ctx)
 {
 	printf("exit\n");
-	if (isnum(cmd->args[1]))
+	if (vct_size(cmd->args) > 2 && isnum(cmd->args[1]))
 	{
 		if (vct_size(cmd->args) == 3)
 		{
@@ -38,9 +39,13 @@ int	exit_cmd(t_cmd *cmd, t_context *ctx)
 			return (EXIT);
 		}
 		else
-			return (p_error("exit", NULL, "too many arguments"));
+		{
+			p_error("exit", NULL, "too many arguments");
+			cmd->path[0] = 'l';
+			return (1);
+		}
 	}
-	if (vct_size(cmd->args) >= 3)
+	else if (vct_size(cmd->args) >= 3)
 	{
 		ctx->last_code = 2;
 		p_error("exit", cmd->args[1], "numeric argument required");
