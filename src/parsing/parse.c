@@ -36,16 +36,16 @@ static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 	{
 		if (cmd->output.op != NONE)
 			close(cmd->output.fd);
-		if (tk->type == ROUT)
-			cmd->output.fd = open((tk + 1)->txt,
-					O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (tk->type == ROUTAPP)
-			cmd->output.fd = open((tk + 1)->txt,
-					O_CREAT | O_WRONLY | O_APPEND, 0644);
+		cmd->output.fd = open((tk + 1)->txt, O_CREAT | O_WRONLY | O_TRUNC
+				* (tk->type == ROUT) + O_APPEND * (tk->type != ROUT), 0644);
 		if (cmd->output.fd == -1)
 			return (-1);
 		cmd->output.op = tk->type;
 	}
+	else if (tk->type == ARG)
+		if (vct_insert(&cmd->args, &(char *){ft_strdup(tk->txt)},
+			(int32_t)vct_size(cmd->args) - 1) == -1)
+			return (-1);
 	return (0);
 }
 
@@ -74,10 +74,6 @@ static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 			return (-1);
 		cmd->input.op = token->type;
 	}
-	else if (token->type == ARG)
-		if (vct_insert(&cmd->args, &(char *){ft_strdup(token->txt)},
-			(int32_t)vct_size(cmd->args) - 1) == -1)
-			return (-1);
 	return (0);
 }
 
@@ -144,5 +140,3 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	vct_destroy(tokens);
 	return (ctx->last_code = 2, res);
 }
-
-// TODO: heredoc ne pas expand le delimiter

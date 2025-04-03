@@ -118,5 +118,3 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 }
 
 //TODO: gestion sinaux heredoc
-//TODO: expend les envar tout le temps
-//TODO: ne pas expend si le dimiter est entre quotes
