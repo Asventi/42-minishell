@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:49:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/04/02 12:06:58 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:45:09 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int		update_pwd(t_context *ctx);
 int		update_oldpwd(t_context *ctx, char *oldpwd);
 int32_t	expand_envvar_quote(char **res, char *envname, t_context *ctx);
 int32_t	expand_envvar_trim(char **res, char *envname, t_context *ctx);
-int32_t expand_last_code(char **res, t_context *ctx);
+int32_t	expand_last_code(char **res, t_context *ctx);
 ;
 #endif

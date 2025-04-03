@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:44:58 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 13:04:59 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:46:54 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,3 @@ int	exit_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	return (EXIT);
 }
-
-//TODO: Exit avec des arguments, le code de sortie est celui specifie si yen a un, si plusieurs et chiffre en derniere on exit mais avec 2
-// sinon si lettre en dernier exit pas et message derreure

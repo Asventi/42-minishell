@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 13:25:02 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 15:04:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (close(pipefd[1]), CHLD_ERR);
 		close(pipefd[1]);
-		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END * (ft_strcmp(cmd->path, "exit") != 0));
+		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END
+			* (ft_strcmp(cmd->path, "exit") != 0));
 	}
 	if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 		return (close_in_out(fdin, pipefd[1]), -1);
-	return (close_in_out(fdin, pipefd[1]), EXIT * (!ft_strcmp(cmd->path, "exit")));
+	return (close_in_out(fdin, pipefd[1]),
+		EXIT * (!ft_strcmp(cmd->path, "exit")));
 }
 
 int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
