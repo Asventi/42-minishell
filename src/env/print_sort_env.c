@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:55:03 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 14:42:46 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/03 17:01:49 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 int	print_and_sort(t_context *ctx)
 {
-	int	j;
-	int	check;
+	int					j;
+	int					check;
 	unsigned long int	i;
 
 	sort(ctx->env, 0, vct_size(ctx->env) - 2);
