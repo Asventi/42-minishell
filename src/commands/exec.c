@@ -75,7 +75,6 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 			return (CHLD_END);
 	}
-	close_in_out(cmd->input.fd, cmd->output.fd);
 	return (close_in_out(fdin, pipefd[1]));
 }
 
@@ -83,11 +82,22 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 {
 	if (is_builtins(cmd->path))
 		return (exec_builtin(cmd, ctx, fdin, pipefd));
-	if (ft_strlen(cmd->path) != 0 && access(cmd->path, F_OK) != 0)
+	if (ft_strlen(cmd->path) == 0)
+		return (close_in_out(fdin, pipefd[1]), 1);
+	if (access(cmd->path, X_OK) != 0)
 	{
 		close_in_out(fdin, pipefd[1]);
-		ctx->last_code = 127;
-		return (p_error(cmd->path, 0, "command not found"), 1);
+		if (errno == ENOENT)
+		{
+			ctx->last_code = 127;
+			p_error(cmd->path, 0, "command not found");
+		}
+		else
+		{
+			ctx->last_code = 126;
+			p_error(cmd->path, 0, 0);
+		}
+		return (1);
 	}
 	return (exec_cmd(cmd, ctx, fdin, pipefd));
 }
@@ -125,5 +135,3 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 	}
 	return (wait_processes(ctx));
 }
-
-//TODO: pas d'erreur quand fichier sans perm

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
+#include "env.h"
 #include "parsing.h"
 #include "signals.h"
 
@@ -91,5 +92,3 @@ int	prompt(t_context *ctx)
 		set_lastcode_sig(ctx);
 	}
 }
-
-//TODO: Signaux quand ctrl c mettre last cod ea 130 et ctrl \ code a 131
