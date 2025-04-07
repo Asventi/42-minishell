@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <unistd.h>
 #include "context.h"
 #include "libft.h"
