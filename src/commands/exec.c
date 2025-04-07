@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:33:43 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 16:52:07 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 12:28:13 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 		if (id != 0)
 			return (close_in_out(fdin, pipefd[1]));
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
-			return (CHLD_ERR);
+			return (CHLD_END);
 		if (pipefd[0] != 0)
 			close(pipefd[0]);
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
-			return (close(pipefd[1]), CHLD_ERR);
+			return (close(pipefd[1]), CHLD_END);
 		close_in_out(fdin, pipefd[1]);
 		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END
 			* (ft_strcmp(cmd->path, "exit") != 0));
@@ -67,12 +67,12 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 	{
 		init_signals_child();
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
-			return (CHLD_ERR);
+			return (CHLD_END);
 		if (pipefd[0] != 0)
 			close(pipefd[0]);
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
-			return (CHLD_ERR);
+			return (CHLD_END);
 	}
 	close_in_out(cmd->input.fd, cmd->output.fd);
 	return (close_in_out(fdin, pipefd[1]));
@@ -93,11 +93,7 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 int32_t	wait_processes(t_context *ctx)
 {
 	while (wait(&ctx->status) != -1)
-	{
 		ctx->last_code = WEXITSTATUS(ctx->status);
-		if (ctx->last_code == CHLD_ERR)
-			return (-1);
-	}
 	return (0);
 }
 
@@ -127,3 +123,5 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 	}
 	return (wait_processes(ctx));
 }
+
+//TODO: pas d'erreur quand fichier sans perm

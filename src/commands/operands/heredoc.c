@@ -22,6 +22,7 @@
 #include "redirect.h"
 #include "shell/prompt.h"
 #include "libft.h"
+#include "signals.h"
 #include "unistd.h"
 #include "utils.h"
 
@@ -118,5 +119,5 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 }
 
 //TODO: gestion sinaux heredoc
-//TODO: expend les envar tout le temps
-//TODO: ne pas expend si le dimiter est entre quotes
+//TODO: ne pas enelver les $ si variable nest pas valide
+//TODO: > file | cat unfichier n affiche rien

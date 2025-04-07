@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "parsing.h"
 #include "libft.h"
@@ -28,6 +29,10 @@ void	free_cmds(void *p)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)p;
+	if (cmd->input.fd != NONE)
+		close(cmd->input.fd);
+	if (cmd->output.fd != NONE)
+		close(cmd->output.fd);
 	if (cmd->args)
 		vct_destroy(cmd->args);
 }

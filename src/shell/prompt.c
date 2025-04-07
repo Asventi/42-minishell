@@ -21,6 +21,7 @@
 #include "shell/prompt.h"
 #include "errors.h"
 #include <stdlib.h>
+#include <signal.h>
 
 #include "parsing.h"
 #include "signals.h"
@@ -53,6 +54,14 @@ int32_t	process_command(char *line, t_context *ctx)
 	return (res);
 }
 
+static void	set_lastcode_sig(t_context *ctx)
+{
+	if (g_sig == SIGINT)
+		ctx->last_code = 130;
+	if (g_sig == SIGQUIT)
+		ctx->last_code = 131;
+}
+
 int	prompt(t_context *ctx)
 {
 	char	ptext[PATH_MAX + 32];
@@ -63,18 +72,20 @@ int	prompt(t_context *ctx)
 	{
 		init_signals_main();
 		g_sig = 0;
+		res = 0;
 		getcwd(ctx->path, PATH_MAX);
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)
 			return (printf("exit\n"), 0);
 		if (*line)
+		{
 			add_history(line);
-		else
-			continue ;
-		res = process_command(line, ctx);
+			res = process_command(line, ctx);
+		}
 		free(line);
 		if (res == -1 || res == EXIT || res == CHLD_END)
 			return (res);
+		set_lastcode_sig(ctx);
 	}
 }
 

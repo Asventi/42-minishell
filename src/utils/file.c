@@ -21,6 +21,8 @@
 #include "builtins.h"
 #include "redirect.h"
 
+extern int32_t	g_sig;
+
 int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 {
 	char	**paths;
@@ -73,6 +75,8 @@ int32_t	create_temp_file(void)
 int32_t	open_temp_file(int32_t *tmp_file)
 {
 	close(*tmp_file);
+	if (g_sig != 0)
+		return (-2);
 	*tmp_file = open(TMP_HEREDOC, O_RDONLY);
 	if (*tmp_file == -1)
 		return (-1);

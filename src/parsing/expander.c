@@ -99,6 +99,3 @@ int32_t	expand(char **res, char *str, t_context *ctx)
 		return (FATAL);
 	return (0);
 }
-
-// TODO: epxand les var denv devrait trim les espaces et garder que un espace
-// TODO: les expand "echo hi | sleep 3" devrai lancer echo et le reste en un seul arg

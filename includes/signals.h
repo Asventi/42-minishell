@@ -18,5 +18,6 @@
 int32_t	init_signals_main(void);
 int32_t	init_signals_exec(void);
 int32_t	init_signals_child(void);
+int32_t	rl_hook(void);
 
 #endif

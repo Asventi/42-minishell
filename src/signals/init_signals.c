@@ -23,10 +23,13 @@ void	sig_handler(int sig)
 	g_sig = sig;
 	if (sig == SIGINT)
 	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_forced_update_display();
+		rl_done = 1;
 	}
+}
+
+int32_t	rl_hook(void)
+{
+	return (0);
 }
 
 int32_t	init_signals_child(void)
@@ -47,7 +50,7 @@ int32_t	init_signals_exec(void)
 	struct sigaction	sigact;
 
 	sigact = (struct sigaction){0};
-	sigact.sa_handler = SIG_IGN;
+	sigact.sa_handler = sig_handler;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
@@ -59,6 +62,7 @@ int32_t	init_signals_main(void)
 {
 	struct sigaction	sigact;
 
+	rl_event_hook = rl_hook;
 	sigact = (struct sigaction){0};
 	sigact.sa_handler = sig_handler;
 	sigact.sa_flags = 0;
@@ -69,3 +73,5 @@ int32_t	init_signals_main(void)
 		return (-1);
 	return (0);
 }
+
+//TODO: Vider le buffer de readline, aux signaux

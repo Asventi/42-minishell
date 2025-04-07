@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "errors.h"
 #include "redirect.h"
+#include "signals.h"
 
 static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 {
@@ -36,16 +37,16 @@ static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 	{
 		if (cmd->output.op != NONE)
 			close(cmd->output.fd);
-		if (tk->type == ROUT)
-			cmd->output.fd = open((tk + 1)->txt,
-					O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (tk->type == ROUTAPP)
-			cmd->output.fd = open((tk + 1)->txt,
-					O_CREAT | O_WRONLY | O_APPEND, 0644);
+		cmd->output.fd = open((tk + 1)->txt, O_CREAT | O_WRONLY | (O_TRUNC
+				* (tk->type == ROUT) + O_APPEND * (tk->type != ROUT)), 0644);
 		if (cmd->output.fd == -1)
 			return (-1);
 		cmd->output.op = tk->type;
 	}
+	else if (tk->type == ARG)
+		if (vct_insert(&cmd->args, &(char *){ft_strdup(tk->txt)},
+			(int32_t)vct_size(cmd->args) - 1) == -1)
+			return (-1);
 	return (0);
 }
 
@@ -70,14 +71,10 @@ static int32_t	process_token(t_token *token, t_cmd *cmd, t_context *ctx)
 		if (cmd->input.op != NONE)
 			close(cmd->input.fd);
 		cmd->input.fd = heredoc((token + 1)->txt, ctx, (token + 1)->quoted);
-		if (cmd->input.fd == -1)
-			return (-1);
+		if (cmd->input.fd < 0)
+			return (cmd->input.fd);
 		cmd->input.op = token->type;
 	}
-	else if (token->type == ARG)
-		if (vct_insert(&cmd->args, &(char *){ft_strdup(token->txt)},
-			(int32_t)vct_size(cmd->args) - 1) == -1)
-			return (-1);
 	return (0);
 }
 
@@ -145,4 +142,6 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	return (ctx->last_code = 2, res);
 }
 
-// TODO: heredoc ne pas expand le delimiter
+//TODO: check les fhichiers aussi en output
+//TODO: check les whitespaces au lieu de juste les espaces
+//TODO: plein de problemes sur les quotes 'e'"cho" et ""'mot'""

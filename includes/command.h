@@ -13,7 +13,6 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
-# define CHLD_ERR 255
 # define CHLD_END 254
 
 # include <limits.h>
