@@ -23,7 +23,8 @@ char	*ft_getenv(char *name, t_context *ctx)
 	{
 		if (!ft_strncmp(name, ctx->env[i], ft_strlen(name)))
 		{
-			if (ctx->env[i][ft_strlen(name)] == '=')
+			if (ctx->env[i][ft_strlen(name)] == '='
+					|| ctx->env[i][ft_strlen(name)] == '\0')
 				return (ctx->env[i] + ft_strlen(name) + 1);
 		}
 	}
