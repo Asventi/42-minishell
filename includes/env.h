@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:49:10 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/04/03 14:45:09 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:17:38 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "context.h"
 
+int		check_form(char *tab);
 char	*ft_getenv(char *name, t_context *ctx);
 char	*ft_getenv_trim(char *name, t_context *ctx);
 void	sort(char **tab, int first, int last);

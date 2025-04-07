@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:44:58 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 14:46:54 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 13:48:22 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,9 @@ int	exit_cmd(t_cmd *cmd, t_context *ctx)
 			ctx->last_code = ft_atoi(cmd->args[1]);
 			return (EXIT);
 		}
-		else
-		{
-			p_error("exit", NULL, "too many arguments");
-			cmd->path[0] = 'l';
-			return (1);
-		}
+		p_error("exit", NULL, "too many arguments");
+		cmd->path[0] = 'l';
+		return (1);
 	}
 	else if (vct_size(cmd->args) >= 3)
 	{

@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:55:03 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 17:01:49 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:22:19 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	print_and_sort(t_context *ctx)
 				check = 1;
 			}
 		}
-		write(1, "\"\n", 2);
+		if (check)
+			write(1, "\"", 1);
+		write(1, "\n", 1);
 	}
 	return (0);
 }

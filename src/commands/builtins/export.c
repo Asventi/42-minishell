@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/02 11:14:20 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:25:34 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int	check_form(char *tab)
 {
 	if (!tab)
-		return (0);
+		return (3);
 	while (*tab && *tab != '=')
 		tab++;
 	if (!*tab)
@@ -32,11 +32,11 @@ int	check_form(char *tab)
 
 int	is_valid(char *tab)
 {
-	if (!ft_isalpha(*tab))
+	if (!ft_isalpha(*tab) && *tab != '_')
 		return (0);
 	while (*tab && *tab != '=')
 	{
-		if (!ft_isalnum(*tab))
+		if (!ft_isalnum(*tab) && *tab != '_')
 			if (!(*tab == '+' && *(tab + 1) == '='))
 				return (0);
 		tab++;
@@ -103,21 +103,15 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	{
 		while (cmd->args[++i] && !is_valid(cmd->args[i]))
 			p_error("export", cmd->args[i], "not a valid identifier");
-		if (check_form(cmd->args[i]))
+		if (check_form(cmd->args[i]) <= 1)
 		{
-			if (check_form(cmd->args[i]) == 1)
-			{
-				remove_var_env(cmd->args[i], ctx);
-				vct_insert(&ctx->env, &(char *){ft_strdup(cmd->args[i])},
-					(int32_t) vct_size(ctx->env) - 1);
-			}
-			if (check_form(cmd->args[i]) == 2)
-				if (plus_equal(cmd->args[i], ctx, -1, 0))
-					p_error("ft_strjoin", NULL, NULL);
+			remove_var_env(cmd->args[i], ctx);
+			vct_insert(&ctx->env, &(char *){ft_strdup(cmd->args[i])},
+				(int32_t) vct_size(ctx->env) - 1);
 		}
+		if (check_form(cmd->args[i]) == 2)
+			if (plus_equal(cmd->args[i], ctx, -1, 0))
+				p_error("ft_strjoin", NULL, NULL);
 	}
 	return (0);
 }
-
-//TODO: Export une var sans = la creer pour export mais pas pour env
-//TODO: Export refuse les caractere speciaux sauf _
