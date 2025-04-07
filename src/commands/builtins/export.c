@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:54:11 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/07 14:25:34 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:07:17 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	{
 		while (cmd->args[++i] && !is_valid(cmd->args[i]))
 			p_error("export", cmd->args[i], "not a valid identifier");
-		if (check_form(cmd->args[i]) <= 1)
+		if (check_form(cmd->args[i]) == 1)
 		{
 			remove_var_env(cmd->args[i], ctx);
 			vct_insert(&ctx->env, &(char *){ft_strdup(cmd->args[i])},
@@ -112,6 +112,9 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 		if (check_form(cmd->args[i]) == 2)
 			if (plus_equal(cmd->args[i], ctx, -1, 0))
 				p_error("ft_strjoin", NULL, NULL);
+		if (check_form(cmd->args[i]) == 0 && !ft_getenv(cmd->args[i], ctx))
+			vct_insert(&ctx->env, &(char *){ft_strdup(cmd->args[i])},
+				(int32_t) vct_size(ctx->env) - 1);
 	}
 	return (0);
 }
