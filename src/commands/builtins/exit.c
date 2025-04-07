@@ -19,6 +19,8 @@
 
 static bool	isnum(char *str)
 {
+	if (*str == '+' || *str == '-')
+		str++;
 	while (*str)
 	{
 		if (!ft_isdigit(*str))
