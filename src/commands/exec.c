@@ -23,8 +23,6 @@
 #include "signals.h"
 #include "utils.h"
 
-extern int32_t	g_sig;
-
 int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 	int32_t fdin, int32_t pipefd[2])
 {
@@ -80,7 +78,11 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 	if (is_builtins(cmd->path))
 		return (exec_builtin(cmd, ctx, fdin, pipefd));
 	if (ft_strlen(cmd->path) == 0)
-		return (close_in_out(fdin, pipefd[1]), 1);
+	{
+		close_in_out(fdin, pipefd[1]);
+		ctx->last_code = 0;
+		return (1);
+	}
 	if (access(cmd->path, X_OK) != 0)
 	{
 		close_in_out(fdin, pipefd[1]);
