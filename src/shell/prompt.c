@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:23 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/04/03 12:52:28 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 15:14:04 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	prompt(t_context *ctx)
 	char	*line;
 	int32_t	res;
 
+	getcwd(ctx->path, PATH_MAX);
 	while (1)
 	{
 		init_signals_main();
 		g_sig = 0;
 		res = 0;
-		getcwd(ctx->path, PATH_MAX);
 		line = readline(get_prompt(ptext, ctx));
 		if (!line)
 			return (printf("exit\n"), 0);

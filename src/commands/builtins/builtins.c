@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:20:21 by nseon             #+#    #+#             */
-/*   Updated: 2025/04/03 12:48:49 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 15:07:36 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	choose_builtins(t_cmd *cmd, t_context *ctx)
 	else if (!ft_strcmp(cmd->path, "echo"))
 		res = echo_cmd(cmd);
 	else if (!ft_strcmp(cmd->path, "pwd"))
-		res = pwd_cmd(cmd);
+		res = pwd_cmd(ctx);
 	else if (!ft_strcmp(cmd->path, "exit"))
 		res = exit_cmd(cmd, ctx);
 	else if (!ft_strcmp(cmd->path, "env"))

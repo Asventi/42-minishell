@@ -6,7 +6,7 @@
 /*   By: nseon <nseon@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:30:31 by nseon             #+#    #+#             */
-/*   Updated: 2025/03/21 12:09:21 by nseon            ###   ########.fr       */
+/*   Updated: 2025/04/07 15:07:05 by nseon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <context.h>
 
-int	pwd_cmd(t_cmd *cmd)
+int	pwd_cmd(t_context *ctx)
 {
-	char	path[PATH_MAX];
-
-	(void)cmd;
-	if (!getcwd(path, PATH_MAX))
-		return (errno);
-	printf("%s\n", path);
+	printf("%s\n", ctx->path);
 	return (0);
 }
