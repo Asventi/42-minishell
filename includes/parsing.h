@@ -15,6 +15,7 @@
 
 # define INVALID_OP 1
 # define INVALID_FILE 2
+# define OR 0644
 
 # include <stdbool.h>
 

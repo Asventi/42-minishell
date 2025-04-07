@@ -65,7 +65,7 @@ int32_t	expand_envvar_trim(char **res, char *envname, t_context *ctx)
 	return (0);
 }
 
-int32_t expand_last_code(char **res, t_context *ctx)
+int32_t	expand_last_code(char **res, t_context *ctx)
 {
 	char	*code;
 

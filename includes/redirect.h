@@ -16,7 +16,8 @@
 # define TMP_HEREDOC "/tmp/heredoc_minishell"
 # define BROWN "\001\x1b[33m\002"
 # define RESET "\001\x1b[0m\002"
-# define HEREDOC_WARN "bash: warning: here-document delimited by end-of-file (wanted `%s')\n"
+# define HEREDOC_WARN "bash: warning: here-document delimited"
+# define HEREDOC_WARN2 " by end-of-file (wanted `%s')\n"
 
 # include <stdbool.h>
 

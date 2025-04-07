@@ -111,7 +111,7 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 		else
 		{
 			if (!line && !g_sig)
-				printf(HEREDOC_WARN, deli);
+				printf(HEREDOC_WARN HEREDOC_WARN2, deli);
 			free(line);
 			break ;
 		}
@@ -119,5 +119,3 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 	}
 	return (open_temp_file(&tmp_file));
 }
-
-//TODO: > file | cat unfichier n affiche rien

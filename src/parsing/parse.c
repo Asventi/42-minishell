@@ -38,7 +38,7 @@ static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 		if (cmd->output.op != NONE)
 			close(cmd->output.fd);
 		cmd->output.fd = open((tk + 1)->txt, O_CREAT | O_WRONLY | (O_TRUNC
-				* (tk->type == ROUT) + O_APPEND * (tk->type != ROUT)), 0644);
+					* (tk->type == ROUT) + O_APPEND * (tk->type != ROUT)), OR);
 		if (cmd->output.fd == -1)
 			return (p_error((tk + 1)->txt, 0, 0), INVALID_FILE);
 		cmd->output.op = tk->type;
