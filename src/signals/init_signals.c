@@ -13,24 +13,7 @@
 #include "signals.h"
 
 #include <signal.h>
-#include <stdio.h>
 #include <readline/readline.h>
-
-extern int32_t	g_sig;
-
-void	sig_handler(int sig)
-{
-	g_sig = sig;
-	if (sig == SIGINT)
-	{
-		rl_done = 1;
-	}
-}
-
-int32_t	rl_hook(void)
-{
-	return (0);
-}
 
 int32_t	init_signals_child(void)
 {
@@ -50,7 +33,8 @@ int32_t	init_signals_exec(void)
 	struct sigaction	sigact;
 
 	sigact = (struct sigaction){0};
-	sigact.sa_handler = sig_handler;
+	sigact.sa_handler = sig_exec_handler;
+	sigact.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
@@ -65,7 +49,7 @@ int32_t	init_signals_main(void)
 	rl_event_hook = rl_hook;
 	sigact = (struct sigaction){0};
 	sigact.sa_handler = sig_handler;
-	sigact.sa_flags = 0;
+	sigact.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	sigact.sa_handler = SIG_IGN;
@@ -73,5 +57,3 @@ int32_t	init_signals_main(void)
 		return (-1);
 	return (0);
 }
-
-//TODO: Vider le buffer de readline, aux signaux

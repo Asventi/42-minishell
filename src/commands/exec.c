@@ -40,6 +40,7 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			return (-1);
 		if (id != 0)
 			return (close_in_out(fdin, pipefd[1]));
+		init_signals_child();
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
 			return (CHLD_END);
 		if (pipefd[0] != 0)
@@ -85,6 +86,7 @@ int32_t	choose_exec(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 	if (ft_strlen(cmd->path) != 0 && access(cmd->path, F_OK) != 0)
 	{
 		close_in_out(fdin, pipefd[1]);
+		ctx->last_code = 127;
 		return (p_error(cmd->path, 0, "command not found"), 1);
 	}
 	return (exec_cmd(cmd, ctx, fdin, pipefd));

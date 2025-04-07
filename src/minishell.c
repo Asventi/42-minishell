@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
-#include <readline/readline.h>
 #include "context.h"
 #include "libft.h"
 #include "shell/prompt.h"
@@ -72,6 +71,3 @@ int	main(int c, char **args, char **env)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
-// TODO: COmmadn not found code 127
-// TODO: minishell dans minishell interprete deux fois les signaux ? check peut etre les flags signaux

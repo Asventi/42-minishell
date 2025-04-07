@@ -48,7 +48,10 @@ int32_t	process_command(char *line, t_context *ctx)
 
 	res = parse(line, &cmd, ctx);
 	if (res != 0)
+	{
+		ctx->last_code = 2;
 		return (res);
+	}
 	res = exec_line(cmd, ctx);
 	vct_destroy(cmd);
 	return (res);

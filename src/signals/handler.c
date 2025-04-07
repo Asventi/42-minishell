@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjarnac <pjarnac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 14:39:40 by pjarnac           #+#    #+#             */
-/*   Updated: 2025/03/28 14:39:40 by pjarnac          ###   ########.fr       */
+/*   Created: 2025/04/07 13:09:25 by pjarnac           #+#    #+#             */
+/*   Updated: 2025/04/07 13:09:25 by pjarnac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "signals.h"
+#include <signal.h>
+#include <readline/readline.h>
 
-# include <stdint.h>
+extern int32_t	g_sig;
 
-int32_t	init_signals_main(void);
-int32_t	init_signals_exec(void);
-int32_t	init_signals_child(void);
-int32_t	rl_hook(void);
-void	sig_handler(int sig);
-void	sig_exec_handler(int sig);
+void	sig_handler(int sig)
+{
+	g_sig = sig;
+	if (sig == SIGINT)
+	{
+		rl_line_buffer[0] = 0;
+		rl_done = 1;
+	}
+}
 
-#endif
+void	sig_exec_handler(int sig)
+{
+	g_sig = sig;
+}
+
+int32_t	rl_hook(void)
+{
+	return (0);
+}

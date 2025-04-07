@@ -128,20 +128,19 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 
 	res = expand(&str_exp, str, ctx);
 	if (res != 0)
-		return (ctx->last_code = 2, res);
+		return (res);
 	res = tokenize(&args, str_exp);
 	free_vct(str_exp);
 	if (res != 0)
-		return (ctx->last_code = 2, res);
+		return (res);
 	res = lexer(&tokens, args);
 	free_split(args);
 	if (res != 0)
-		return (ctx->last_code = 2, res);
+		return (res);
 	res = build_cmds(tokens, cmd, ctx);
 	vct_destroy(tokens);
-	return (ctx->last_code = 2, res);
+	return (res);
 }
 
 //TODO: check les fhichiers aussi en output
 //TODO: check les whitespaces au lieu de juste les espaces
-//TODO: plein de problemes sur les quotes 'e'"cho" et ""'mot'""
