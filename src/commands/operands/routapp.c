@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "command.h"
-#include <fcntl.h>
-#include <errno.h>
 #include <unistd.h>
 
 int	routapp(t_cmd *cmd)

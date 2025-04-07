@@ -22,7 +22,6 @@
 #include "utils.h"
 #include "errors.h"
 #include "redirect.h"
-#include "signals.h"
 
 static int32_t	set_cmd(t_token *tk, t_cmd *cmd, t_context *ctx)
 {

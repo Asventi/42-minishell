@@ -13,18 +13,17 @@
 #include "env.h"
 #include "context.h"
 #include "libft.h"
-#include <stdio.h>
 #include <unistd.h>
 
 int	print_and_sort(t_context *ctx)
 {
-	int					j;
-	int					check;
-	unsigned long int	i;
+	int	j;
+	int	check;
+	int	i;
 
-	sort(ctx->env, 0, vct_size(ctx->env) - 2);
+	sort(ctx->env, 0, (int32_t)vct_size(ctx->env) - 2);
 	i = -1;
-	while (++i < vct_size(ctx->env) - 1)
+	while (++i < (int32_t)vct_size(ctx->env) - 1)
 	{
 		j = -1;
 		check = 0;

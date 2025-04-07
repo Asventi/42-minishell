@@ -14,9 +14,7 @@
 #include <errno.h>
 
 #include "context.h"
-#include "command.h"
 #include "libft.h"
-#include "errors.h"
 #include "parsing.h"
 #include "constants/operators.h"
 

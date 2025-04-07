@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#include "env.h"
 #include "parsing.h"
 #include "signals.h"
 
