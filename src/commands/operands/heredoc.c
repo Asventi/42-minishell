@@ -118,6 +118,5 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 	return (open_temp_file(&tmp_file));
 }
 
-//TODO: gestion sinaux heredoc
 //TODO: ne pas enelver les $ si variable nest pas valide
 //TODO: > file | cat unfichier n affiche rien

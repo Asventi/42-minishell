@@ -30,7 +30,7 @@ static void	set_quote(char c, char *quote)
 
 static int32_t	set_char(char **res, char *str, char quote)
 {
-	if (*str == ' ' && !quote)
+	if (ft_ischarset(*str, WHITESPACES) && !quote)
 		return (vct_add(res, "\x1D"));
 	return (vct_add(res, str));
 }

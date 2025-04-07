@@ -73,11 +73,13 @@ static int32_t	process_quotes(t_token *tk)
 		{
 			quote = (int32_t)tk->txt[i];
 			vct_delete(tk->txt, i);
+			i--;
 		}
 		else if (quote && quote == tk->txt[i])
 		{
 			quote = 0;
 			vct_delete(tk->txt, i);
+			i--;
 		}
 	}
 	return (0);

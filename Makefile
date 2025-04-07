@@ -62,7 +62,8 @@ PARSE_SRC =		parse.c \
 SRC += $(addprefix $(SIGNALS_DIR), $(SIGNALS_SRC))
 
 SIGNALS_DIR =		signals/
-SIGNALS_SRC =		init_signals.c
+SIGNALS_SRC =		init_signals.c \
+					handler.c \
 
 # =============COMMANDS=============== #
 
