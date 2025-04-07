@@ -52,3 +52,7 @@ int	exit_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	return (EXIT);
 }
+
+//TODO: Last code a 2 toujours ?
+//TODO: Proteger le long overfow comme vrai atoi
+//TODO: prendre en compte les negatif avec is num

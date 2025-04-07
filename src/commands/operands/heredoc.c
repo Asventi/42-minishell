@@ -119,3 +119,5 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 }
 
 //TODO: gestion sinaux heredoc
+//TODO: ne pas enelver les $ si variable nest pas valide
+//TODO: > file | cat unfichier n affiche rien

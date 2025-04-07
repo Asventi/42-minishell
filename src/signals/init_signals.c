@@ -73,3 +73,5 @@ int32_t	init_signals_main(void)
 		return (-1);
 	return (0);
 }
+
+//TODO: Vider le buffer de readline, aux signaux

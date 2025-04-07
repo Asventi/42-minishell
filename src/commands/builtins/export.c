@@ -118,3 +118,6 @@ int	export_cmd(t_cmd *cmd, t_context *ctx)
 	}
 	return (0);
 }
+
+//TODO: Export une var sans = la creer pour export mais pas pour env
+//TODO: Export refuse les caractere speciaux sauf _

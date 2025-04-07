@@ -27,7 +27,7 @@ int	update_pwd(t_context *ctx)
 	ft_strlcpy(cmd_line, "export PWD=", 12);
 	ft_strlcat(cmd_line, pwd, PATH_MAX + 4);
 	res = process_command(cmd_line, ctx);
-	if (res == -1 || res == CHLD_END || res == CHLD_ERR)
+	if (res == -1 || res == CHLD_END)
 		return (res);
 	return (0);
 }
@@ -40,7 +40,7 @@ int	update_oldpwd(t_context *ctx, char *oldpwd)
 	ft_strlcpy(cmd_line, "export OLDPWD=", 15);
 	ft_strlcat(cmd_line, oldpwd, PATH_MAX + 4);
 	res = process_command(cmd_line, ctx);
-	if (res == -1 || res == CHLD_END || res == CHLD_ERR)
+	if (res == -1 || res == CHLD_END)
 		return (res);
 	return (0);
 }

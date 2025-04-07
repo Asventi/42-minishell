@@ -68,7 +68,10 @@ int	main(int c, char **args, char **env)
 	vct_destroy(ctx.env);
 	if (res == EXIT)
 		exit(ctx.last_code);
-	if (res == -1 || res == CHLD_ERR)
+	if (res == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
+// TODO: COmmadn not found code 127
+// TODO: minishell dans minishell interprete deux fois les signaux ? check peut etre les flags signaux

@@ -141,3 +141,7 @@ int32_t	parse(char *str, t_cmd **cmd, t_context *ctx)
 	vct_destroy(tokens);
 	return (ctx->last_code = 2, res);
 }
+
+//TODO: check les fhichiers aussi en output
+//TODO: check les whitespaces au lieu de juste les espaces
+//TODO: plein de problemes sur les quotes 'e'"cho" et ""'mot'""
