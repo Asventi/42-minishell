@@ -60,7 +60,7 @@ static int32_t	check_var(char **res, char **str,
 	(*str)++;
 	if (get_var(&envname, str) == -1)
 		return (free_vct(*res), FATAL);
-	if (!envname[0])
+	if (!envname[0] && **str != '\'' && **str != '\"')
 		ret = vct_add(res, &(char){'$'});
 	else if (envname[0] == '?')
 		ret = expand_last_code(res, ctx);

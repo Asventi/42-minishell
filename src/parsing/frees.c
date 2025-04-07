@@ -29,9 +29,9 @@ void	free_cmds(void *p)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)p;
-	if (cmd->input.fd != NONE)
+	if (cmd->input.fd != NONE && cmd->input.fd != -1)
 		close(cmd->input.fd);
-	if (cmd->output.fd != NONE)
+	if (cmd->output.fd != NONE && cmd->output.fd != 1)
 		close(cmd->output.fd);
 	if (cmd->args)
 		vct_destroy(cmd->args);

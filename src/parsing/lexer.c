@@ -24,14 +24,16 @@ static bool	is_command(t_token	*tklist)
 	int32_t			i;
 	int32_t			total;
 
-	i = 0;
+	i = size - 1;
 	total = 0;
+	while (i >= 0 && tklist[i].type != PIPE)
+		i--;
+	if (i == -1)
+		i = 0;
 	while (i < size)
 	{
 		if (tklist[i].type == COMMAND)
 			total++;
-		if (tklist[i].type == PIPE)
-			total--;
 		i++;
 	}
 	return (total == 0);

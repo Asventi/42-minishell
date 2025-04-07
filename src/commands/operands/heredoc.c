@@ -78,6 +78,8 @@ static int32_t	write_to_doc(char *line, int32_t tmp_file,
 			line++;
 			if (get_var(&envvar, &line) == -1)
 				return (FATAL);
+			if (!envvar[0])
+				write(tmp_file, "$", 1);
 			expand_heredoc_quote(tmp_file, envvar, ctx);
 		}
 		else
@@ -118,5 +120,4 @@ int32_t	heredoc(char *deli, t_context *ctx, bool quoted)
 	return (open_temp_file(&tmp_file));
 }
 
-//TODO: ne pas enelver les $ si variable nest pas valide
 //TODO: > file | cat unfichier n affiche rien

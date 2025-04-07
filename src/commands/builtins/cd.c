@@ -23,7 +23,7 @@ int	cd_cmd(t_cmd *cmd, t_context *ctx)
 	char	oldpwd[PATH_MAX];
 
 	if (!getcwd(oldpwd, PATH_MAX))
-		return (-1);
+		return (p_error("getcwd", cmd->args[1], NULL));
 	if (vct_size(cmd->args) > 3)
 		return (p_error("cd", NULL, "too many arguments"), 1);
 	else if (vct_size(cmd->args) == 2 || !ft_strcmp(cmd->args[1], "~"))
