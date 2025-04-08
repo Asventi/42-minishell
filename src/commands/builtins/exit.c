@@ -44,7 +44,7 @@ int	exit_cmd(t_cmd *cmd, t_context *ctx)
 		cmd->path[0] = 'l';
 		return (1);
 	}
-	else if (vct_size(cmd->args) >= 3)
+	if (vct_size(cmd->args) >= 3)
 	{
 		ctx->last_code = 2;
 		p_error("exit", cmd->args[1], "numeric argument required");
