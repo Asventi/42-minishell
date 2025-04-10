@@ -117,7 +117,6 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 
 	i = -1;
 	pipefd[0] = 0;
-	pipefd[1] = 1;
 	init_signals_exec();
 	while (++i < (int32_t)vct_size(cmd))
 	{

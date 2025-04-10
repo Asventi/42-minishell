@@ -61,6 +61,8 @@ int32_t	vct_add(t_vctptr vctptr, void *val)
 	{
 		if (get_vcthead(*vct)->del)
 			get_vcthead(*vct)->del(val);
+		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
+			vct_destroy(*vct);
 		return (-1);
 	}
 	ft_memcpy(dest, val, get_vcthead(*vct)->e_size);
@@ -120,6 +122,8 @@ int32_t	vct_insert(t_vctptr vctptr, void *val, int32_t i)
 	{
 		if (get_vcthead(*vct)->del)
 			get_vcthead(*vct)->del(val);
+		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
+			vct_destroy(*vct);
 		return (-1);
 	}
 	ft_memcpy(dest, val, get_vcthead(*vct)->e_size);
