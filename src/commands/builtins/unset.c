@@ -26,7 +26,8 @@ int	unset_cmd(t_cmd *cmd, t_context *ctx)
 		while (ctx->env[i])
 		{
 			if (!ft_strncmp(cmd->args[j], ctx->env[i], ft_strlen(cmd->args[j])))
-				if (ctx->env[i][ft_strlen(cmd->args[j])] == '=')
+				if (ctx->env[i][ft_strlen(cmd->args[j])] == '='
+						|| ctx->env[i][ft_strlen(cmd->args[j])] == '\0')
 					vct_delete(ctx->env, i);
 			i++;
 		}
