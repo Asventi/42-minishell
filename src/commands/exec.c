@@ -68,7 +68,15 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 			close(pipefd[0]);
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
+		{
+			if (errno == EACCES)
+			{
+				ctx->last_code = 126;
+				p_error(cmd->path, 0, "Is a directory");
+			}
+			close_in_out(fdin, pipefd[1]);
 			return (CHLD_END);
+		}
 	}
 	return (close_in_out(fdin, pipefd[1]));
 }

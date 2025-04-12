@@ -59,10 +59,13 @@ int32_t	process_command(char *line, t_context *ctx)
 
 static void	set_lastcode_sig(t_context *ctx)
 {
-	if (g_sig == SIGINT)
-		ctx->last_code = 130;
-	if (g_sig == SIGQUIT)
-		ctx->last_code = 131;
+	if (ctx->status == -1 || WIFSIGNALED(ctx->status))
+	{
+		if (g_sig == SIGINT)
+			ctx->last_code = 130;
+		if (g_sig == SIGQUIT)
+			ctx->last_code = 131;
+	}
 }
 
 int	prompt(t_context *ctx)
@@ -75,6 +78,7 @@ int	prompt(t_context *ctx)
 	while (1)
 	{
 		init_signals_main();
+		ctx->status = -1;
 		g_sig = 0;
 		res = 0;
 		line = readline(get_prompt(ptext, ctx));
