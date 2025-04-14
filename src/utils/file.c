@@ -32,7 +32,7 @@ int	search_path(char *cmd, char cmd_path[PATH_MAX], t_context *ctx)
 
 	i = -1;
 	pathenv = ft_getenv("PATH", ctx);
-	if (!pathenv)
+	if (!pathenv || ft_strlen(cmd) == 0)
 		return (ft_strlcpy(cmd_path, cmd, PATH_MAX), 0);
 	paths = ft_split(pathenv, ':');
 	if (!paths)
