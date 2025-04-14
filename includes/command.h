@@ -13,7 +13,8 @@
 #ifndef COMMAND_H
 # define COMMAND_H
 
-# define CHLD_END 254
+# define CHLD_END 1024
+# define EXIT 512
 
 # include <limits.h>
 # include "context.h"

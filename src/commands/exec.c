@@ -37,14 +37,14 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			return (close_in_out(fdin, pipefd[1]));
 		init_signals_child();
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
-			return (CHLD_END);
+			return (CHLD_END + 1);
 		if (pipefd[0] != 0)
 			close(pipefd[0]);
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
-			return (close(pipefd[1]), CHLD_END);
+			return (close(pipefd[1]), CHLD_END + 1);
 		close_in_out(fdin, pipefd[1]);
-		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + CHLD_END
-			* (ft_strcmp(cmd->path, "exit") != 0));
+		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + (CHLD_END
+				* (ft_strcmp(cmd->path, "exit") != 0) + ctx->last_code));
 	}
 	if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 		return (close_in_out(fdin, pipefd[1]), -1);
@@ -63,19 +63,16 @@ int32_t	exec_cmd(t_cmd *cmd, t_context *ctx, int32_t fdin, int32_t pipefd[2])
 	{
 		init_signals_child();
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
-			return (CHLD_END);
+			return (CHLD_END + 1);
 		if (pipefd[0] != 0)
 			close(pipefd[0]);
 		if (check_op(cmd) == -1
 			|| execve(cmd->path, cmd->args, ctx->env) == -1)
 		{
 			if (errno == EACCES)
-			{
-				ctx->last_code = 126;
 				p_error(cmd->path, 0, "Is a directory");
-			}
 			close_in_out(fdin, pipefd[1]);
-			return (CHLD_END);
+			return (CHLD_END + 126);
 		}
 	}
 	return (close_in_out(fdin, pipefd[1]));
@@ -136,7 +133,7 @@ int32_t	exec_line(t_cmd *cmd, t_context *ctx)
 			res = choose_exec(&cmd[i], ctx, old_pipe, (int32_t[2]){0, 1});
 		else
 			res = choose_exec(&cmd[i], ctx, old_pipe, pipefd);
-		if (res == -1 || res == EXIT || res == CHLD_END)
+		if (res == -1 || res == EXIT || res >= CHLD_END)
 			return (res);
 	}
 	return (wait_processes(ctx));

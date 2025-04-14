@@ -66,6 +66,8 @@ int	main(int c, char **args, char **env)
 	vct_destroy(ctx.env);
 	if (res == EXIT)
 		exit(ctx.last_code);
+	if (res >= CHLD_END)
+		return (res - CHLD_END);
 	if (res == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

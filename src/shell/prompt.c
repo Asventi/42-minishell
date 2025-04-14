@@ -90,7 +90,7 @@ int	prompt(t_context *ctx)
 			res = process_command(line, ctx);
 		}
 		free(line);
-		if (res == -1 || res == EXIT || res == CHLD_END)
+		if (res == -1 || res == EXIT || res >= CHLD_END)
 			return (res);
 		set_lastcode_sig(ctx);
 	}
