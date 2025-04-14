@@ -25,6 +25,9 @@ int32_t	init_signals_child(void)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
 		return (-1);
+	sigact.sa_handler = SIG_IGN;
+	if (sigaction(SIGPIPE, &sigact, 0) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -38,6 +41,9 @@ int32_t	init_signals_exec(void)
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
+		return (-1);
+	sigact.sa_handler = SIG_IGN;
+	if (sigaction(SIGPIPE, &sigact, 0) == -1)
 		return (-1);
 	return (0);
 }
