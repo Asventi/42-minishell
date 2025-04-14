@@ -43,8 +43,8 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 		if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 			return (close(pipefd[1]), CHLD_END + 1);
 		close_in_out(fdin, pipefd[1]);
-		return (EXIT * (!ft_strcmp(cmd->path, "exit")) + (CHLD_END
-				* (ft_strcmp(cmd->path, "exit") != 0) + ctx->last_code));
+		return (EXIT * !ft_strcmp(cmd->path, "exit") + (CHLD_END
+				+ ctx->last_code) * (ft_strcmp(cmd->path, "exit") != 0));
 	}
 	if (check_op(cmd) == -1 || launch_builtins(cmd, ctx) == -1)
 		return (close_in_out(fdin, pipefd[1]), -1);
