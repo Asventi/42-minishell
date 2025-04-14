@@ -54,6 +54,8 @@ static char	*spacizer(char *str)
 		in_op = ft_ischarset(*str, OPERATORS);
 		if (set_char(&res, str, quote) != 0)
 			return (NULL);
+		if (*str == '|' && ft_ischarset(*(str + 1), ROUT_L RIN_L))
+			vct_add(&res, "\x1D");
 		str++;
 	}
 	vct_add(&res, str);

@@ -113,8 +113,8 @@ int32_t	lexer(t_token **tokens, char **args)
 		set_type(*tokens, &tk, tk.type);
 		if (tk.type == INVAL_OP)
 		{
-			free_vct(tk.txt);
 			p_invalid_op_err(tk.txt);
+			free_vct(tk.txt);
 			return (vct_destroy(*tokens), INVALID_OP);
 		}
 		process_quotes(&tk);
