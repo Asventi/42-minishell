@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "command.h"
 #include "libft.h"
 #include "errors.h"
@@ -84,8 +86,9 @@ int	plus_equal(char *env, t_context *ctx, int i, int size)
 			i = -2;
 		}
 	}
-	ft_strlcpy(env, env, size + 1);
-	ft_strlcat(env, content, ft_strlen(env) + ft_strlen(content) + 1);
+	ft_memmove(env + size, env + size + 1, ft_strlen(env + size + 1) + 1);
+	if (i >= 0)
+		remove_var_env(env, ctx);
 	if (i >= 0)
 		vct_insert(&ctx->env, &(char *){ft_strdup(env)},
 			(int32_t) vct_size(ctx->env) - 1);
