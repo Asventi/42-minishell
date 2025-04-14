@@ -15,7 +15,7 @@
 #include <signal.h>
 #include <readline/readline.h>
 
-int32_t	init_signals_child(void)
+int32_t	init_signals_builtins(void)
 {
 	struct sigaction	sigact;
 
@@ -31,6 +31,21 @@ int32_t	init_signals_child(void)
 	return (0);
 }
 
+int32_t	init_signals_child(void)
+{
+	struct sigaction	sigact;
+
+	sigact = (struct sigaction){0};
+	sigact.sa_handler = SIG_DFL;
+	if (sigaction(SIGINT, &sigact, 0) == -1)
+		return (-1);
+	if (sigaction(SIGQUIT, &sigact, 0) == -1)
+		return (-1);
+	if (sigaction(SIGPIPE, &sigact, 0) == -1)
+		return (-1);
+	return (0);
+}
+
 int32_t	init_signals_exec(void)
 {
 	struct sigaction	sigact;
@@ -41,9 +56,6 @@ int32_t	init_signals_exec(void)
 	if (sigaction(SIGINT, &sigact, 0) == -1)
 		return (-1);
 	if (sigaction(SIGQUIT, &sigact, 0) == -1)
-		return (-1);
-	sigact.sa_handler = SIG_IGN;
-	if (sigaction(SIGPIPE, &sigact, 0) == -1)
 		return (-1);
 	return (0);
 }

@@ -21,5 +21,6 @@ int32_t	init_signals_child(void);
 int32_t	rl_hook(void);
 void	sig_handler(int sig);
 void	sig_exec_handler(int sig);
+int32_t	init_signals_builtins(void);
 
 #endif

@@ -35,7 +35,7 @@ int32_t	exec_builtin(t_cmd *cmd, t_context *ctx,
 			return (-1);
 		if (id != 0)
 			return (close_in_out(fdin, pipefd[1]));
-		init_signals_child();
+		init_signals_builtins();
 		if (dup2(fdin, 0) == -1 || dup2(pipefd[1], 1) == -1)
 			return (CHLD_END + 1);
 		if (pipefd[0] != 0)
