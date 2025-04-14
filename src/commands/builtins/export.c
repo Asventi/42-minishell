@@ -56,9 +56,9 @@ int	remove_var_env(char *env, t_context *ctx)
 	i = 0;
 	while (ctx->env[i])
 	{
-		if (!ft_strncmp(env, ctx->env[i], size))
-			if (ctx->env[i][size] == '=')
-				vct_delete(ctx->env, i);
+		if (!ft_strncmp(env, ctx->env[i], size)
+			&& (ctx->env[i][size] == '\0' || ctx->env[i][size - 1] == '='))
+			vct_delete(ctx->env, i);
 		i++;
 	}
 	return (0);
