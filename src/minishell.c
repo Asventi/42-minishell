@@ -29,18 +29,20 @@ int	cpy_env(char ***dest, char **env)
 	char	*res;
 
 	i = 0;
-	*dest = vct_create(sizeof (char *), free_env, 0);
+	*dest = vct_create(sizeof (char *), free_env, DESTROY_ON_FAIL);
 	if (!*dest)
 		return (errno);
 	while (env[i])
 	{
 		res = ft_strdup(env[i]);
 		if (!res)
-			return (errno);
-		vct_add(dest, &res);
+			return (vct_destroy(*dest), -1);
+		if (vct_add(dest, &res) == -1)
+			return (-1);
 		i++;
 	}
-	vct_add(dest, &(char *){0});
+	if (vct_add(dest, &(char *){0}) == -1)
+		return (-1);
 	return (0);
 }
 

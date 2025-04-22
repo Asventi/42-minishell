@@ -48,8 +48,10 @@ int32_t	vct_add(t_vctptr vctptr, void *val)
 {
 	t_vct	*vct;
 	t_vct	*dest;
+	void	(*del)(void *);
 
 	vct = (t_vct *)vctptr;
+	del = get_vcthead(*vct)->del;
 	if (!val)
 	{
 		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
@@ -59,10 +61,8 @@ int32_t	vct_add(t_vctptr vctptr, void *val)
 	dest = vct_add_dest(vct);
 	if (!dest)
 	{
-		if (get_vcthead(*vct)->del)
-			get_vcthead(*vct)->del(val);
-		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
-			vct_destroy(*vct);
+		if (del)
+			del(val);
 		return (-1);
 	}
 	ft_memcpy(dest, val, get_vcthead(*vct)->e_size);
@@ -109,8 +109,10 @@ int32_t	vct_insert(t_vctptr vctptr, void *val, int32_t i)
 {
 	t_vct	*vct;
 	t_vct	*dest;
+	void	(*del)(void *);
 
 	vct = (t_vct *)vctptr;
+	del = get_vcthead(*vct)->del;
 	if (!val)
 	{
 		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
@@ -120,10 +122,8 @@ int32_t	vct_insert(t_vctptr vctptr, void *val, int32_t i)
 	dest = vct_insert_dest(vct, i);
 	if (!dest)
 	{
-		if (get_vcthead(*vct)->del)
-			get_vcthead(*vct)->del(val);
-		if (get_vcthead(*vct)->flags & DESTROY_ON_FAIL)
-			vct_destroy(*vct);
+		if (del)
+			del(val);
 		return (-1);
 	}
 	ft_memcpy(dest, val, get_vcthead(*vct)->e_size);
